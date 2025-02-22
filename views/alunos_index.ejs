@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Alunos-Aurora Boreal</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="img/AURORALOGOSFUNDO.ico" rel="icon">
+  <link href="img/AURORALOGOSFUNDO.ico" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Updated: Apr 20 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/" class="logo d-flex align-items-center">
+        <img src="img/AURORALOGOSFUNDO.ico" alt="">
+        <span class="d-none d-lg-block">Aurora Boreal</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+       
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="direcao">
+          <i class="bi bi-grid"></i>
+          <span>Gerenciamento Acadêmicos</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Gerenciamento Acadêmicos</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Pág.inicial</a></li>
+          <li class="breadcrumb-item active">Gerenciamento Acadêmicos</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+              
+
+                <div class="card-body">
+                  <h5 class="card-title">Gastos na Cantina <span>| Hoje</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-cart" style= "color: red;"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>R$5,00</h6>
+                     
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Revenue Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card revenue-card">
+
+             
+                <div class="card-body">
+                  <h5 class="card-title">Valor da Mensalidade <span> |2024 </span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>R$1.264,00</h6>
+                      
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Revenue Card -->
+
+           
+  
+      
+
+            <!-- Recentes mensalidades  -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+                <div class="card-body">
+                  <h5 class="card-title">Histórico de mensalidades <span>| 2024</span></h5>
+
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">Cód Nota Fiscal #</th>
+                        <th scope="col">Aluno</th>
+                        <th scope="col">Mês</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"><a href="#">#2147</a></th>
+                            <td>Brandon Jacob</td>
+                            <td><a href="#" class="text-primary">Junho</a></td>
+                            <td>R$1.264,00</td>
+                            <td><span class="badge bg-warning">Pendente</span></td>
+                          </tr>
+                                
+                      <tr>
+                        <th scope="row"><a href="#">#2457</a></th>
+                        <td>Brandon Jacob</td>
+                        <td><a href="#" class="text-primary">Maio </a></td>
+                        <td>R$1.264,00</td>
+                        <td><span class="badge bg-success">Pago</span></td>
+                      </tr>
+                                
+                      <tr>
+                        <th scope="row"><a href="#">#2457</a></th>
+                        <td>Brandon Jacob</td>
+                        <td><a href="#" class="text-primary">Abril </a></td>
+                        <td>R$1.264,00</td>
+                        <td><span class="badge bg-success">Pago</span></td>
+                      </tr>
+                              
+                      <tr>
+                        <th scope="row"><a href="#">#2457</a></th>
+                        <td>Brandon Jacob</td>
+                        <td><a href="#" class="text-primary">Março </a></td>
+                        <td>R$1.264,00</td>
+                        <td><span class="badge bg-success">Pago</span></td>
+                      </tr>
+                      
+                      <tr>
+                        <th scope="row"><a href="#">#2457</a></th>
+                        <td>Brandon Jacob</td>
+                        <td><a href="#" class="text-primary">Fevereiro </a></td>
+                        <td>R$1.264,00</td>
+                        <td><span class="badge bg-success">Pago</span></td>
+                      </tr>
+                      
+                    
+                    
+                   
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div><!-- End Recent Sales -->
+
+          
+
+          </div>
+        </div><!-- End Left side columns -->
+
+        <!-- Right side columns -->
+      
+               <!-- Table with stripped rows -->
+       
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                        <label for="turma-select" class="form-label">Notas - Selecione o bimestre:</label>
+                        <select class="form-select" id="turma-select" name="turma">
+                          <option value="" selected disabled>Selecione o bimestre</option>
+                          <option value="1b">1° B. </option>
+                          <option value="2b" selected>2° B. </option>
+                          <option value="3b">3° B.</option>
+                          <option value="4b">4° B.</option>
+                        </select>
+                      </h5>
+                  
+                      <!-- Select para o ano -->
+                      <h5 class="card-title mt-3">
+                        <label for="ano-select" class="form-label">Selecione o Ano:</label>
+                        <select class="form-select" id="ano-select" name="ano">
+                          <option value="" selected disabled>Selecione o ano</option>
+                          <option value="2022">2022-1°A</option>
+                          <option value="2023">2023-2°A</option>
+                          <option value="2024" selected>2024-3°A</option> <!-- Ano pré-selecionado -->
+                        </select>
+                      </h5>
+      
+                 
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Nota</th>
+                          <th scope="col">Nome da disciplina</th>
+                       
+                          <th scope="col">Faltas</th>
+                          <th scope="col">Professor(a)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">10</th>
+                          <td>Português</td>
+                      
+                          <td>2</td>
+                          <td>José</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">8</th>
+                          <td>Matemátia</td>
+                    
+                          <td>3</td>
+                          <td>Maria</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">10</th>
+                          <td>História</td>
+                         
+                          <td>5</td>
+                          <td>Fulano</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">9</th>
+                          <td>Física</td>
+                          
+                          <td>2</td>
+                          <td>Fulana</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">8</th>
+                          <td>Biologia</td>
+                         
+                          <td>7</td>
+                          <td>Ciclana</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <!-- End Table with stripped rows -->
+              
+                  </div>
+                </div>
+                  <!-- Table disciplinas  -->
+       
+                  <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <label for="turma-select" class="form-label">Horário - Selecione o bimestre:</label>
+                            <select class="form-select" id="turma-select" name="turma">
+                                <option value="" selected disabled>Selecione o bimestre</option>
+                                <option value="1b">1° B. </option>
+                                <option value="2b" selected>2° B. </option>
+                                <option value="3b">3° B.</option>
+                                <option value="4b">4° B.</option>
+                              </select>
+                          </h5>
+                      
+                            <!-- Select para o ano -->
+                      <h5 class="card-title mt-3">
+                        <label for="ano-select" class="form-label">Selecione o Ano:</label>
+                        <select class="form-select" id="ano-select" name="ano">
+                          <option value="" selected disabled>Selecione o ano</option>
+                          <option value="2022">2022-1°A</option>
+                          <option value="2023">2023-2°A</option>
+                          <option value="2024" selected>2024-3°A</option> <!-- Ano pré-selecionado -->
+                        </select>
+                      </h5>
+                   
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Professor</th>
+                            <th scope="col">Nome da displina</th>
+                            <th scope="col">Dia das aulas</th>
+                            <th scope="col">Horário</th>
+                            <th scope="col">carga horária p/ semana</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>Brandon Jacob</td>
+                            <td>Português</td>
+                            <td>Todos os dias</td>
+                            <td>7:30-8:30 horas</td>
+                            <td>5 horas</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td>Bridie Kessler</td>
+                            <td>Matemática</td>
+                            <td>Todos os dias</td>
+                            <td>8:30-9:30 horas</td>
+                            <td>5 horas</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td>Ashleigh Langosh</td>
+                            <td>Física</td>
+                            <td>segunda e quinta</td>
+                            <td>9:50-10:50 horas</td>
+                            <td>2 horas</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">4</th>
+                            <td>Angus Grady</td>
+                            <td>Biologia</td>
+                            <td>terça e sexta</td>
+                            <td>9:50-10:50 horas</td>
+                            <td>2 horas</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">5</th>
+                            <td>Raheem Lehner</td>
+                            <td>História</td>
+                            <td>segunda </td>
+                            <td>10:50-12:30 horas</td>
+                            <td>2 horas</td>
+                          </tr>
+                        </tbody>
+                      </table>
+  
+                      <!-- End Table with stripped rows -->
+                      
+
+
+
+        </div><!-- End Right side columns -->
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>Devminds</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>Aurora Boreal</span></strong>. All Rights Reserved
+    </div>
+   
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
