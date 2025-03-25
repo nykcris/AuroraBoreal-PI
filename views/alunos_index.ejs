@@ -59,23 +59,6 @@
 
   </header><!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link " href="direcao">
-          <i class="bi bi-grid"></i>
-          <span>Gerenciamento Acadêmicos</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
 
@@ -142,8 +125,47 @@
               </div>
             </div><!-- End Revenue Card -->
 
-           
-  
+            <!-- Listar Alunos -->
+
+            <!-- End Listar Alunos -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+                <div class="card-body">
+                  <h5 class="card-title">Lista de Alunos<span></span></h5>
+
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Perfil</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if (typeof rows != 'undefined') { %>
+                        <% for( let index = 0; index < rows.length; index++ ) { %>
+                          <tr><%  %>
+                            <th scope="row">#<%= rows[index].id_user %></th>
+                            <td><%= rows[index].name_user %></td>
+                            <td><%= rows[index].email_user %></td>
+                            <% if (rows[index].status_user == 1) { %>
+                              <td><span class="badge bg-success">Ativo</span></td>
+                             <% } else if (rows[index].status_user == 0) { %>
+                              <td><span class="badge bg-secondary"></span></td>
+                            <% } %>
+                            <td><%= rows[index].id_perfil %></td>
+                          </tr><%  %>
+                        <% } %>
+                      <% } %>
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div>
       
 
             <!-- Recentes mensalidades  -->

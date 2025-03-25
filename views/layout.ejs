@@ -25,7 +25,12 @@
   
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
-  
+    <style>
+      #header{
+        background: rgb(4,196,0);
+        background: linear-gradient(90deg, rgba(4,196,0,1) 0%, rgba(9,17,121,1) 79%, rgba(154,0,255,1) 100%); 
+      }
+    </style>
     <!-- =======================================================
     * Template Name: NiceAdmin
     * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -34,4 +39,30 @@
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
   </head>
-<%- body %>
+
+  <body>
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+
+      <ul class="sidebar-nav" id="sidebar-nav">
+
+          <li class="nav-item">
+              <a class="nav-link " href="professores">
+                <i class="bi bi-grid"></i>
+                <span>Gerenciamento Acadêmicos</span>
+              </a>
+              <a class="nav-link " href="alunos">
+                <i class="bi bi-grid"></i>
+                <span>Gerenciamento De Alunos</span>
+              </a>
+              <a class="nav-link " href="direcao">
+                <i class="bi bi-grid"></i>
+                <span>Painéis e gerenciamentos</span>
+              </a>
+          </li><!-- End Dashboard Nav -->
+
+      </ul>
+
+  </aside><!-- End Sidebar-->
+    <%- body %>
+  </body>

@@ -11,7 +11,7 @@ router.get("/",SC.index);
 router.get("/alunos",SC.alunos);
 router.get("/direcao",SC.direcao);
 router.get("/professores",SC.professores);
-
+router.get("/register",SC.register);
 
 
 

@@ -3,7 +3,7 @@
 
 class HomeController{
     index(req, res){
-        res.render('index');
+        res.render('index',{ layout: false });
     }
 }
 

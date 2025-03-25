@@ -7,7 +7,6 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css/style_form.css">
-    <link rel="stylesheet" href="css/custom_style.css">
     <link rel="icon" type="image/x-icon" href="img/AURORALOGOSFUNDO.ico"/>
     <title>Aurora Boreal</title>
 </head>
@@ -19,12 +18,9 @@
         </div>
         <div class="nav-menu" id="navMenu">
             <ul>
-                <li><a href="/" class="link active">voltar</a></li>
+                <li><a href="direcao" class="link active">voltar</a></li>
                 
             </ul>
-        </div>
-        <div class="nav-button">
-            <button class="btn white-btn" id="loginBtn" onclick="">Login</button>
         </div>
         <div class="nav-menu-btn">
             <i class="bx bx-menu" onclick="myMenuFunction()"></i>
@@ -33,40 +29,98 @@
 <!----------------------------- Form box ----------------------------------->    
     <div class="form-box">
         
-    <!------------------- login form -------------------------->
-
-<div class="login-container" id="login">
-    <div class="top">
-     
-        <header>Login</header>
-    </div>
-        <legend class="col-form-label col-sm-2 pt-0">Entrar como: </legend>
-            <select name="type" id="type" style="margin-bottom: 40px;">
-                <% users.forEach(user => { %>
-                        <option value="<%= user["id_perfil"] %>"><%= user["desc_perfil"] %></option>
-                <% }) %>
-            </select>
-    <div class="input-box">
-        <input type="text" class="input-field" placeholder="CPF" id="cpf-login" required oninput="maskCPF(this)">
-        <i class="bx bx-user"></i>
-        <small id="cpf-login-error" style="color: red; display: none;">CPF inválido</small>
-    </div>
-    <div class="input-box">
-        <input type="password" class="input-field" placeholder="senha" id="senha-login"required>
-        <i class="bx bx-lock-alt"></i>
-        <small id="senha-login-error" style="color: red; display: none;">Senha inválida (mínimo 8 caracteres, 1 número, 1 letra e 1 caractere especial)</small>
-    </div>
-    <div class="input-box">
-        <input type="submit" class="submit" value="Entrar" onclick="handleLogin(event)">
-    </div>
-    <div class="two-col">
-        <div class="one">
-            <input type="checkbox" id="login-check">
-            <label for="login-check"> Deixar-me logado</label>
+        <!------------------- registration form -------------------------->
+        <div class="register-container" id="register">
+            <div class="top">
+                <header>Matrícula</header>
+            </div>
+            <h3>Dados do aluno e responsável</h3>
+            <div class="input-box">
+                <input type="text" class="input-field" placeholder="Nome completo do aluno" id="nome-aluno" required>
+                <i class="bx bx-user"></i>
+                <small class="error" id="nome-aluno-error" style="color: red; display: none;">Campo obrigatório</small>
+            </div>
+            <div class="input-box">
+                <input type="text" class="input-field" placeholder="Nome completo do responsável" id="nome-responsavel" required>
+                <i class="bx bx-user"></i>
+                <small class="error" id="nome-responsavel-error" style="color: red; display: none;">Campo obrigatório</small>
+            </div>
+            <div class="input-box">
+                <input type="text" id="cpf-aluno" class="input-field" placeholder="CPF do aluno" maxlength="14" required oninput="maskCPF(this)">
+                <i class="bx bx-user"></i>
+                <small id="cpf-aluno-error" style="color: red; display: none;">CPF inválido</small>
+            </div>
+            <div class="input-box">
+                <input type="text" id="cpf-responsavel" class="input-field" placeholder="CPF do responsável" maxlength="14" required oninput="maskCPF(this)">
+                <i class="bx bx-user"></i>
+                <small id="cpf-responsavel-error" style="color: red; display: none;">CPF inválido</small>
+            </div>
+            <div class="input-box">
+                <label for="data_aniversario">Data de nascimento do aluno</label>
+                <input type="date" class="input-field" id="data_aniversario" required>
+                <small id="data-aniversario-error" style="color: red; display: none;">Data inválida (não pode ser antes de 2010 ou no futuro)</small>
+            </div>
+            <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-2 pt-0">Série</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="serie" value="1" checked>
+                        <label class="form-check-label">1° ano do EM</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="serie" value="2">
+                        <label class="form-check-label">2° ano do EM</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="serie" value="3">
+                        <label class="form-check-label">3° ano do EM</label>
+                    </div>
+                </div>
+            </fieldset>
+            <h3>Endereço</h3>
+            <div class="two-col">
+                <input type="text" class="input-field" placeholder="Rua" id="endereco-rua" required>
+                <small id="rua-error" style="color: red; border-style: double; border-color: red; display: none;">Campo Obrigatório </small>
+                <input type="number" class="input-field" placeholder="Número" id="endereco-numero" required>
+                <small id="numero-endereco-error" style="color: red; border-style: double; border-color: red; display: none;">Campo Obrigatório </small>
+            </div>
+            <div class="two-col">
+                <input type="text" class="input-field" placeholder="Bairro" id="endereco-bairro" required>
+                <small id="bairro-error" style="color: red; border-style: double; border-color: red; display: none;">Campo Obrigatório </small>
+                <input type="text" class="input-field" placeholder="Cidade" id="endereco-cidade" required>
+                <small id="cidade-error" style="color: red; border-style: double; border-color: red; display: none;">Campo Obrigatório </small>
+            </div>
+            <h3>Dados para contato</h3>
+            <div class="input-box">
+                <input type="text" id="email-aluno" class="input-field" placeholder="Email do aluno" required>
+                <i class="bx bx-envelope"></i>
+                <small id="email-aluno-error" style="color: red; display: none;">Email inválido</small>
+            </div>
+            <div class="input-box">
+                <input type="text" id="email-responsavel" class="input-field" placeholder="Email do responsável" required>
+                <i class="bx bx-envelope"></i>
+                <small id="email-responsavel-error" style="color: red; display: none;">Email inválido</small>
+            </div>
+            <div class="input-box">
+                <input type="text" id="numero-celular" class="input-field" placeholder="Número de celular" maxlength="11" required>
+                <i class="fas fa-phone"></i>
+                <small id="celular-error" style="color: red; display: none;">Número inválido</small>
+            </div>
+            <h3>Senha para o acesso ao Sistema Acadêmico</h3>
+            <div class="input-box">
+                <input type="password" id="senha-academica" class="input-field" placeholder="Crie uma senha" required>
+                <i class="bx bx-lock-alt"></i>
+                <small id="senha-error" style="color: red; display: none;">Senha inválida (mínimo 8 caracteres, 1 número, 1 letra e 1 caractere especial)</small>
+            </div>
+            <div class="input-box">
+                <button type="button" class="submit" value="Efetuar Matrícula" onclick="validateForm()">Efetuar Matrícula</button>
+            </div>
+            <div id="matricula-sucesso" style="display:none;background-color: aliceblue; color: green;">Matrícula efetuada com sucesso! Por favor, faça o login.</div>
+            <div id="matricula-erro" style="display:none; color: red;">Preencha todos os campos corretamente.</div>
         </div>
     </div>
-</div>
-
+       
+        
     <script>
  
 
