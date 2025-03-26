@@ -24,12 +24,24 @@ class DB_Perfil {
         this.#nome = nome;
     }
 
+
+    /**
+     * Retorna uma lista de perfis. Se o parâmetro for um array,
+     * retorna os perfis com os IDs presentes no array. Se for undefined,
+     * retorna todos os perfis.
+     * @param {number[]|undefined} filtro - Um array de IDs ou undefined.
+     * @return {DB_Perfil[]}
+     */
     async listar(filtro) {
 
-        let str = "SELECT * FROM tb_perfil WHERE = ?";
+        let str = "SELECT * FROM tb_perfil WHERE per_id = ?";
         let values = filtro;
         if (typeof values == 'undefined') {
             str = "SELECT * FROM tb_perfil";
+        }else{
+            values.forEach(fil => {
+                str += " OR per_id = ?";
+            });
         }
         let DB = new db();
         let rows =  await DB.ExecutaComando(str,values);

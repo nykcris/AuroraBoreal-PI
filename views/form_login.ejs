@@ -43,7 +43,7 @@
         <legend class="col-form-label col-sm-2 pt-0">Entrar como: </legend>
             <select name="type" id="type" style="margin-bottom: 40px;">
                 <% users.forEach(user => { %>
-                        <option value="<%= user["id_perfil"] %>"><%= user["desc_perfil"] %></option>
+                        <option class="optype" id="optype-<%= user["id_perfil"] %>" value="<%= user["id_perfil"] %>"><%= user["desc_perfil"] %></option>
                 <% }) %>
             </select>
     <div class="input-box">
@@ -209,7 +209,7 @@ function maskCPF(cpf) {
     }
 
     // Obtem o papel selecionado
-    const selectedRole = document.querySelector('input[name="gridRadios"]:checked').value;
+    const selectedRole = document.querySelector('option[class="optype"]:checked').value;
 
     // Redireciona com base no papel selecionado
     switch (selectedRole) {
@@ -223,7 +223,7 @@ function maskCPF(cpf) {
             window.location.href = 'direcao';
             break;
         default:
-            console.error('Nenhum papel foi selecionado.');
+            window.location.href = 'alunos';
     }
 }
 
