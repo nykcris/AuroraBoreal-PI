@@ -194,7 +194,25 @@ class DB_Usuario {
         return resultado;   //true ou false      
     }
 
-
+    /**
+     * Atualiza um usuário com base no ID.
+     *
+     * Executa um comando SQL de atualização na tabela `tb_user` com o valor
+     * do ID recebido como parâmetro. Retorna um booleano indicando se a
+     * operação foi bem-sucedida.
+     *
+     * @param {number} id - ID do usuário a ser atualizado.
+     *
+     * @returns {Promise<boolean>} Retorna um booleano indicando se a operação
+     * foi bem-sucedida.
+     */
+    async atualizar(id){
+        let sql = "update tb_user set name_user = ?, email_user = ?, password_user = ?, status_user = ?, id_perfil = ? where id_user = ?";
+        
+        const valores = [this.#nome, this.#email, this.#senha, this.#ativo, this.#perfilId, id];
+        const resultado = await db.ExecutaComandoNonQuery(sql,valores)
+        return resultado;   //true ou false      
+    }
 
 }
 

@@ -69,7 +69,7 @@ class SystemController {
                 "desc_user":per.nome
             })
         ))
-        res.render("form_register",{ layout: false,rows});
+        res.render("form_register",{ layout: 'imports_layout',rows});
     }
 }
 
