@@ -138,7 +138,7 @@
     <script src="/static/assets/js/main.js"></script>
 
     <script>
-        const id = <%= req.params.id %>;
+        const id = "<%= req.params.id %>";
         fetch(`/api/usuarios/${id}`)
             .then(response => response.json())
             .then(data => {

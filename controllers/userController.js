@@ -18,7 +18,7 @@ class userController{
                 "desc_perfil":per.nome
             })
         ))
-        res.render("./gerenciarUsuarios/cadastrarUsuario",{ layout: 'layout',rows});
+        res.render("./gerenciarUsuarios/usuario_cadastrar",{ layout: 'layout',rows});
     }
 
     async index(req, res){
@@ -59,7 +59,7 @@ class userController{
         let user = await db_usuario.listar(req.params.id);
 
         if(user){
-            res.render("editar_user",{ layout: false,user});
+            res.render("usuario_editar",{ layout: false,user});
         } else {
             res.send("Usuario nao encontrado");
         }
