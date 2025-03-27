@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,259 +9,182 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css/style_form.css">
     <link rel="stylesheet" href="css/custom_style.css">
-    <link rel="icon" type="image/x-icon" href="img/AURORALOGOSFUNDO.ico"/>
+    <link rel="icon" type="image/x-icon" href="img/AURORALOGOSFUNDO.ico" />
     <title>Aurora Boreal</title>
 </head>
+
 <body>
- <div class="wrapper">
-    <nav class="nav">
-        <div class="nav-logo">
-            
-        </div>
-        <div class="nav-menu" id="navMenu">
-            <ul>
-                <li><a href="/" class="link active">voltar</a></li>
-                
-            </ul>
-        </div>
-        <div class="nav-button">
-            <button class="btn white-btn" id="loginBtn" onclick="">Login</button>
-        </div>
-        <div class="nav-menu-btn">
-            <i class="bx bx-menu" onclick="myMenuFunction()"></i>
-        </div>
-    </nav>
-<!----------------------------- Form box ----------------------------------->    
-    <div class="form-box">
-        
-    <!------------------- login form -------------------------->
+    <div class="wrapper">
+        <nav class="nav">
+            <div class="nav-logo">
 
-<div class="login-container" id="login">
-    <div class="top">
-     
-        <header>Login</header>
-    </div>
-        <legend class="col-form-label col-sm-2 pt-0">Entrar como: </legend>
-            <select name="type" id="type" style="margin-bottom: 40px;">
-                <% users.forEach(user => { %>
-                        <option class="optype" id="optype-<%= user["id_perfil"] %>" value="<%= user["id_perfil"] %>"><%= user["desc_perfil"] %></option>
-                <% }) %>
-            </select>
-    <div class="input-box">
-        <input type="text" class="input-field" placeholder="CPF" id="cpf-login" required oninput="maskCPF(this)">
-        <i class="bx bx-user"></i>
-        <small id="cpf-login-error" style="color: red; display: none;">CPF inválido</small>
-    </div>
-    <div class="input-box">
-        <input type="password" class="input-field" placeholder="senha" id="senha-login"required>
-        <i class="bx bx-lock-alt"></i>
-        <small id="senha-login-error" style="color: red; display: none;">Senha inválida (mínimo 8 caracteres, 1 número, 1 letra e 1 caractere especial)</small>
-    </div>
-    <div class="input-box">
-        <input type="submit" class="submit" value="Entrar" onclick="handleLogin(event)">
-    </div>
-    <div class="two-col">
-        <div class="one">
-            <input type="checkbox" id="login-check">
-            <label for="login-check"> Deixar-me logado</label>
-        </div>
-    </div>
-</div>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="/" class="link active">voltar</a></li>
 
-    <script>
- 
+                </ul>
+            </div>
+            <div class="nav-button">
+                <button class="btn white-btn" id="loginBtn" onclick="">Login</button>
+            </div>
+            <div class="nav-menu-btn">
+                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+            </div>
+        </nav>
+        <!----------------------------- Form box ----------------------------------->
+        <div class="form-box">
 
-function maskCPF(cpf) {
-        cpf.value = cpf.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
-        cpf.value = cpf.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'); // Aplica a máscara
-    }
+            <!------------------- login form -------------------------->
 
-  // Função para validar matrícula
-     // Função para validar CPF
-     function isValidCPF(cpf) {
-        cpf = cpf.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
-        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false; // Valida formato e repetição
+            <div class="login-container" id="login">
+                <div class="top">
 
-        let sum = 0, remainder;
-        for (let i = 1; i <= 9; i++) sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-        remainder = (sum * 10) % 11;
-        if (remainder === 10 || remainder === 11) remainder = 0;
-        if (remainder !== parseInt(cpf.substring(9, 10))) return false;
+                    <header>Login</header>
+                </div>
+                <legend class="col-form-label col-sm-2 pt-0">Entrar como: </legend>
+                <select name="type" id="type" style="margin-bottom: 40px;">
+                    <% users.forEach(user=> { %>
+                        <option class="optype" id="optype-<%= user[" id_perfil"] %>" value="<%= user["id_perfil"] %>">
+                                <%= user["desc_perfil"] %>
+                        </option>
+                        <% }) %>
+                </select>
+                <div class="input-box">
+                    <input type="email" class="input-field" placeholder="Email" id="email-login" required>
+                    <i class="bx bx-envelope"></i>
+                    <small id="email-login-error" style="color: red; display: none;">Email inválido</small>
+                </div>
+                <div class="input-box">
+                    <input type="password" class="input-field" placeholder="senha" id="senha-login" required>
+                    <i class="bx bx-lock-alt"></i>
+                    <small id="senha-login-error" style="color: red; display: none;">Senha inválida (mínimo 8 caracteres,
+                        1 número, 1 letra e 1 caractere especial)</small>
+                </div>
+                <div class="input-box">
+                    <input type="submit" class="submit" value="Entrar" onclick="handleLogin(event)">
+                </div>
+                <div class="two-col">
+                    <div class="one">
+                        <input type="checkbox" id="login-check">
+                        <label for="login-check"> Deixar-me logado</label>
+                    </div>
+                </div>
+            </div>
 
-        sum = 0;
-        for (let i = 1; i <= 10; i++) sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-        remainder = (sum * 10) % 11;
-        if (remainder === 10 || remainder === 11) remainder = 0;
-        return remainder === parseInt(cpf.substring(10, 11));
-    }
+            <script>
 
-    function showError(elementId, errorId, condition) {
-        document.getElementById(errorId).style.display = condition ? 'none' : 'inline';
-    }
-     // Função para validar a data de nascimento
-     function validateDateOfBirth() {
-            const dateInput = document.getElementById('data_aniversario');
-            const dateValue = new Date(dateInput.value);
-            const currentDate = new Date();
+                function validateEmail(email) {
+                    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                    return emailRegex.test(email);
+                }
 
-            // Data mínima (2010-01-01)
-            const minDate = new Date('2010-01-01');
+                function validatePassword(senha) {
+                    const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+                    return senhaRegex.test(senha);
+                }
 
-            if (dateValue < minDate || dateValue > currentDate) {
-                document.getElementById('data-aniversario-error').style.display = 'inline';
-                return false;
-            }
+                function showError(elementId, errorId, condition) {
+                    document.getElementById(errorId).style.display = condition ? 'none' : 'inline';
+                }
 
-            document.getElementById('data-aniversario-error').style.display = 'none';
-            return true;
-        }
+                function handleLogin(event) {
+                    event.preventDefault(); // Evita o envio do formulário
+                    const email = document.getElementById('email-login').value.trim();
+                    const senha = document.getElementById('senha-login').value.trim();
+                    console.log(email, senha);
+                    let isValid = true;
 
-        // Função para validar senha
-        function validatePassword(password) {
-            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-            return passwordRegex.test(password);
-        }
+                    // Valida Email
+                    const emailValido = email !== '' && validateEmail(email);
+                    showError('email-login', 'email-login-error', emailValido);
 
-  
-   
-        function validateForm() {
-        const nomeAluno = document.getElementById('nome-aluno').value.trim();
-        const nomeResponsavel = document.getElementById('nome-responsavel').value.trim();
-        const cpfAluno = document.getElementById('cpf-aluno').value.trim();
-        const cpfResponsavel = document.getElementById('cpf-responsavel').value.trim();
-        const dataAniversario = document.getElementById('data_aniversario').value.trim();
-        const enderecoRua = document.getElementById('endereco-rua').value.trim();
-        const enderecoNumero = document.getElementById('endereco-numero').value.trim();
-        const enderecoBairro = document.getElementById('endereco-bairro').value.trim();
-        const enderecoCidade = document.getElementById('endereco-cidade').value.trim();
-        const emailAluno = document.getElementById('email-aluno').value.trim();
-        const emailResponsavel = document.getElementById('email-responsavel').value.trim();
-        const numeroCelular = document.getElementById('numero-celular').value.trim();
-        const senha = document.getElementById('senha-academica').value.trim();
+                    // Valida senha
+                    const senhaValida = senha !== '' && validatePassword(senha);
+                    showError('senha-login', 'senha-login-error', senhaValida);
 
-        let isValid = true;
+                    if (!emailValido || !senhaValida) {
+                        return; // Para a execução se houver erros
+                    }
 
-        // Validando os campos obrigatórios
-        isValid &= nomeAluno !== '';
-        showError('nome-aluno', 'nome-aluno-error', nomeAluno !== '');
+                    let body = {
+                        email: email,
+                        senha: senha
+                    };
 
-        isValid &= nomeResponsavel !== '';
-        showError('nome-responsavel', 'nome-responsavel-error', nomeResponsavel !== '');
+                    fetch('/system/postlogin', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(body)
+                    })
+                    .then(res => {
+                        if(res.ok) {
+                            return res.json();
+                        } else {
+                            throw new Error('Connection refused');
+                        }
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            // Redireciona com base no papel selecionado
+                            switch (data.role) {
+                                case '3':
+                                    window.location.href = 'alunos';
+                                    break;
+                                case '4':
+                                    window.location.href = 'professores';
+                                    break;
+                                case '2':
+                                    window.location.href = 'direcao';
+                                    break;
+                                default:
+                                    window.location.href = 'alunos';
+                            }
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(err => alert(err.message));
+                }
 
-        isValid &= cpfAluno !== '' && isValidCPF(cpfAluno);
-        showError('cpf-aluno', 'cpf-aluno-error', cpfAluno !== '' && isValidCPF(cpfAluno));
 
-        isValid &= cpfResponsavel !== '' && isValidCPF(cpfResponsavel);
-        showError('cpf-responsavel', 'cpf-responsavel-error', cpfResponsavel !== '' && isValidCPF(cpfResponsavel));
-
-        isValid &= dataAniversario !== '' && validateDateOfBirth();
-        showError('data_aniversario', 'data-aniversario-error', dataAniversario !== '' && validateDateOfBirth());
-
-        isValid &= enderecoRua !== '';
-        showError('endereco-rua', 'rua-error', enderecoRua !== '');
-
-        isValid &= enderecoNumero !== '';
-        showError('endereco-numero', 'numero-endereco-error', enderecoNumero !== '');
-
-        isValid &= enderecoBairro !== '';
-        showError('endereco-bairro', 'bairro-error', enderecoBairro !== '');
-
-        isValid &= enderecoCidade !== '';
-        showError('endereco-cidade', 'cidade-error', enderecoCidade !== '');
-
-        isValid &= emailAluno !== '';
-        showError('email-aluno', 'email-aluno-error', emailAluno !== '');
-
-        isValid &= emailResponsavel !== '';
-        showError('email-responsavel', 'email-responsavel-error', emailResponsavel !== '');
-
-        isValid &= numeroCelular !== '';
-        showError('numero-celular', 'celular-error', numeroCelular !== '');
-
-        isValid &= senha !== '' && validatePassword(senha);
-        showError('senha-academica', 'senha-error', senha !== '' && validatePassword(senha));
-
-        if (!isValid) {
-            document.getElementById('matricula-erro').style.display = 'block';
-            document.getElementById('matricula-sucesso').style.display = 'none';
-            return false;
-        }
-
-        document.getElementById('matricula-erro').style.display = 'none';
-        document.getElementById('matricula-sucesso').style.display = 'block';
-        return true;
-    }
-    function handleLogin(event) {
-    event.preventDefault(); // Evita o envio do formulário
-    const cpf = document.getElementById('cpf-login').value.trim();
-    const senha = document.getElementById('senha-login').value.trim();
-    let isValid = true;
-
-    // Valida CPF
-    const cpfValido = cpf !== '' && isValidCPF(cpf);
-    showError('cpf-login', 'cpf-login-error', cpfValido);
-
-    // Valida senha
-    const senhaValida = senha !== '' && validatePassword(senha);
-    showError('senha-login', 'senha-login-error', senhaValida);
-
-    if (!cpfValido || !senhaValida) {
-        return; // Para a execução se houver erros
-    }
-
-    // Obtem o papel selecionado
-    const selectedRole = document.querySelector('option[class="optype"]:checked').value;
-
-    // Redireciona com base no papel selecionado
-    switch (selectedRole) {
-        case 'aluno':
-            window.location.href = 'alunos';
-            break;
-        case 'professor':
-            window.location.href = 'professores';
-            break;
-        case 'diretor':
-            window.location.href = 'direcao';
-            break;
-        default:
-            window.location.href = 'alunos';
-    }
-}
-
-   
-   function myMenuFunction() {
-    var i = document.getElementById("navMenu");
-    if(i.className === "nav-menu") {
-        i.className += " responsive";
-    } else {
-        i.className = "nav-menu";
-    }
-   }
+                function myMenuFunction() {
+                    var i = document.getElementById("navMenu");
+                    if (i.className === "nav-menu") {
+                        i.className += " responsive";
+                    } else {
+                        i.className = "nav-menu";
+                    }
+                }
 
 
 
-    var a = document.getElementById("loginBtn");
-    var b = document.getElementById("registerBtn");
-    var x = document.getElementById("login");
-    var y = document.getElementById("register");
-    function login() {
-        x.style.left = "4px";
-        y.style.right = "-520px";
-        a.className += " white-btn";
-        b.className = "btn";
-        x.style.opacity = 1;
-        y.style.opacity = 0;
-       
-    }
-    function register() {
-        x.style.left = "-510px";
-        y.style.right = "5px";
-        a.className = "btn";
-        b.className += " white-btn";
-        x.style.opacity = 0;
-        y.style.opacity = 1;
-    }
-</script>
+                var a = document.getElementById("loginBtn");
+                var b = document.getElementById("registerBtn");
+                var x = document.getElementById("login");
+                var y = document.getElementById("register");
+                function login() {
+                    x.style.left = "4px";
+                    y.style.right = "-520px";
+                    a.className += " white-btn";
+                    b.className = "btn";
+                    x.style.opacity = 1;
+                    y.style.opacity = 0;
+
+                }
+                function register() {
+                    x.style.left = "-510px";
+                    y.style.right = "5px";
+                    a.className = "btn";
+                    b.className += " white-btn";
+                    x.style.opacity = 0;
+                    y.style.opacity = 1;
+                }
+            </script>
 
 </body>
+
 </html>
+

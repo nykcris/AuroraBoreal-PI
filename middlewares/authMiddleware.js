@@ -18,13 +18,13 @@ class AuthMiddleware {
                     next();
                 }
                 else
-                    res.redirect("/login");
+                    res.redirect("/system/");
             }
             else
-                res.redirect("/login"); 
+                res.redirect("/system/"); 
         }
         else
-            res.redirect("/login");
+            res.redirect("/system/");
     } 
 }
 

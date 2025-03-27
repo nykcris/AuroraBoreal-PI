@@ -28,7 +28,7 @@ class SystemController {
                 "email_user":alunos[i].email,
                 "password_user":alunos[i].senha,
                 "status_user":alunos[i].ativo,
-                "id_perfil":alunos[i].id
+                "id_perfil":alunos[i].perfilId
             })
         }
         console.log(rows);

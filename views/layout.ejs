@@ -29,7 +29,7 @@
     <link href="/static/assets/css/style.css" rel="stylesheet">
 
     <!-- Base URL -->
-
+    <base href="/system/">
 
     <style>
       #header{
@@ -50,6 +50,14 @@
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
 
+      <div class="profile">
+        <div class="profile-img">
+          <img src="/static/img/AURORALOGOSFUNDO.ico" alt="">
+        </div>
+        <h3>Administrador</h3>
+        <p>Admin</p>
+      </div>
+
       <ul class="sidebar-nav" id="sidebar-nav">
           <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#manageUsers" data-bs-toggle="collapse" href="#">
@@ -57,12 +65,12 @@
             </a>
             <ul id="manageUsers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
               <li>
-                <a href="users/create-user">
+                <a href="users/cadastrar">
                   <i class="bi bi-circle"></i><span>Criar Usuario</span>
                 </a>
               </li>
               <li>
-                <a href="users/list-users">
+                <a href="users/listar">
                   <i class="bi bi-circle"></i><span>Listar Usuarios</span>
                 </a>
               </li>
