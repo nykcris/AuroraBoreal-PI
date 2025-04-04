@@ -33,14 +33,18 @@ class DB_Perfil {
      * @return {DB_Perfil[]}
      */
     async listar(filtro) {
-
-        let str = "SELECT * FROM tb_perfil WHERE per_id = ?";
+        let str = "SELECT * FROM tb_perfil";
         let values = filtro;
-        if (typeof values == 'undefined') {
-            str = "SELECT * FROM tb_perfil";
-        }else{
+        if (typeof values != 'undefined') {
+            let i = 0;
             values.forEach(fil => {
-                str += " OR per_id = ?";
+                if (i != 0) {
+                    str += " OR id_perfil = ?";
+                } else {
+                    str += " WHERE id_perfil = ?"
+                    i++;
+                }
+                
             });
         }
         let DB = new db();

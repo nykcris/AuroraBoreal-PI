@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -54,8 +55,8 @@
         <div class="profile-img">
           <img src="/static/img/AURORALOGOSFUNDO.ico" alt="">
         </div>
-        <h3>Administrador</h3>
-        <p>Admin</p>
+        <h3 id="NomeUsu"></h3>
+        <p id="PerfilUsu"></p>
       </div>
 
       <ul class="sidebar-nav" id="sidebar-nav">
@@ -136,4 +137,21 @@
     <script src="/static/js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="/static/js/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="/static/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+      function yes(){
+        let usuNome = req.cookies.usuarioLogadoNome;
+        let usuperfil = req.cookies.usuarioLogadoDesc;
+
+        let nome = document.querySelector("#NomeUsu");
+        let perfil = document.querySelector("#perfilUsu");
+
+        nome.innerHTML = usuNome;
+        perfil.innerHTML = usuperfil;
+      }
+      document.addEventListener("DOMContentLoaded", (event) => {
+        yes();
+      });
+
+    </script>
   </body>
