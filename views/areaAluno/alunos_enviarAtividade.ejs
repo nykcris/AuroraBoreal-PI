@@ -31,6 +31,10 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <!-- Froala -->
+  <link href="node_modules/froala-editor/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="node_modules/froala-editor/js/froala_editor.pkgd.min.js"></script>
+
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -65,11 +69,12 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Gerenciamento Acadêmicos</h1>
+      <h1>Atividades</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Pág.inicial</a></li>
-          <li class="breadcrumb-item active">Gerenciamento Acadêmicos</li>
+          <li class="breadcrumb-item"><a href="/">Area do Aluno</a></li>
+          <li class="breadcrumb-item active">Atividades</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -80,59 +85,21 @@
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
-            <!-- End Listar Alunos -->
-            <div class="col-lg-12">
-              <div class="card recent-sales overflow-auto">
-                <div class="card-body">
-                  <h5 class="card-title">Lista de Alunos<span></span></h5>
-
-                  <table class="table table-borderless datatable">
-                    <thead>
-                      <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Perfil</th>
-                        <th scope="col">Perfil</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% if (typeof rows !='undefined' ) { %>
-                        <% for( let index=0; index < rows.length; index++ ) { %>
-                          <tr>
-                            <% %>
-                              <th scope="row">#<%= rows[index].id_user %>
-                              </th>
-                              <td>
-                                <%= rows[index].name_user %>
-                              </td>
-                              <td>
-                                <%= rows[index].email_user %>
-                              </td>
-                              <% if (rows[index].status_user==1) { %>
-                                <td><span class="badge bg-success">Ativo</span></td>
-                                <% } else if (rows[index].status_user==0) { %>
-                                  <td><span class="badge bg-secondary"></span></td>
-                                  <% } %>
-                                    <td>
-                                      <%= rows[index].id_perfil %>
-                                    </td>
-                              <td>
-                                <a href="users/editar?id=<%- rows[index].id_user %>"><button type="button" class="btn btn-warning btn-sm">Editar</button></a>
-                                <a href="users/excluir?id=<%- rows[index].id_user %>"><button type="button" class="btn btn-danger btn-sm">Deletar</button></a>
-                              </td>
-                          </tr>
-                          <% %>
-                            <% } %>
-                              <% } %>
-                    </tbody>
-                  </table>
-
-                </div>
-
-              </div>
+            <div class="col-12">
+              <% if (typeof exer != 'undefined') { %>
+                <%- exer["pergunta"] %>
+              <% } %>
             </div>
+            <div style="margin-top: 20px;"></div>
+            <div>
+              Responda Abaixo:
+            </div>
+            <form action="" method="post">
+                <textarea name="text" id="textcamp" cols="72" rows="4"></textarea>
+                <input type="submit" value="Enviar" class="btn btn-primary" >
+            </form>
+
+
           </div>
         </div><!-- End Left side columns -->
     </section>
@@ -164,6 +131,8 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- Froala -->
 
 </body>
 

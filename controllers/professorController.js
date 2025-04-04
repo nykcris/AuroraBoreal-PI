@@ -8,12 +8,10 @@ class AlunoController {
     }
 
     async atividades(req, res) {
+        res.render("./areaAluno/alunos_enviarAtividade", { layout: "layout" });
 
-        let valores = 1;
-        let sql = 'select * from tb_atividade where id_ativ = ?';
-        let resp = await DB.ExecutaComando(sql, valores);
-        let ativi = {nota:resp["nota"],pergunta:resp["atividade"]}
-        res.render("./areaAluno/alunos_enviarAtividade", { layout: "layout", exer:ativi });
+        let sql = ""
+
     }
 
     async pagamentos(req, res) {
