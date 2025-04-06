@@ -9,26 +9,27 @@ class SystemController {
 
         usersper.forEach(per => (
             rows.push({
-                "id_perfil":per.id,
-                "desc_perfil":per.nome
+                "per_id":per.id,
+                "per_descricao":per.descricao
             })
         ))
         res.render("form_login",{ layout: false ,users:rows});
     }
 
     async alunos(req,res) {
+        console.log("Entrou na página de alunos");
         let db_aluno = new DB_Usuarios();
-        let alunos = await db_aluno.listar([3]);
+        let alunos = await db_aluno.listar([1]);
         let rows = [];
 
         for (let i = 0; i < alunos.length; i++) {
             rows.push({
-                "id_user":alunos[i].id,
-                "name_user":alunos[i].nome,
+                "usu_id":alunos[i].id,
+                "usu_nome":alunos[i].nome,
                 "email_user":alunos[i].email,
-                "password_user":alunos[i].senha,
-                "status_user":alunos[i].ativo,
-                "id_perfil":alunos[i].perfilId
+                "usu_senha":alunos[i].senha,
+              
+                "per_id":alunos[i].perfilId
             })
         }
         console.log(rows);
@@ -41,17 +42,17 @@ class SystemController {
 
     async professores(req,res) {
         let db_func = new DB_Usuarios();
-        let funcs = await db_func.listar([4]);
+        let funcs = await db_func.listar([2]);
         let rows = [];
 
         for (let i = 0; i < funcs.length; i++) {
             rows.push({
-                "id_user":funcs[i].id,
-                "name_user":funcs[i].nome,
-                "email_user":funcs[i].email,
-                "password_user":funcs[i].senha,
-                "status_user":funcs[i].ativo,
-                "id_perfil":funcs[i].perfilId
+                "usu_id":funcs[i].id,
+                "usu_nome":funcs[i].nome,
+                "usu_email":funcs[i].email,
+                "usu_senha":funcs[i].senha,
+                
+                "per_id":funcs[i].perfilId
             })
         }
         console.log(rows);
@@ -65,8 +66,8 @@ class SystemController {
 
         usersper.forEach(per => (
             rows.push({
-                "id_user":per.id,
-                "desc_user":per.nome
+                "per_id":per.id,
+                "per_descricao":per.descricao
             })
         ))
         res.render("form_register",{ layout: 'imports_layout',rows});

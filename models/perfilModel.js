@@ -1,8 +1,8 @@
-const db = require('../utils/database');
+const db = require('../utils/database'); 
 
 class DB_Perfil {
     #id;
-    #nome;
+    #descricao;
 
     get id() {
         return this.#id;
@@ -11,19 +11,17 @@ class DB_Perfil {
         this.#id = value;
     }
 
-    get nome() {
-        return this.#nome;
+    get descricao() {
+        return this.#descricao;
     }
-    set nome(value) {
-        this.#nome = value;
+    set descricao(value) {
+        this.#descricao = value;
     }
 
-
-    constructor(id, nome) {
+    constructor(id, descricao) {
         this.#id = id;
-        this.#nome = nome;
+        this.#descricao = descricao;
     }
-
 
     /**
      * Retorna uma lista de perfis. Se o parâmetro for um array,
@@ -39,22 +37,21 @@ class DB_Perfil {
             let i = 0;
             values.forEach(fil => {
                 if (i != 0) {
-                    str += " OR id_perfil = ?";
+                    str += " OR per_id = ?";
                 } else {
-                    str += " WHERE id_perfil = ?"
+                    str += " WHERE per_id = ?";
                     i++;
                 }
-                
             });
         }
         let DB = new db();
-        let rows =  await DB.ExecutaComando(str,values);
+        let rows = await DB.ExecutaComando(str, values);
         let lista = [];
 
         rows.forEach(perfil => {
             lista.push(new DB_Perfil(
-                perfil["id_perfil"],
-                perfil["desc_perfil"]
+                perfil["per_id"],
+                perfil["per_descricao"]
             ));
         });
 
@@ -62,14 +59,11 @@ class DB_Perfil {
     }
 
     cadastrar() {
-
-        let str = "INSERT INTO tb_perfil(desc_perfil) VALUES (?)";
-        let values = [];
+        let str = "INSERT INTO tb_perfil(per_descricao) VALUES (?)";
+        let values = [this.#descricao];
         let DB = new db();
-        DB.ExecutaComandoNonQuery(str,values);
-
+        DB.ExecutaComandoNonQuery(str, values);
     }
 }
-
 
 module.exports = DB_Perfil;

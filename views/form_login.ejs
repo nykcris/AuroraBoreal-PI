@@ -44,11 +44,12 @@
                 </div>
                 <legend class="col-form-label col-sm-2 pt-0">Entrar como: </legend>
                 <select name="type" id="type" style="margin-bottom: 40px;">
-                    <% users.forEach(user=> { %>
-                        <option class="optype" id="optype-<%= user[" id_perfil"] %>" value="<%= user["id_perfil"] %>">
-                                <%= user["desc_perfil"] %>
+                    <% users.forEach(user => { %>
+                        <option class="optype" id="optype-<%= user["per_id"] %>" value="<%= user["per_id"] %>">
+                            <%= user["per_descricao"] %>
                         </option>
-                        <% }) %>
+                    <% }) %>
+                    
                 </select>
                 <div class="input-box">
                     <input type="email" class="input-field" placeholder="Email" id="email-login" required>
@@ -117,7 +118,8 @@
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(body)
+                        body: JSON.stringify(body),
+                         credentials: "include"
                     })
                     .then(res => {
                         if(res.ok) {
@@ -127,25 +129,14 @@
                         }
                     })
                     .then(data => {
-                        if (data.success) {
-                            // Redireciona com base no papel selecionado
-                            switch (data.role) {
-                                case '3':
-                                    window.location.href = 'alunos';
-                                    break;
-                                case '4':
-                                    window.location.href = 'professores';
-                                    break;
-                                case '2':
-                                    window.location.href = 'direcao';
-                                    break;
-                                default:
-                                    window.location.href = 'alunos';
-                            }
-                        } else {
-                            alert(data.message);
-                        }
+                        console.log(data); // <-- Adiciona isso
+                          if (data.success) {
+                                window.location.href = `/system/${data.destino}`;
+                             } else {
+                           alert(data.message);
+                             }
                     })
+
                     .catch(err => alert(err.message));
                 }
 

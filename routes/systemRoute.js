@@ -17,7 +17,10 @@ router.get("/alunos",AM.validar,SC.alunos);
 router.get("/direcao",AM.validar,SC.direcao);
 router.get("/professores",AM.validar,SC.professores);
 router.get("/register",AM.validar,SC.register);
-
+router.get("/teste", (req, res) => {
+    console.log(" Entrou na rota /system/teste");
+    res.send("Funcionando");
+});
 
 
 

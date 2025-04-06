@@ -80,61 +80,300 @@
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
-            <!-- End Listar Alunos -->
-            <div class="col-lg-12">
+
+            <!-- Sales Card - não conectado ao BD -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+              
+
+                <div class="card-body">
+                  <h5 class="card-title">Gastos na Cantina <span>| Hoje</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-cart" style= "color: red;"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>R$5,00</h6>
+                     
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Revenue Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card revenue-card">
+
+             
+                <div class="card-body">
+                  <h5 class="card-title">Valor da Mensalidade <span> |2024 </span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>R$1.264,00</h6>
+                      
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Revenue Card -->
+
+           
+  
+      
+
+            <!-- Recentes mensalidades  -->
+            <div class="col-12">
               <div class="card recent-sales overflow-auto">
                 <div class="card-body">
-                  <h5 class="card-title">Lista de Alunos<span></span></h5>
+                  <h5 class="card-title">Histórico de mensalidades <span>| 2024</span></h5>
 
                   <table class="table table-borderless datatable">
                     <thead>
                       <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Email</th>
+                        <th scope="col">Cód Nota Fiscal #</th>
+                        <th scope="col">Aluno</th>
+                        <th scope="col">Mês</th>
+                        <th scope="col">Preço</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Perfil</th>
-                        <th scope="col">Perfil</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <% if (typeof rows !='undefined' ) { %>
-                        <% for( let index=0; index < rows.length; index++ ) { %>
-                          <tr>
-                            <% %>
-                              <th scope="row">#<%= rows[index].id_user %>
-                              </th>
-                              <td>
-                                <%= rows[index].name_user %>
-                              </td>
-                              <td>
-                                <%= rows[index].email_user %>
-                              </td>
-                              <% if (rows[index].status_user==1) { %>
-                                <td><span class="badge bg-success">Ativo</span></td>
-                                <% } else if (rows[index].status_user==0) { %>
-                                  <td><span class="badge bg-secondary"></span></td>
-                                  <% } %>
-                                    <td>
-                                      <%= rows[index].id_perfil %>
-                                    </td>
-                              <td>
-                                <a href="users/editar?id=<%- rows[index].id_user %>"><button type="button" class="btn btn-warning btn-sm">Editar</button></a>
-                                <a href="users/excluir?id=<%- rows[index].id_user %>"><button type="button" class="btn btn-danger btn-sm">Deletar</button></a>
-                              </td>
+                        <tr>
+                            <th scope="row"><a href="#">#2147</a></th>
+                            <td>Brandon Jacob</td>
+                            <td><a href="#" class="text-primary">Junho</a></td>
+                            <td>R$1.264,00</td>
+                            <td><span class="badge bg-warning">Pendente</span></td>
                           </tr>
-                          <% %>
-                            <% } %>
-                              <% } %>
+                                
+                      <tr>
+                        <th scope="row"><a href="#">#2457</a></th>
+                        <td>Brandon Jacob</td>
+                        <td><a href="#" class="text-primary">Maio </a></td>
+                        <td>R$1.264,00</td>
+                        <td><span class="badge bg-success">Pago</span></td>
+                      </tr>
+                                
+                      <tr>
+                        <th scope="row"><a href="#">#2457</a></th>
+                        <td>Brandon Jacob</td>
+                        <td><a href="#" class="text-primary">Abril </a></td>
+                        <td>R$1.264,00</td>
+                        <td><span class="badge bg-success">Pago</span></td>
+                      </tr>
+                              
+                      <tr>
+                        <th scope="row"><a href="#">#2457</a></th>
+                        <td>Brandon Jacob</td>
+                        <td><a href="#" class="text-primary">Março </a></td>
+                        <td>R$1.264,00</td>
+                        <td><span class="badge bg-success">Pago</span></td>
+                      </tr>
+                      
+                      <tr>
+                        <th scope="row"><a href="#">#2457</a></th>
+                        <td>Brandon Jacob</td>
+                        <td><a href="#" class="text-primary">Fevereiro </a></td>
+                        <td>R$1.264,00</td>
+                        <td><span class="badge bg-success">Pago</span></td>
+                      </tr>
+                      
+                    
+                    
+                   
                     </tbody>
                   </table>
 
                 </div>
 
               </div>
-            </div>
+            </div><!-- End Recent Sales -->
+
+          
+
           </div>
         </div><!-- End Left side columns -->
+
+        <!-- Right side columns -->
+      
+               <!-- Table with stripped rows -->
+       
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                        <label for="turma-select" class="form-label">Notas - Selecione o bimestre:</label>
+                        <select class="form-select" id="turma-select" name="turma">
+                          <option value="" selected disabled>Selecione o bimestre</option>
+                          <option value="1b">1° B. </option>
+                          <option value="2b" selected>2° B. </option>
+                          <option value="3b">3° B.</option>
+                          <option value="4b">4° B.</option>
+                        </select>
+                      </h5>
+                  
+                      <!-- Select para o ano -->
+                      <h5 class="card-title mt-3">
+                        <label for="ano-select" class="form-label">Selecione o Ano:</label>
+                        <select class="form-select" id="ano-select" name="ano">
+                          <option value="" selected disabled>Selecione o ano</option>
+                          <option value="2022">2022-1°A</option>
+                          <option value="2023">2023-2°A</option>
+                          <option value="2024" selected>2024-3°A</option> <!-- Ano pré-selecionado -->
+                        </select>
+                      </h5>
+      
+                 
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Nota</th>
+                          <th scope="col">Nome da disciplina</th>
+                       
+                          <th scope="col">Faltas</th>
+                          <th scope="col">Professor(a)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">10</th>
+                          <td>Português</td>
+                      
+                          <td>2</td>
+                          <td>José</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">8</th>
+                          <td>Matemátia</td>
+                    
+                          <td>3</td>
+                          <td>Maria</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">10</th>
+                          <td>História</td>
+                         
+                          <td>5</td>
+                          <td>Fulano</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">9</th>
+                          <td>Física</td>
+                          
+                          <td>2</td>
+                          <td>Fulana</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">8</th>
+                          <td>Biologia</td>
+                         
+                          <td>7</td>
+                          <td>Ciclana</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <!-- End Table with stripped rows -->
+              
+                  </div>
+                </div>
+                  <!-- Table disciplinas  -->
+       
+                  <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <label for="turma-select" class="form-label">Horário - Selecione o bimestre:</label>
+                            <select class="form-select" id="turma-select" name="turma">
+                                <option value="" selected disabled>Selecione o bimestre</option>
+                                <option value="1b">1° B. </option>
+                                <option value="2b" selected>2° B. </option>
+                                <option value="3b">3° B.</option>
+                                <option value="4b">4° B.</option>
+                              </select>
+                          </h5>
+                      
+                            <!-- Select para o ano -->
+                      <h5 class="card-title mt-3">
+                        <label for="ano-select" class="form-label">Selecione o Ano:</label>
+                        <select class="form-select" id="ano-select" name="ano">
+                          <option value="" selected disabled>Selecione o ano</option>
+                          <option value="2022">2022-1°A</option>
+                          <option value="2023">2023-2°A</option>
+                          <option value="2024" selected>2024-3°A</option> <!-- Ano pré-selecionado -->
+                        </select>
+                      </h5>
+                   
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Professor</th>
+                            <th scope="col">Nome da displina</th>
+                            <th scope="col">Dia das aulas</th>
+                            <th scope="col">Horário</th>
+                            <th scope="col">carga horária p/ semana</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>Brandon Jacob</td>
+                            <td>Português</td>
+                            <td>Todos os dias</td>
+                            <td>7:30-8:30 horas</td>
+                            <td>5 horas</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td>Bridie Kessler</td>
+                            <td>Matemática</td>
+                            <td>Todos os dias</td>
+                            <td>8:30-9:30 horas</td>
+                            <td>5 horas</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td>Ashleigh Langosh</td>
+                            <td>Física</td>
+                            <td>segunda e quinta</td>
+                            <td>9:50-10:50 horas</td>
+                            <td>2 horas</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">4</th>
+                            <td>Angus Grady</td>
+                            <td>Biologia</td>
+                            <td>terça e sexta</td>
+                            <td>9:50-10:50 horas</td>
+                            <td>2 horas</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">5</th>
+                            <td>Raheem Lehner</td>
+                            <td>História</td>
+                            <td>segunda </td>
+                            <td>10:50-12:30 horas</td>
+                            <td>2 horas</td>
+                          </tr>
+                        </tbody>
+                      </table>
+  
+                      <!-- End Table with stripped rows -->
+                      
+
+
+
+        </div><!-- End Right side columns -->
+      </div>
     </section>
 
   </main><!-- End #main -->
