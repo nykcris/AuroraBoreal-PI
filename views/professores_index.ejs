@@ -177,53 +177,16 @@
                         </form>
                     </div>
                 </div><!-- End Multi Columns Form -->
-                <!-- End Listar Alunos -->
-                <div class="col-12">
-                    <div class="card recent-sales overflow-auto">
-                    <div class="card-body">
-                        <h5 class="card-title">Lista de Alunos<span></span></h5>
-    
-                        <table class="table table-borderless datatable">
-                        <thead>
-                            <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Perfil</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% if (typeof rows != 'undefined') { %>
-                            <% for( let index = 0; index < rows.length; index++ ) { %>
-                                <tr><%  %>
-                                <th scope="row">#<%= rows[index].id_user %></th>
-                                <td><%= rows[index].name_user %></td>
-                                <td><%= rows[index].email_user %></td>
-                                <% if (rows[index].status_user == 1) { %>
-                                    <td><span class="badge bg-success">Ativo</span></td>
-                                <% } else if (rows[index].status_user == 0) { %>
-                                    <td><span class="badge bg-secondary"></span></td>
-                                <% } %>
-                                <td><%= rows[index].id_perfil %></td>
-                                </tr><%  %>
-                            <% } %>
-                            <% } %>
-                        </tbody>
-                        </table>
-    
-                    </div>
-    
-                    </div>
-                </div>
+               
                 <!-- Table with stripped rows -->
 
                 
-                          <!-- Formulário para adicionar aluno à turma -->
+                          <!--  chamada ainda nao envia pra BD -->
                           <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <label for="turma-select" class="form-label">chamada - Selecione a Turma:</label>
+                                    <label for="turma-select" class="form-label">Chamada - selecione uma turma</label>
+                                    
                                     <select class="form-select" id="turma-select" name="turma">
                                         <option value="" selected disabled>Selecione a turma</option>
                                         <option value="1A">1° A- Química</option>
@@ -237,7 +200,7 @@
                                     <div class="mb-3">
                                         <input type="date" class="form-control" id="data-chamada" name="data-chamada" required>
                                     </div>
-                                    <button type="button" id="fazer-chamada" class="btn btn-primary">Fazer chamada</button>
+                                    
                                 </form>
                         
                                 <table class="table table-striped">
@@ -245,37 +208,28 @@
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Nome</th>
+                                            <th scope="col">Email</th>
                                             <th scope="col">Presença</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="alunos-tbody">
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Brandon Jacob</td>
-                                            <td class="presenca-coluna"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Bridie Kessler</td>
-                                            <td class="presenca-coluna"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Ashleigh Langosh</td>
-                                            <td class="presenca-coluna"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>Angus Grady</td>
-                                            <td class="presenca-coluna"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">5</th>
-                                            <td>Raheem Lehner</td>
-                                            <td class="presenca-coluna"></td>
-                                        </tr>
+                                    <tbody>
+                                        <% if (typeof rows != 'undefined') { %>
+                                            <% for (let index = 0; index < rows.length; index++) { %>
+                                                <% if (rows[index].per_id == 1) { %>
+                                                    <tr>
+                                                        <th scope="row">#<%= rows[index].usu_id %></th>
+                                                        <td><%= rows[index].usu_nome %></td>
+                                                        <td><%= rows[index].usu_email %></td>
+                                                        <td><input type="checkbox"> </td>
+                                                    </tr>
+                                                <% } %>
+                                            <% } %>
+                                        <% } %>
+                                        
                                     </tbody>
+
                                 </table>
+                                <button type="button" id="fazer-chamada" class="btn btn-primary">Fazer chamada</button>
                             </div>
                         </div>
                         <!--fim do formulário-->
@@ -284,7 +238,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">
-                            <label for="turma-select" class="form-label">Diário de classe - Selecione a Turma:</label>
+                            <label for="turma-select" class="form-label">Diário de classe - Selecione a Turma:-não funciona</label>
                             <select class="form-select" id="turma-select" name="turma">
                                 <option value="" selected disabled>Selecione a turma</option>
                                 <option value="1A">1° A -Química</option>
@@ -293,16 +247,16 @@
                                
                             </select>
                         </h5>
-                        <form action="" method="post">
+                        <form action="/system/atividades" method="post">
                            
                             <div class="mb-3">
-                                <label class="form-label">Data da aula:</label>
+                                <label for="data-aula" class="form-label">Data da aula:</label>
                                 <input type="date" class="form-control" id="data-aula" name="data-aula" required>
                             </div>
                            
                             <div class="col-md-6">
                                 <label for="descricao" class="form-label">Descrição da aula: </label>
-                                <input type="text" class="form-control" id="descricao">
+                                <input type="text" class="form-control" id="descricao" name="descricao">
                             </div>
                             <br>
                             <button type="submit" class="btn btn-primary">Adicionar Registro de Aula</button>
@@ -311,80 +265,117 @@
                     </div>
                 </div>
 
-                <!-- Table Notas  -->
-
+               
+                <!--tabela nova atividades-->            
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">
-                            <label for="turma-select" class="form-label">Notas - Selecione a Turma:</label>
-                            <select class="form-select" id="turma-select" name="turma">
-                                <option value="" selected disabled>Selecione a turma</option>
-                                <option value="1A">1° A- Química</option>
-                                <option value="1B">1° B- Física</option>
-                                <option value="1C">1° B- Química</option>
-                            </select>
-                        </h5>
-                
-                        <table class="table table-borderless datatable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Aluno</th>
-                                    <th scope="col">Notas das Atividades</th>
-                                    <th scope="col">Média da Nota</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabela-notas">
-                                <tr id="aluno-1">
-                                    <th scope="row">1</th>
-                                    <td>Brandon Jacob</td>
-                                    <td id="atividades-1"></td>
-                                    <td><span id="media-1">-</span></td>
-                                    <td><span id="status-1" class="badge">-</span></td>
-                                </tr>
-                                <tr id="aluno-2">
-                                    <th scope="row">2</th>
-                                    <td>Barbie Kids</td>
-                                    <td id="atividades-2"></td>
-                                    <td><span id="media-2">-</span></td>
-                                    <td><span id="status-2" class="badge">-</span></td>
-                                </tr>
-                                <tr id="aluno-3">
-                                    <th scope="row">3</th>
-                                    <td>Day Limns</td>
-                                    <td id="atividades-3"></td>
-                                    <td><span id="media-3">-</span></td>
-                                    <td><span id="status-3" class="badge">-</span></td>
-                                </tr>
-                                <!-- Adicione mais linhas para cada aluno -->
-                            </tbody>
-                        </table>
-                
-                        <!-- Formulário para adicionar notas -->
-                        <div class="mt-4">
-                            <h5 class="card-title">Adicionar Nota</h5>
-                            <form id="form-adicionar-nota" onsubmit="adicionarNota(event)">
-                                <div class="mb-3">
-                                    <label for="aluno-select" class="form-label">Selecione o Aluno:</label>
-                                    <select class="form-select" id="aluno-select" required>
-                                        <option value="1">Brandon Jacob</option>
-                                        <option value="2">Barbie Kids</option>
-                                        <option value="3">Day Limns</option>
-                                        <!-- Adicione mais alunos com IDs únicos -->
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nota-input" class="form-label">Nota da Atividade:</label>
-                                    <input type="number" class="form-control" id="nota-input" min="0" max="10" step="0.1" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Adicionar Nota</button>
-                            </form>
+                      <h5 class="card-title">Nova Atividade</h5>
+                      <form id="form-atividade" method="POST" action="/system/atividades" enctype="multipart/form-data">
+                        <div class="mb-3">
+                          <label for="titulo" class="form-label">Título da Atividade</label>
+                          <input type="text" class="form-control" name="titulo" required>
                         </div>
+                        <div class="mb-3">
+                          <label for="descricao" class="form-label">Descrição</label>
+                          <textarea class="form-control" name="descricao" rows="4" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                          <label for="data_entrega" class="form-label">Data de Entrega</label>
+                          <input type="datetime-local" class="form-control" name="data_entrega" required>
+                        </div>
+                    <!--    <div class="mb-3">
+                          <label for="anexo_atividade" class="form-label">Anexo (opcional)</label>
+                          <input type="file" class="form-control" name="anexo_atividade">
+                        </div> -->
+
+                        <button type="submit" class="btn btn-primary">Cadastrar Atividade</button>
+                      </form>
+                    </div>
+                  </div>
+                  <!--fim de novas atividades-->
+                  <!-- Listagem de Atividades Cadastradas -->
+<div class="card mt-4">
+    <div class="card-body">
+      <h5 class="card-title">Atividades Cadastradas</h5>
+      <% if (typeof atividades_cadastradas  != 'undefined') { %>
+      <% if (atividades_cadastradas && atividades_cadastradas.length > 0) { %>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Descrição</th>
+              <th>Data de Entrega</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% atividades_cadastradas.forEach(atividade => { %>
+              <tr>
+                <td><%= atividade.titulo %></td>
+                <td><%= atividade.descricao %></td>
+                <td><%= new Date(atividade.data_entrega).toLocaleString() %></td>
+                <td>
+                  <a href="/editar-atividade/<%= atividade.id %>" class="btn btn-warning btn-sm">Editar</a>
+                  <form action="/deletar-atividade/<%= atividade.id %>" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta atividade?');">Excluir</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p>Nenhuma atividade cadastrada ainda.</p>
+      <% } %>
+    </div>
+  </div>
+  <!--fim de listar atividades-->
+                  <!--visualizar respostas-->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Respostas dos Alunos</h5>
+                        
+                        <% if (typeof atividades_row !='undefined' ) { %>
+                            
+                            <% atividades_row.forEach(atividade=> { %>
+                                <h6>
+                                    <%= atividade.titulo %> - <%= atividade.data_entrega.toLocaleString() %>
+                                </h6>
+                                <ul class="list-group mb-3">
+                                    <% atividade.respostas.forEach(res=> { %>
+                                        <li class="list-group-item">
+                                            <p><strong>Aluno:</strong>
+                                                <%= res.usu_nome %> - <%= res.data_envio.toLocaleString() %>
+                                            </p>
+                                            <p><strong>Resposta:</strong>
+                                                <%= res.resposta %>
+                                            </p>
+                                            <% if (res.anexo_resposta) { %>
+                                                <p><a href="<%= res.anexo_resposta %>" target="_blank">Ver anexo</a></p>
+                                                <% } %>
+                                                    <form method="POST" action="/corrigir-resposta">
+                                                        <input type="hidden" name="res_id" value="<%= res.res_id %>">
+                                                        <div class="mb-2">
+                                                            <label>Nota:</label>
+                                                            <input type="number" name="nota" class="form-control" step="0.1" min="0"
+                                                                max="10" value="<%= res.nota || '' %>">
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <label>Comentário:</label>
+                                                            <textarea name="comentario_professor"
+                                                                class="form-control"><%= res.comentario_professor || '' %></textarea>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-success">Salvar Correção</button>
+                                                    </form>
+                                        </li>
+                                        <% }) %>
+                                </ul>
+                                <% }) %>
+                                <% } %>
+                                <% } %>
                     </div>
                 </div>
-                <!--fim da tabela de notas-->                
-
+                <!--fim de visualizar respostas-->
             </div><!-- End Right side columns -->
             </div>
         </section>

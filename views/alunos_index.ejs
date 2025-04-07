@@ -60,7 +60,83 @@
     </nav><!-- End Icons Navigation -->
 
   </header><!-- End Header -->
+  <!-- Sidebar --> 
+  <aside id="sidebar" class="sidebar">
 
+  <h1>não funciona</h1>
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#students-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-people"></i><span>Alunos</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="students-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="alunos/atividades">
+              <i class="bi bi-circle"></i><span>Atividades</span>
+            </a>
+          </li>
+          <li>
+            <a href="alunos/pagamentos">
+              <i class="bi bi-circle"></i><span>Pagamentos</span>
+            </a>
+          </li>
+          <li>
+            <a href="alunos/notas">
+              <i class="bi bi-circle"></i><span>Notas</span>
+            </a>
+          </li>
+          <li>
+            <a href="alunos/informacoes">
+              <i class="bi bi-circle"></i><span>Informações Gerais</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#manageUsers" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-people"></i><span>Notas e faltas </span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="manageUsers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="users/cadastrar">
+              <i class="bi bi-circle"></i><span>Criar Usuario</span>
+            </a>
+          </li>
+          <li>
+            <a href="users/listar">
+              <i class="bi bi-circle"></i><span>Listar Usuarios</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-cash-stack"></i><span>Gerenciamento Financeiro</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="professores">
+                <i class="bi bi-circle"></i><span>Acadêmicos</span>
+              </a>
+            </li>
+            <li>
+              <a href="alunos">
+                <i class="bi bi-circle"></i><span>Alunos</span>
+              </a>
+            </li>
+            <li>
+              <a href="direcao">
+                <i class="bi bi-circle"></i><span>Painéis e gerenciamentos</span>
+              </a>
+            </li>
+          </ul>
+      </li>
+
+    </ul>
+
+</aside><!-- End Sidebar-->
 
   <main id="main" class="main">
 
@@ -132,7 +208,7 @@
       
 
             <!-- Recentes mensalidades  -->
-            <div class="col-12">
+            <div id="pagamentos" class="col-12">
               <div class="card recent-sales overflow-auto">
                 <div class="card-body">
                   <h5 class="card-title">Histórico de mensalidades <span>| 2024</span></h5>
@@ -366,10 +442,47 @@
                           </tr>
                         </tbody>
                       </table>
-  
+                    </div>
+                  </div>
                       <!-- End Table with stripped rows -->
-                      
 
+                <!--Tabela atividades-->
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Atividades </h5>
+
+                              
+                              <!-- General Form Elements -->
+                              <form>
+                                <div class="row mb-3">
+                                  <label for="arquivos" class="col-sm-2 col-form-label"> Enviar Arquivos </label>
+                                  <div class="col-sm-10">
+                                    <input class="form-control" type="file" id="formFile">
+                                  </div>
+                                </div>
+                                <div class="row mb-3">
+                                  <label for="TextResposta" class="col-sm-2 col-form-label">Resposta</label>
+                                  <div class="col-sm-10">
+                                    <textarea class="form-control" style="height: 100px"></textarea>
+                                  </div>
+                                </div>
+                                <div class="row mb-3">
+                                  <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Enviar atividade</button>
+                                  </div>
+                                </div>
+                
+                              </form><!-- End General Form Elements -->
+                
+                            </div>
+                          </div>
+                
+                 
+                
+                        
+                
+                       
+                      
 
 
         </div><!-- End Right side columns -->

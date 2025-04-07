@@ -13,6 +13,7 @@ let LC = new LoginController();
 
 router.get("/",LC.getlogin);
 router.post("/postlogin",LC.postlogin);
+router.post("/atividades",AM.validar, SC.atividades);
 router.get("/alunos",AM.validar,SC.alunos);
 router.get("/direcao",AM.validar,SC.direcao);
 router.get("/professores",AM.validar,SC.professores);
