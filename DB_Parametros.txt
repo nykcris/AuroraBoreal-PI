@@ -1,7 +1,7 @@
 host: '132.226.245.178'
-database: 'PFS1_10442415440'
-user: '10442415440'
-password: '10442415440'
+database: 'PFS1_10442417275'
+user: '10442417275'
+password: '10442417275'
 logins professores 
 
 ana.paula@email.com 

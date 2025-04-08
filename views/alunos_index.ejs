@@ -452,6 +452,8 @@
                     <h5 class="card-title">Atividades </h5>
                     <% if (typeof atividades_cadastradas  != 'undefined') { %>
                     <% if (atividades_cadastradas && atividades_cadastradas.length > 0) { %>
+                      <%= atividadesFeitas %>
+                      <% var i = 0; %>
                       <table class="table table-bordered">
                         <thead>
                           <tr>
@@ -463,15 +465,19 @@
                         </thead>
                         <tbody>
                           <% atividades_cadastradas.forEach(atividade => { %>
-                            <tr>
+                            <tr class="mb-3">
                               <td><%= atividade.titulo %></td>
                               <td><%= atividade.descricao %></td>
                               <td><%= new Date(atividade.data_entrega).toLocaleString() %></td>
-                              <td>
+                              <td class="text-center">
                                 <a href="/system/resposta?id=<%= atividade.ati_id %>" class="btn btn-primary btn-sm">responder</a>
+                                <% if (atividadesFeitas[i] == 1) { %>
+                                <a class="alert alert-success" role="alert">Atividade respondida</a>
+                                <% } %>
                           
                               </td>
                             </tr>
+                            <% i++; %>
                           <% }) %>
                         </tbody>
                       </table>

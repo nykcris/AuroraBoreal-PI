@@ -69,11 +69,16 @@ class DB_Resposta {
     }
 
 
-    async listar(filtro) {
-        let value = [filtro];
+    async listar(filtro,type) {
+        let value = filtro;
         let sql = "SELECT * FROM tb_resposta";
         if (typeof filtro != 'undefined') {
-            sql += " WHERE res_id = ?";
+            if(typeof type != 'undefined'){
+                sql += " WHERE id_atividade = ?";
+                sql += " and id_aluno = ?";
+            }else{
+                sql += " WHERE res_id = ?";
+            }
         }
         let DB = new db();
         let rows = await DB.ExecutaComando(sql,value);
