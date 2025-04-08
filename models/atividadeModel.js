@@ -70,17 +70,14 @@ class DB_Atividade {
         this.#anexo_atividade = anexo_atividade;
     }
 
-    /**
-     * Retorna uma lista de atividades. Se o parâmetro for um array,
-     * retorna os atividades com os IDs presentes no array. Se for undefined,
-     * retorna todos os atividades.
-     * @param {number[]|undefined} filtro - Um array de IDs ou undefined.
-     * @return {DB_Atividade[]}
-     */
     async listar(filtro) {
+        let value = [filtro];
         let sql = "SELECT * FROM tb_atividade";
+        if (typeof filtro != 'undefined') {
+            sql += " WHERE ati_id = ?";
+        }
         let DB = new db();
-        let rows = await DB.ExecutaComando(sql);
+        let rows = await DB.ExecutaComando(sql,value);
         let lista = [];
 
         rows.forEach(ati => {
@@ -104,7 +101,23 @@ class DB_Atividade {
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(sql, valores);
     }
+
+    async excluir(id) {
+        let sql = "DELETE FROM tb_atividade WHERE ati_id = ?";
+        console.log(id);
+        let valores = [id];
+        let DB = new db();
+        let a = await DB.ExecutaComandoNonQuery(sql, valores);
+        console.log(a);
+        return a;
+    }
     
+    async atualizar() {
+        let sql = "UPDATE tb_atividade SET titulo = ?, descricao = ?, data_criacao = ?, data_entrega = ?, id_professor = ?, anexo_atividade = ? WHERE ati_id = ?";
+        let valores = [ this.#titulo, this.#descricao, this.#data_criacao, this.#data_entrega, this.#id_professor, this.#anexo_atividade, this.#ati_id ];
+        let DB = new db();
+        return await DB.ExecutaComandoNonQuery(sql, valores);
+    }
 }
 
 module.exports = DB_Atividade;

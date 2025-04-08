@@ -270,7 +270,7 @@
                 <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">Nova Atividade</h5>
-                      <form id="form-atividade" method="POST" action="/system/atividades" enctype="multipart/form-data">
+                      <form id="form-atividade" method="POST" action="/system/atividades">
                         <div class="mb-3">
                           <label for="titulo" class="form-label">Título da Atividade</label>
                           <input type="text" class="form-control" name="titulo" required>
@@ -288,7 +288,7 @@
                           <input type="file" class="form-control" name="anexo_atividade">
                         </div> -->
 
-                        <button type="submit" class="btn btn-primary">Cadastrar Atividade</button>
+                        <button class="btn btn-primary">Cadastrar Atividade</button>
                       </form>
                     </div>
                   </div>
@@ -315,18 +315,20 @@
                 <td><%= atividade.descricao %></td>
                 <td><%= new Date(atividade.data_entrega).toLocaleString() %></td>
                 <td>
-                  <a href="/editar-atividade/<%= atividade.id %>" class="btn btn-warning btn-sm">Editar</a>
-                  <form action="/deletar-atividade/<%= atividade.id %>" method="POST" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta atividade?');">Excluir</button>
+                  <a href="/system/editarAtividade?id=<%= atividade.ati_id %>" class="btn btn-warning btn-sm">Editar</a>
+                  <form action="/system/deletarAtividade?id=<%= atividade.ati_id %>" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onsubmit="return confirm('Tem certeza que deseja excluir esta atividade?');">Excluir</button>
                   </form>
                 </td>
               </tr>
             <% }) %>
           </tbody>
         </table>
+        <% } %>
       <% } else { %>
         <p>Nenhuma atividade cadastrada ainda.</p>
       <% } %>
+      
     </div>
   </div>
   <!--fim de listar atividades-->
@@ -372,7 +374,7 @@
                                 </ul>
                                 <% }) %>
                                 <% } %>
-                                <% } %>
+                                
                     </div>
                 </div>
                 <!--fim de visualizar respostas-->

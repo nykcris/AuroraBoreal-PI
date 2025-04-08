@@ -1,6 +1,7 @@
 const DB_Perfil = require("../models/perfilModel");
 const DB_Usuarios = require("../models/usuarioModel");
 const DB_Atividade = require("../models/atividadeModel");
+const DB_Resposta = require("../models/respostaModel");
 
 class SystemController {
     async index(req, res) {
@@ -37,19 +38,8 @@ class SystemController {
 
         let db_atividade = new DB_Atividade();
         let atividades = await db_atividade.listar();
-        let atividades_rows = [];
-        for (let i = 0; i < atividades.length; i++) {
-            atividades_rows.push({
-                "ati_id":atividades[i].ati_id,
-                "titulo":atividades[i].titulo,
-                "descricao":atividades[i].descricao,
-                "data_criacao":atividades[i].data_criacao,
-                "data_entrega":atividades[i].data_entrega,
-                "id_professor":atividades[i].id_professor,
-                "anexo_atividade":atividades[i].anexo_atividade,
-            })
-        }
-        res.render("alunos_index",{ layout: 'layout', rows, atividades_rows});
+        
+        res.render("alunos_index",{ layout: 'layout', rows, atividades_cadastradas:atividades });
     }
 
     direcao(req,res) {
@@ -88,8 +78,10 @@ class SystemController {
                 "anexo_atividade":atividades[i].anexo_atividade,
             })
         }
+
+
         console.log(atividades_rows.slice(-1)[0]);
-        res.render("professores_index",{ layout: 'layout',rows, atividades_rows});
+        res.render("professores_index",{ layout: 'layout',rows, 'atividades_cadastradas':atividades_rows});
     }
 
     async register(req,res) {
@@ -107,10 +99,13 @@ class SystemController {
     }
 
     async atividades(req, res) {
-        let db_atividade = new DB_Atividade();
         
+        
+
         console.log(req.descricao);
-        console.log(req.body);
+        console.log("=====================================");
+        console.log();
+        console.log("=====================================");
 
         let atividade = new DB_Atividade(
             0,
@@ -131,6 +126,67 @@ class SystemController {
             console.log("Erro ao gravar atividade");
             res.send("Erro ao gravar atividade");
         }
+    }
+
+    async deletarAtividades(req, res) {
+        let DBA = new DB_Atividade();
+        let sucesso = await DBA.excluir(req.query.id);
+
+        if(sucesso){
+            console.log("Sucesso ao deletar a atividade");
+            res.redirect("/system/professores");
+        } else {
+            console.log("Erro ao deletar atividade");
+            res.send("Erro ao deletar atividade");
+        }
+    }
+
+    async editarAtividades(req, res) {
+        let DBA = new DB_Atividade();
+        let lista = [];
+        let atividade = await DBA.listar(req.query.id);
+        console.log(atividade);
+
+        res.render("editar_atividades", { layout:'layout', atividade });
+    }
+
+    async editarAtividadesPost(req, res) {
+
+        let atividade = new DB_Atividade(
+            req.body.id,
+            req.body.titulo,
+            req.body.descricao,
+            new Date(),
+            req.body.data_entrega,
+            req.cookies.usuarioLogado,
+            req.body.anexo_atividade
+        );
+        console.log(atividade.ati_id);
+        console.log(atividade.ati_id);
+        console.log(atividade.ati_id);
+
+        let sucesso = await atividade.atualizar();
+
+        res.redirect("/system/professores");
+    }
+
+    async responderAtividades(req, res) {
+        let DBA = new DB_Resposta();
+        let lista = [];
+        let atividade = await DBA.listar(req.query.id);
+        console.log(atividade);
+
+        res.render("respostas", { layout:'layout', atividade });
+        
+    }
+
+    async responderAtividadesPost(req, res) {
+        let DBA = new DB_Atividade();
+        let lista = [];
+        let atividade = await DBA.listar(req.query.id);
+        console.log(atividade);
+
+        res.redirect("/system/alunos");
     }
 }
 

@@ -447,32 +447,68 @@
                       <!-- End Table with stripped rows -->
 
                 <!--Tabela atividades-->
-                          <div class="card">
-                            <div class="card-body">
-                              <h5 class="card-title">Atividades </h5>
+                <div class="card mt-4">
+                  <div class="card-body">
+                    <h5 class="card-title">Atividades </h5>
+                    <% if (typeof atividades_cadastradas  != 'undefined') { %>
+                    <% if (atividades_cadastradas && atividades_cadastradas.length > 0) { %>
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Título</th>
+                            <th>Descrição</th>
+                            <th>Data de Entrega</th>
+                            <th>Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% atividades_cadastradas.forEach(atividade => { %>
+                            <tr>
+                              <td><%= atividade.titulo %></td>
+                              <td><%= atividade.descricao %></td>
+                              <td><%= new Date(atividade.data_entrega).toLocaleString() %></td>
+                              <td>
+                                <a href="/system/resposta?id=<%= atividade.ati_id %>" class="btn btn-primary btn-sm">responder</a>
+                          
+                              </td>
+                            </tr>
+                          <% }) %>
+                        </tbody>
+                      </table>
+                      <% } %>
+                    <% } else { %>
+                      <p>Nenhuma atividade ainda.</p>
+                    <% } %>
+                    
+                  </div>
+                </div>
 
-                              
-                              <!-- General Form Elements -->
-                              <form>
-                                <div class="row mb-3">
-                                  <label for="arquivos" class="col-sm-2 col-form-label"> Enviar Arquivos </label>
-                                  <div class="col-sm-10">
-                                    <input class="form-control" type="file" id="formFile">
-                                  </div>
-                                </div>
-                                <div class="row mb-3">
-                                  <label for="TextResposta" class="col-sm-2 col-form-label">Resposta</label>
-                                  <div class="col-sm-10">
-                                    <textarea class="form-control" style="height: 100px"></textarea>
-                                  </div>
-                                </div>
-                                <div class="row mb-3">
-                                  <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Enviar atividade</button>
-                                  </div>
-                                </div>
+                <!--<div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Atividades </h5>
+
+                    
+                    General Form Elements 
+                    <form>
+                      <div class="row mb-3">
+                        <label for="arquivos" class="col-sm-2 col-form-label"> Enviar Arquivos </label>
+                        <div class="col-sm-10">
+                          <input class="form-control" type="file" id="formFile">
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label for="TextResposta" class="col-sm-2 col-form-label">Resposta</label>
+                        <div class="col-sm-10">
+                          <textarea class="form-control" style="height: 100px"></textarea>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-sm-10">
+                          <button type="submit" class="btn btn-primary">Enviar atividade</button>
+                        </div>
+                      </div>
                 
-                              </form><!-- End General Form Elements -->
+                              </form> End General Form Elements -->
                 
                             </div>
                           </div>
