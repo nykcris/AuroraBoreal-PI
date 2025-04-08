@@ -4,8 +4,6 @@ const UsuarioModel = require("../models/usuarioModel");
 class AuthMiddleware {
 
     async validar(req, res, next) {
-        console.log("Cookies recebidos no middleware:", req.cookies);
-        console.log("Passou pelo middleware de autenticação");
         //valida se a cookie existe
         if(req.cookies.usuarioLogado) {
             let usuId = req.cookies.usuarioLogado;

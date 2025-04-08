@@ -30,16 +30,25 @@ class SystemController {
                 "usu_nome":alunos[i].nome,
                 "email_user":alunos[i].email,
                 "usu_senha":alunos[i].senha,
-              
                 "per_id":alunos[i].perfilId
             })
         }
         console.log("Numeros de Alunos:" + rows.length);
 
         let db_atividade = new DB_Atividade();
+        let db_resposta = new DB_Resposta();
         let atividades = await db_atividade.listar();
+        let atividadesFeitas = [];
+        atividades.forEach(async atividade => {
+            let filtro = [];
+            filtro.push(atividade.ati_id);
+            filtro.push(req.cookies.usuarioLogado);
+            let respostas = await db_resposta.listar(filtro,1);
+            console.log(respostas);
+            atividadesFeitas.push(respostas.length > 0 ? 1 : 0);
+        });
         
-        res.render("alunos_index",{ layout: 'layout', rows, atividades_cadastradas:atividades });
+        res.render("alunos_index",{ layout: 'layout', rows, atividades_cadastradas:atividades, atividadesFeitas });
     }
 
     direcao(req,res) {
@@ -100,12 +109,6 @@ class SystemController {
 
     async atividades(req, res) {
         
-        
-
-        console.log(req.descricao);
-        console.log("=====================================");
-        console.log();
-        console.log("=====================================");
 
         let atividade = new DB_Atividade(
             0,
@@ -127,6 +130,7 @@ class SystemController {
             res.send("Erro ao gravar atividade");
         }
     }
+
 
     async deletarAtividades(req, res) {
         let DBA = new DB_Atividade();
@@ -171,7 +175,7 @@ class SystemController {
     }
 
     async responderAtividades(req, res) {
-        let DBA = new DB_Resposta();
+        let DBA = new DB_Atividade();
         let lista = [];
         let atividade = await DBA.listar(req.query.id);
         console.log(atividade);
@@ -181,10 +185,34 @@ class SystemController {
     }
 
     async responderAtividadesPost(req, res) {
-        let DBA = new DB_Atividade();
-        let lista = [];
-        let atividade = await DBA.listar(req.query.id);
-        console.log(atividade);
+        let DBA = new DB_Resposta();
+        let filtro = [];
+        filtro.push(req.body.id_atividade);
+        filtro.push(req.cookies.usuarioLogado);
+        let update = await DBA.listar(filtro,1);
+        if (update.length > 0) {
+            DBA = new DB_Resposta(
+                update[0].res_id,
+                req.body.id_atividade,
+                req.cookies.usuarioLogado,
+                req.body.resposta,
+                new Date(),
+                0,
+                0
+            );
+            let sucesso = await DBA.atualizar();
+        }else{
+            DBA = new DB_Resposta(
+                0,
+                req.body.id_atividade,
+                req.cookies.usuarioLogado,
+                req.body.resposta,
+                new Date(),
+                0,
+                0
+            );
+            let sucesso = await DBA.gravar();            
+        }
 
         res.redirect("/system/alunos");
     }
