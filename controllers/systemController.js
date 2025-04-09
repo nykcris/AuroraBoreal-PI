@@ -77,9 +77,9 @@ class SystemController {
         
         let db_atividade = new DB_Atividade();
         let atividades = await db_atividade.listar();
-        let atividades_rows = [];
+        let atividades_lista = [];
         for (let i = 0; i < atividades.length; i++) {
-            atividades_rows.push({
+            atividades_lista.push({
                 "ati_id":atividades[i].ati_id,
                 "titulo":atividades[i].titulo,
                 "descricao":atividades[i].descricao,
@@ -90,9 +90,19 @@ class SystemController {
             })
         }
 
+        let atividades_row = [];
+        let db_resposta = new DB_Resposta();
 
-        console.log(atividades_rows.slice(-1)[0]);
-        res.render("professores_index",{ layout: 'layout',rows, 'atividades_cadastradas':atividades_rows});
+        for (let i = 0; i < atividades.length; i++) {
+            atividades_row.push({
+                "titulo":atividades[i].titulo,
+                "data_entrega":atividades[i].data_entrega,
+                "respostas": await db_resposta.listar(atividades[i].ati_id,2),
+            })
+            console.log(atividades[i].data_entrega);
+        }
+
+        res.render("professores_index",{ layout: 'layout',rows, 'atividades_cadastradas':atividades_lista, atividades_row});
     }
 
     async register(req,res) {
@@ -217,6 +227,26 @@ class SystemController {
         }
 
         res.redirect("/system/alunos");
+    }
+
+    async CorrigirAtividadesPost(req, res) {
+        let DBA = new DB_Resposta();
+        let filtro = [];
+        filtro.push(req.body.res_id);
+        let update = await DBA.listar(filtro);
+        if (update.length > 0) {
+            DBA = new DB_Resposta(
+                update[0].res_id,
+                update[0].id_atividade,
+                update[0].id_aluno,
+                update[0].resposta,
+                update[0].data_envio,
+                req.body.nota,
+                req.body.comentario_professor
+            );
+            let sucesso = await DBA.atualizar();
+        }
+        res.redirect("/system/professores");
     }
 }
 
