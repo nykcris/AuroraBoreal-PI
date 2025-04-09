@@ -17,7 +17,7 @@ router.post("/atividades", AM.validar, SC.atividades);
 router.post("/deletarAtividade", AM.validar, SC.deletarAtividades);
 router.post("/editarAtividade", AM.validar, SC.editarAtividadesPost);
 router.get("/editarAtividade", AM.validar, SC.editarAtividades);
-
+router.post("/corrigirResposta",AM.validar,SC.CorrigirAtividadesPost);
 router.get("/resposta", AM.validar, SC.responderAtividades);
 router.post("/resposta", AM.validar, SC.responderAtividadesPost);
 
