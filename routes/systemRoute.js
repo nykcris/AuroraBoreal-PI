@@ -19,6 +19,7 @@ router.post("/editarAtividade",AM.validar, SC.editarAtividadesPost);
 router.get("/editarAtividade",AM.validar, SC.editarAtividades);
 router.get("/resposta",AM.validar,SC.responderAtividades);
 router.post("/resposta",AM.validar,SC.responderAtividadesPost);
+router.post("/corrigirResposta",AM.validar,SC.CorrigirAtividadesPost);
 router.get("/alunos",AM.validar,SC.alunos);
 router.get("/direcao",AM.validar,SC.direcao);
 router.get("/professores",AM.validar,SC.professores);

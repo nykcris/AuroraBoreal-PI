@@ -74,8 +74,13 @@ class DB_Resposta {
         let sql = "SELECT * FROM tb_resposta";
         if (typeof filtro != 'undefined') {
             if(typeof type != 'undefined'){
-                sql += " WHERE id_atividade = ?";
-                sql += " and id_aluno = ?";
+                if(type == 1){
+                    sql += " WHERE id_atividade = ?";
+                    sql += " and id_aluno = ?";
+                }else if(type == 2){
+                    sql += " WHERE id_atividade = ?";
+                }
+                
             }else{
                 sql += " WHERE res_id = ?";
             }
