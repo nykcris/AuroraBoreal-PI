@@ -341,10 +341,13 @@
                             
                             <% atividades_row.forEach(atividade=> { %>
                                 <h6>
-                                    <%= atividade.titulo %> - <%= atividade.data_entrega.toLocaleString() %>
+                                    <%= atividade.titulo %> - <%= atividade.data_entrega %>
                                 </h6>
                                 <ul class="list-group mb-3">
                                     <% atividade.respostas.forEach(res=> { %>
+                                        <% if (!res) { %>
+                                            <div class="mb-2 alert-black">Nenhuma resposta enviada ainda</div>
+                                        <% } %>
                                         <li class="list-group-item">
                                             <p><strong>Aluno:</strong>
                                                 <%= res.usu_nome %> - <%= res.data_envio.toLocaleString() %>
