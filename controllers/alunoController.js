@@ -1,31 +1,61 @@
-const db = require("../utils/database");
-
-var DB = new db();
+const DB_Aluno = require("../models/alunoModel");
 
 class AlunoController {
-    async index(req, res) {
-        res.render("./areaAluno/alunos_index", { layout: "layout" });
-    }
+    async postCadastrarAluno(req, res) {
+        try {
+            const {
+                aluno_nome,
+                aluno_cpf,
+                turma_id,
+                email,
+                senha,
+                aluno_nasc,
+                responsavel_nome,
+                responsavel_cpf,
+                responsavel_tel
+            } = req.body;
 
-    async atividades(req, res) {
+            // Verificação básica de campos
+            if (!aluno_nome || !aluno_cpf || !turma_id || !email || !senha || !aluno_nasc || !responsavel_nome || !responsavel_cpf || !responsavel_tel) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Preencha todos os campos obrigatórios."
+                });
+            }
 
-        let valores = 1;
-        let sql = 'select * from tb_atividade where id_ativ = ?';
-        let resp = await DB.ExecutaComando(sql, valores);
-        let ativi = {nota:resp["nota"],pergunta:resp["atividade"]}
-        res.render("./areaAluno/alunos_enviarAtividade", { layout: "layout", exer:ativi });
-    }
+            const novoAluno = new DB_Aluno(
+                null, // id
+                aluno_nome,
+                aluno_cpf,
+                turma_id,
+                email,
+                senha,
+                aluno_nasc,
+                responsavel_nome,
+                responsavel_cpf,
+                responsavel_tel
+            );
 
-    async pagamentos(req, res) {
-        res.render("./areaAluno/alunos_pagamentos", { layout: "layout" });
-    }
+            const resultado = await novoAluno.cadastrar();
 
-    async notas(req, res) {
-        res.render("./areaAluno/alunos_notas", { layout: "layout" });
-    }
-
-    async informacoes(req, res) {
-        res.render("./areaAluno/alunos_informacoes", { layout: "layout" });
+            if (resultado > 0) {
+                return res.status(201).json({
+                    success: true,
+                    message: "Aluno cadastrado com sucesso!"
+                });
+            } else {
+                return res.status(500).json({
+                    success: false,
+                    message: "Erro ao inserir no banco de dados."
+                });
+            }
+        } catch (error) {
+            console.error("Erro ao cadastrar aluno:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Erro interno no servidor."
+            });
+        }
     }
 }
 

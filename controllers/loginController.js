@@ -61,6 +61,8 @@ class LoginController{
                 paginaDestino = 'alunos';
             } else if (validUser.perfilId == 2) {
                 paginaDestino = 'professores';
+            }else if (validUser.perfilId == 3) {
+                paginaDestino = 'direcao';
             }
             console.log(`Login bem-sucedido para: ${validUser.nome} (${email}) - Perfil: ${validUser.perfilId}`);
             res.json({ success: true, role: validUser.perfilId, destino: paginaDestino });

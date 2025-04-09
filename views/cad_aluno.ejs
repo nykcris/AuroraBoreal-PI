@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style_form.css">
+    <link rel="icon" type="image/x-icon" href="img/AURORALOGOSFUNDO.ico"/>
+    <title>Aurora Boreal</title>
+</head>
+<body>
+<div class="wrapper">
+    <nav class="nav">
+        <div class="nav-logo"></div>
+        <div class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="direcao" class="link active">Voltar</a></li>
+            </ul>
+        </div>
+        <div class="nav-menu-btn">
+            <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+        </div>
+    </nav>
+
+    <div class="form-box">
+        <div class="register-container" id="register">
+            <div class="top">
+                <header>Matrícula</header>
+            </div>
+            <h3>Dados do aluno e responsável</h3>
+
+            <div class="input-box">
+                <input type="text" class="input-field" placeholder="Nome completo do aluno" id="nome-aluno" required>
+                <i class="bx bx-user"></i>
+                <small id="nome-aluno-error" style="color: red; display: none;">Campo obrigatório</small>
+            </div>
+
+            <div class="input-box">
+                <input type="text" class="input-field" placeholder="Nome completo do responsável" id="nome-responsavel" required>
+                <i class="bx bx-user"></i>
+                <small id="nome-responsavel-error" style="color: red; display: none;">Campo obrigatório</small>
+            </div>
+
+            <div class="input-box">
+                <input type="text" id="cpf-aluno" class="input-field" placeholder="CPF do aluno" maxlength="14" required oninput="maskCPF(this)">
+                <i class="bx bx-user"></i>
+                <small id="cpf-aluno-error" style="color: red; display: none;">CPF inválido</small>
+            </div>
+
+            <div class="input-box">
+                <input type="text" id="cpf-responsavel" class="input-field" placeholder="CPF do responsável" maxlength="14" required oninput="maskCPF(this)">
+                <i class="bx bx-user"></i>
+                <small id="cpf-responsavel-error" style="color: red; display: none;">CPF inválido</small>
+            </div>
+
+            <div class="input-box">
+                <label for="data_aniversario">Data de nascimento do aluno</label>
+                <input type="date" class="input-field" id="data_aniversario" required>
+                <small id="data-aniversario-error" style="color: red; display: none;">Data inválida</small>
+            </div>
+
+            <fieldset class="row mb-3">
+                <legend>Série</legend>
+                <div>
+                    <label><input type="radio" name="serie" value="1" checked> 1° ano do EM</label><br>
+                    <label><input type="radio" name="serie" value="2"> 2° ano do EM</label><br>
+                    <label><input type="radio" name="serie" value="3"> 3° ano do EM</label>
+                </div>
+            </fieldset>
+
+            <h3>Dados para contato</h3>
+
+            <div class="input-box">
+                <input type="text" id="email-aluno" class="input-field" placeholder="Email" required>
+                <i class="bx bx-envelope"></i>
+                <small id="email-aluno-error" style="color: red; display: none;">Email inválido</small>
+            </div>
+
+            <div class="input-box">
+                <input type="text" id="numero-celular" class="input-field" placeholder="Número de celular" maxlength="11" required>
+                <i class="fas fa-phone"></i>
+                <small id="celular-error" style="color: red; display: none;">Número inválido</small>
+            </div>
+
+            <h3>Senha para o acesso ao Sistema Acadêmico</h3>
+
+            <div class="input-box">
+                <input type="password" id="senha-academica" class="input-field" placeholder="Crie uma senha" required>
+                <i class="bx bx-lock-alt"></i>
+                <small id="senha-error" style="color: red; display: none;">Senha inválida</small>
+            </div>
+
+            <div class="input-box">
+                <button type="button" class="submit" onclick="validateForm()">Efetuar Matrícula</button>
+            </div>
+
+            <div id="matricula-sucesso" style="display:none;color:green;">Matrícula efetuada com sucesso!</div>
+            <div id="matricula-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function maskCPF(cpf) {
+        cpf.value = cpf.value.replace(/\D/g, '')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    }
+
+    function isValidCPF(cpf) {
+        cpf = cpf.replace(/[^\d]+/g, '');
+        if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+        let sum = 0, remainder;
+        for (let i = 1; i <= 9; i++) sum += parseInt(cpf[i - 1]) * (11 - i);
+        remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpf[9])) return false;
+        sum = 0;
+        for (let i = 1; i <= 10; i++) sum += parseInt(cpf[i - 1]) * (12 - i);
+        remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        return remainder === parseInt(cpf[10]);
+    }
+
+    function validatePassword(pwd) {
+        return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(pwd);
+    }
+
+    function validateDateOfBirth() {
+        const input = document.getElementById('data_aniversario');
+        const date = new Date(input.value);
+        const minDate = new Date('2010-01-01');
+        const now = new Date();
+        return date >= minDate && date <= now;
+    }
+
+    function validateForm() {
+        const aluno = document.getElementById('nome-aluno').value.trim();
+        const responsavel = document.getElementById('nome-responsavel').value.trim();
+        const cpfAluno = document.getElementById('cpf-aluno').value.trim();
+        const cpfResponsavel = document.getElementById('cpf-responsavel').value.trim();
+        const dataNasc = document.getElementById('data_aniversario').value.trim();
+        const email = document.getElementById('email-aluno').value.trim();
+        const telefone = document.getElementById('numero-celular').value.trim();
+        const senha = document.getElementById('senha-academica').value.trim();
+        const serie = document.querySelector('input[name="serie"]:checked').value;
+
+        let isValid = true;
+
+        isValid &= aluno !== '';
+        isValid &= responsavel !== '';
+        isValid &= isValidCPF(cpfAluno);
+        isValid &= isValidCPF(cpfResponsavel);
+        isValid &= validateDateOfBirth();
+        isValid &= email !== '';
+        isValid &= telefone !== '';
+        isValid &= validatePassword(senha);
+
+        document.getElementById('nome-aluno-error').style.display = aluno ? 'none' : 'inline';
+        document.getElementById('nome-responsavel-error').style.display = responsavel ? 'none' : 'inline';
+        document.getElementById('cpf-aluno-error').style.display = isValidCPF(cpfAluno) ? 'none' : 'inline';
+        document.getElementById('cpf-responsavel-error').style.display = isValidCPF(cpfResponsavel) ? 'none' : 'inline';
+        document.getElementById('data-aniversario-error').style.display = validateDateOfBirth() ? 'none' : 'inline';
+        document.getElementById('email-aluno-error').style.display = email ? 'none' : 'inline';
+        document.getElementById('celular-error').style.display = telefone ? 'none' : 'inline';
+        document.getElementById('senha-error').style.display = validatePassword(senha) ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('matricula-erro').style.display = 'block';
+            document.getElementById('matricula-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            aluno_nome: aluno,
+            aluno_cpf: cpfAluno,
+            turma_id: serie,
+            email: email,
+            senha: senha,
+            aluno_nasc: dataNasc,
+            responsavel_nome: responsavel,
+            responsavel_cpf: cpfResponsavel,
+            responsavel_tel: telefone
+        };
+
+        fetch('/aluno/cadastrar', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(dados)
+        })
+        .then(res => res.json())
+        .then(result => {
+            if (result.sucesso) {
+                document.getElementById('matricula-sucesso').style.display = 'block';
+                document.getElementById('matricula-erro').style.display = 'none';
+            } else {
+                document.getElementById('matricula-erro').innerText = result.mensagem || 'Erro no cadastro';
+                document.getElementById('matricula-erro').style.display = 'block';
+                document.getElementById('matricula-sucesso').style.display = 'none';
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            document.getElementById('matricula-erro').innerText = 'Erro na requisição';
+            document.getElementById('matricula-erro').style.display = 'block';
+        });
+    }
+
+    function myMenuFunction() {
+        var menu = document.getElementById("navMenu");
+        if (menu.className === "nav-menu") {
+            menu.className += " responsive";
+        } else {
+            menu.className = "nav-menu";
+        }
+    }
+</script>
+</body>
+</html>

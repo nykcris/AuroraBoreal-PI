@@ -51,7 +51,9 @@ class SystemController {
         res.render("alunos_index",{ layout: 'layout', rows, atividades_cadastradas:atividades, atividadesFeitas });
     }
 
-    direcao(req,res) {
+    async direcao(req,res) {
+        console.log("Entrou na página de direcao");
+        
         res.render("direcao_index",{ layout: 'layout' });
     }
 
