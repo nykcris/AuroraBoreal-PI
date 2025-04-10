@@ -12,3 +12,8 @@ login Alunos
 marina.costa@email.com
 SenhA12345678! 
 - id e perfil id 1
+
+login direcao 
+direcao.@email.com
+SenhA12345678! 
+- id 1 e perfil id 3
