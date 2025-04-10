@@ -17,19 +17,44 @@ class DB_Aluno {
         this.#responsavel_tel = responsavel_tel;
     }
 
-    async listar() {
-        let DB = new db();
-        let rows = await DB.ExecutaComando("SELECT * FROM tb_aluno", []);
-        return rows.map(aluno => new DB_Aluno(...Object.values(aluno)));
-    }
+   
+        async listar() {
+            const DB = new db();
+            const sql = `
+                SELECT 
+                    a.*, 
+                    t.nome AS turma_nome 
+                FROM tb_aluno a
+                JOIN tb_turma t ON a.turma_id = t.id
+            `;
+            const rows = await DB.ExecutaComando(sql, []);
+            return rows; // Retorna os dados direto, sem encapsular na classe
+        }
+        //const rows = await DB.ExecutaComando("SELECT * FROM tb_aluno", []);
+        //return rows.map(aluno => new DB_Aluno(...Object.values(aluno)));
+    
 
     async cadastrar() {
-        let DB = new db();
-        return await DB.ExecutaComandoNonQuery(
-            `INSERT INTO tb_aluno (aluno_nome, aluno_cpf, turma_id, email, senha, aluno_nasc, responsavel_nome, responsavel_cpf, responsavel_tel)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [this.#aluno_nome, this.#aluno_cpf, this.#turma_id, this.#email, this.#senha, this.#aluno_nasc, this.#responsavel_nome, this.#responsavel_cpf, this.#responsavel_tel]
-        );
+        const DB = new db();
+        const sql = `
+            INSERT INTO tb_aluno (
+                aluno_nome, aluno_cpf, turma_id, email, senha, aluno_nasc, 
+                responsavel_nome, responsavel_cpf, responsavel_tel
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+        const valores = [
+            this.#aluno_nome,
+            this.#aluno_cpf,
+            this.#turma_id,
+            this.#email,
+            this.#senha,
+            this.#aluno_nasc,
+            this.#responsavel_nome,
+            this.#responsavel_cpf,
+            this.#responsavel_tel
+        ];
+
+        return await DB.ExecutaComandoNonQuery(sql, valores); // retorna true ou false
     }
 }
 

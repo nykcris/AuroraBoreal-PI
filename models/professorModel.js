@@ -11,18 +11,22 @@ class DB_Professor {
         this.#senha = senha;
     }
 
-    async listar() {
-        let DB = new db();
-        let rows = await DB.ExecutaComando("SELECT * FROM tb_professor", []);
+    getId() { return this.#id; }
+    getNome() { return this.#nome; }
+
+    static async listarTodos() {
+        const DB = new db();
+        const rows = await DB.ExecutaComando("SELECT * FROM tb_professor", []);
         return rows.map(p => new DB_Professor(p.id, p.nome, p.email, p.cpf, p.senha));
     }
 
     async cadastrar() {
-        let DB = new db();
-        return await DB.ExecutaComandoNonQuery(
-            `INSERT INTO tb_professor (nome, email, cpf, senha) VALUES (?, ?, ?, ?)`,
-            [this.#nome, this.#email, this.#cpf, this.#senha]
-        );
+        const DB = new db();
+        const sql = `INSERT INTO tb_professor (nome, email, cpf, senha) VALUES (?, ?, ?, ?)`;
+        const params = [this.#nome, this.#email, this.#cpf, this.#senha];
+        const result = await DB.ExecutaComandoNonQuery(sql, params);
+        this.#id = result.insertId;
+        return result;
     }
 }
 

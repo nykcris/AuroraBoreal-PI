@@ -4,7 +4,8 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const LoginController = require("../controllers/loginController");
 const SystemController = require("../controllers/systemController");
 const AlunoController = require("../controllers/alunoController");
-
+const ProfessorController = require('../controllers/professorController');
+let PC = new ProfessorController();
 let AM = new authMiddleware();
 let SC = new SystemController();
 let LC = new LoginController();
@@ -28,6 +29,11 @@ router.get("/register", AM.validar, SC.register);
 
 
 router.post("/cadastrarAluno", AM.validar, AC.postCadastrarAluno);
+
+
+
+router.get("/professores", AM.validar, PC.getProfessores);
+router.post("/professores", AM.validar, PC.postCadastrarProfessor);
 
 router.get("/teste", (req, res) => {
     console.log("Entrou na rota /system/teste");

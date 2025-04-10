@@ -413,201 +413,240 @@
                
                     </div>
                 </div> -->
-                <!-- Cadastro alunos-->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">CADASTRAR ALUNO</h5>
-                            <h3>Dados do aluno e responsável</h3>
+   <!-- Cadastro alunos-->
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title">CADASTRAR ALUNO</h5>
+      <h3>Dados do aluno e responsável</h3>
+  
+      <div class="mb-3">
+        <input type="text" class="form-control" name="nome-aluno" placeholder="Nome completo do aluno" id="nome-aluno" required>
+      
+        <small id="nome-aluno-error" style="color: red; display: none;">Campo obrigatório</small>
+      </div>
+  
+      <div class="mb-3">
+        <input type="text" class="form-control" name="nome-responsavel" placeholder="Nome completo do responsável" id="nome-responsavel" required>
+      
+        <small id="nome-responsavel-error" style="color: red; display: none;">Campo obrigatório</small>
+      </div>
+  
+      <div class="mb-3">
+        <input type="text" name="cpf-aluno" id="cpf-aluno" class="form-control" placeholder="CPF do aluno" maxlength="14" required oninput="maskCPF(this)">
+      
+        <small id="cpf-aluno-error" style="color: red; display: none;">CPF inválido</small>
+      </div>
+  
+      <div class="mb-3">
+        <input type="text" name="cpf-responsavel" id="cpf-responsavel" class="form-control" placeholder="CPF do responsável" maxlength="14" required oninput="maskCPF(this)">
+      
+        <small id="cpf-responsavel-error" style="color: red; display: none;">CPF inválido</small>
+      </div>
+  
+      <div class="mb-3">
+        <label for="data_aniversario">Data de nascimento do aluno</label>
+        <input type="date" class="form-control" name="data_aniversario" id="data_aniversario" required>
+        <small id="data-aniversario-error" style="color: red; display: none;">Data inválida</small>
+      </div>
+  
+      <fieldset class="row mb-3">
+        <legend>Série</legend>
+        <div>
+          <label><input type="radio" name="serie" value="1" checked> 1° ano do EM</label><br>
+          <label><input type="radio" name="serie" value="2"> 2° ano do EM</label><br>
+          <label><input type="radio" name="serie" value="3"> 3° ano do EM</label>
+        </div>
+      </fieldset>
+  
+      <h3>Dados para contato</h3>
+  
+      <div class="mb-3">
+        <input type="text" name="email-aluno" id="email-aluno" class="form-control" placeholder="Email" required>
+        
+        <small id="email-aluno-error" style="color: red; display: none;">Email inválido</small>
+      </div>
+  
+      <div class="mb-3">
+        <input type="text" name="numero-celular" id="numero-celular" class="form-control" placeholder="Número de celular" maxlength="11" required>
+        
+        <small id="celular-error" style="color: red; display: none;">Número inválido</small>
+      </div>
+  
+      <h3>Senha para o acesso ao Sistema Acadêmico</h3>
+  
+      <div class="mb-3">
+        <input type="password" name="senha-academica" id="senha-academica" class="form-control" placeholder="Crie uma senha" required>
+
+        <small id="senha-error" style="color: red; display: none;">Senha inválida</small>
+      </div>
+  
+      <div class="mb-3">
+        <button type="button" class="btn btn-primary" onclick="validateForm()">Efetuar Matrícula</button>
+      </div>
+  
+      <div id="matricula-sucesso" style="display:none;color:green;">Matrícula efetuada com sucesso!</div>
+      <div id="matricula-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+    </div>
+  </div>
+  
+  <script>
+    function maskCPF(cpf) {
+      cpf.value = cpf.value.replace(/\D/g, '')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    }
+  
+    function isValidCPF(cpf) {
+      cpf = cpf.replace(/[^\d]+/g, '');
+      if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+      let sum = 0, remainder;
+      for (let i = 1; i <= 9; i++) sum += parseInt(cpf[i - 1]) * (11 - i);
+      remainder = (sum * 10) % 11;
+      if (remainder === 10 || remainder === 11) remainder = 0;
+      if (remainder !== parseInt(cpf[9])) return false;
+      sum = 0;
+      for (let i = 1; i <= 10; i++) sum += parseInt(cpf[i - 1]) * (12 - i);
+      remainder = (sum * 10) % 11;
+      if (remainder === 10 || remainder === 11) remainder = 0;
+      return remainder === parseInt(cpf[10]);
+    }
+  
+    function validatePassword(pwd) {
+      return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(pwd);
+    }
+  
+    function validateDateOfBirth() {
+      const input = document.getElementById('data_aniversario');
+      const date = new Date(input.value);
+      const minDate = new Date('2010-01-01');
+      const now = new Date();
+      return date >= minDate && date <= now;
+    }
+  
+    function validateForm() {
+      const aluno = document.getElementById('nome-aluno').value.trim();
+      const responsavel = document.getElementById('nome-responsavel').value.trim();
+      const cpfAluno = document.getElementById('cpf-aluno').value.trim();
+      const cpfResponsavel = document.getElementById('cpf-responsavel').value.trim();
+      const dataNasc = document.getElementById('data_aniversario').value.trim();
+      const email = document.getElementById('email-aluno').value.trim();
+      const telefone = document.getElementById('numero-celular').value.trim();
+      const senha = document.getElementById('senha-academica').value.trim();
+      const serie = document.querySelector('input[name="serie"]:checked').value;
+  
+      let isValid = true;
+  
+      isValid = isValid && aluno !== '';
+      isValid = isValid && responsavel !== '';
+      isValid = isValid && isValidCPF(cpfAluno);
+      isValid = isValid && isValidCPF(cpfResponsavel);
+      isValid = isValid && validateDateOfBirth();
+      isValid = isValid && email !== '';
+      isValid = isValid && telefone !== '';
+      isValid = isValid && validatePassword(senha);
+  
+      document.getElementById('nome-aluno-error').style.display = aluno ? 'none' : 'inline';
+      document.getElementById('nome-responsavel-error').style.display = responsavel ? 'none' : 'inline';
+      document.getElementById('cpf-aluno-error').style.display = isValidCPF(cpfAluno) ? 'none' : 'inline';
+      document.getElementById('cpf-responsavel-error').style.display = isValidCPF(cpfResponsavel) ? 'none' : 'inline';
+      document.getElementById('data-aniversario-error').style.display = validateDateOfBirth() ? 'none' : 'inline';
+      document.getElementById('email-aluno-error').style.display = email ? 'none' : 'inline';
+      document.getElementById('celular-error').style.display = telefone ? 'none' : 'inline';
+      document.getElementById('senha-error').style.display = validatePassword(senha) ? 'none' : 'inline';
+  
+      if (!isValid) {
+        document.getElementById('matricula-erro').style.display = 'block';
+        document.getElementById('matricula-sucesso').style.display = 'none';
+        return;
+      }
+  
+      const dados = {
+        aluno_nome: aluno,
+        aluno_cpf: cpfAluno,
+        turma_id: serie,
+        email: email,
+        senha: senha,
+        aluno_nasc: dataNasc,
+        responsavel_nome: responsavel,
+        responsavel_cpf: cpfResponsavel,
+        responsavel_tel: telefone
+      };
+  
+      fetch('/system/cadastrarAluno', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(dados)
+      })
+      .then(res => res.json())
+      .then(result => {
+        if (result.sucesso) {
+          document.getElementById('matricula-sucesso').style.display = 'block';
+          document.getElementById('matricula-erro').style.display = 'none';
+        } else {
+          document.getElementById('matricula-erro').innerText = result.mensagem || 'Erro no cadastro';
+          document.getElementById('matricula-erro').style.display = 'block';
+          document.getElementById('matricula-sucesso').style.display = 'none';
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('matricula-erro').innerText = 'Erro na requisição';
+        document.getElementById('matricula-erro').style.display = 'block';
+      });
+    }
+  
+    function myMenuFunction() {
+      const menu = document.getElementById("navMenu");
+      menu.className = (menu.className === "nav-menu") ? "nav-menu responsive" : "nav-menu";
+    }
+  </script>
+  <!-- fim cadastro alunos -->
+  
                 
-                            <div class="input-box">
-                                <input type="text" class="input-field" placeholder="Nome completo do aluno" id="nome-aluno" required>
-                                <i class="bx bx-user"></i>
-                                <small id="nome-aluno-error" style="color: red; display: none;">Campo obrigatório</small>
+                          <!--  table alunos -->
+                          <div class="card">
+                            <div class="card-body">
+                            
+                        
+                                <h5 class="card-title mt-4">Alunos</h5>
+                             
+                        
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            
+                                            <th scope="col">Nome</th>
+                                            <th scope="col">cpf aluno </th>
+                                            <th scope="col">turma</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">responsavel</th>
+                                            <th scope="col">telefone</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% alunos.forEach((aluno, index) => { %>
+                                            <tr>
+                                              <th scope="row"><%= index + 1 %></th>
+                                              <td><%= aluno.aluno_nome %></td>
+                                              <td><%= aluno.aluno_cpf %></td>
+                                              <td><%= aluno.turma_nome %></td> <!-- Aqui é o nome da turma -->
+                                              <td><%= aluno.email %></td>
+                                              <td><%= aluno.responsavel_nome %></td>
+                                              <td><%= aluno.responsavel_tel %></td>
+                                            </tr>
+                                          <% }) %>
+                                        
+                                    </tbody>
+
+                                </table>
+                              
                             </div>
-                
-                            <div class="input-box">
-                                <input type="text" class="input-field" placeholder="Nome completo do responsável" id="nome-responsavel" required>
-                                <i class="bx bx-user"></i>
-                                <small id="nome-responsavel-error" style="color: red; display: none;">Campo obrigatório</small>
-                            </div>
-                
-                            <div class="input-box">
-                                <input type="text" id="cpf-aluno" class="input-field" placeholder="CPF do aluno" maxlength="14" required oninput="maskCPF(this)">
-                                <i class="bx bx-user"></i>
-                                <small id="cpf-aluno-error" style="color: red; display: none;">CPF inválido</small>
-                            </div>
-                
-                            <div class="input-box">
-                                <input type="text" id="cpf-responsavel" class="input-field" placeholder="CPF do responsável" maxlength="14" required oninput="maskCPF(this)">
-                                <i class="bx bx-user"></i>
-                                <small id="cpf-responsavel-error" style="color: red; display: none;">CPF inválido</small>
-                            </div>
-                
-                            <div class="input-box">
-                                <label for="data_aniversario">Data de nascimento do aluno</label>
-                                <input type="date" class="input-field" id="data_aniversario" required>
-                                <small id="data-aniversario-error" style="color: red; display: none;">Data inválida</small>
-                            </div>
-                
-                            <fieldset class="row mb-3">
-                                <legend>Série</legend>
-                                <div>
-                                    <label><input type="radio" name="serie" value="1" checked> 1° ano do EM</label><br>
-                                    <label><input type="radio" name="serie" value="2"> 2° ano do EM</label><br>
-                                    <label><input type="radio" name="serie" value="3"> 3° ano do EM</label>
-                                </div>
-                            </fieldset>
-                
-                            <h3>Dados para contato</h3>
-                
-                            <div class="input-box">
-                                <input type="text" id="email-aluno" class="input-field" placeholder="Email" required>
-                                <i class="bx bx-envelope"></i>
-                                <small id="email-aluno-error" style="color: red; display: none;">Email inválido</small>
-                            </div>
-                
-                            <div class="input-box">
-                                <input type="text" id="numero-celular" class="input-field" placeholder="Número de celular" maxlength="11" required>
-                                <i class="fas fa-phone"></i>
-                                <small id="celular-error" style="color: red; display: none;">Número inválido</small>
-                            </div>
-                
-                            <h3>Senha para o acesso ao Sistema Acadêmico</h3>
-                
-                            <div class="input-box">
-                                <input type="password" id="senha-academica" class="input-field" placeholder="Crie uma senha" required>
-                                <i class="bx bx-lock-alt"></i>
-                                <small id="senha-error" style="color: red; display: none;">Senha inválida</small>
-                            </div>
-                
-                            <div class="input-box">
-                                <button type="button" class="submit" onclick="validateForm()">Efetuar Matrícula</button>
-                            </div>
-                
-                            <div id="matricula-sucesso" style="display:none;color:green;">Matrícula efetuada com sucesso!</div>
-                            <div id="matricula-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-                       
-                    </div>
-                </div>
-                
-                <script>
-                    function maskCPF(cpf) {
-                        cpf.value = cpf.value.replace(/\D/g, '')
-                            .replace(/(\d{3})(\d)/, '$1.$2')
-                            .replace(/(\d{3})(\d)/, '$1.$2')
-                            .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-                    }
-                
-                    function isValidCPF(cpf) {
-                        cpf = cpf.replace(/[^\d]+/g, '');
-                        if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-                        let sum = 0, remainder;
-                        for (let i = 1; i <= 9; i++) sum += parseInt(cpf[i - 1]) * (11 - i);
-                        remainder = (sum * 10) % 11;
-                        if (remainder === 10 || remainder === 11) remainder = 0;
-                        if (remainder !== parseInt(cpf[9])) return false;
-                        sum = 0;
-                        for (let i = 1; i <= 10; i++) sum += parseInt(cpf[i - 1]) * (12 - i);
-                        remainder = (sum * 10) % 11;
-                        if (remainder === 10 || remainder === 11) remainder = 0;
-                        return remainder === parseInt(cpf[10]);
-                    }
-                
-                    function validatePassword(pwd) {
-                        return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(pwd);
-                    }
-                
-                    function validateDateOfBirth() {
-                        const input = document.getElementById('data_aniversario');
-                        const date = new Date(input.value);
-                        const minDate = new Date('2010-01-01');
-                        const now = new Date();
-                        return date >= minDate && date <= now;
-                    }
-                
-                    function validateForm() {
-                        const aluno = document.getElementById('nome-aluno').value.trim();
-                        const responsavel = document.getElementById('nome-responsavel').value.trim();
-                        const cpfAluno = document.getElementById('cpf-aluno').value.trim();
-                        const cpfResponsavel = document.getElementById('cpf-responsavel').value.trim();
-                        const dataNasc = document.getElementById('data_aniversario').value.trim();
-                        const email = document.getElementById('email-aluno').value.trim();
-                        const telefone = document.getElementById('numero-celular').value.trim();
-                        const senha = document.getElementById('senha-academica').value.trim();
-                        const serie = document.querySelector('input[name="serie"]:checked').value;
-                
-                        let isValid = true;
-                
-                        isValid &= aluno !== '';
-                        isValid &= responsavel !== '';
-                        isValid &= isValidCPF(cpfAluno);
-                        isValid &= isValidCPF(cpfResponsavel);
-                        isValid &= validateDateOfBirth();
-                        isValid &= email !== '';
-                        isValid &= telefone !== '';
-                        isValid &= validatePassword(senha);
-                
-                        document.getElementById('nome-aluno-error').style.display = aluno ? 'none' : 'inline';
-                        document.getElementById('nome-responsavel-error').style.display = responsavel ? 'none' : 'inline';
-                        document.getElementById('cpf-aluno-error').style.display = isValidCPF(cpfAluno) ? 'none' : 'inline';
-                        document.getElementById('cpf-responsavel-error').style.display = isValidCPF(cpfResponsavel) ? 'none' : 'inline';
-                        document.getElementById('data-aniversario-error').style.display = validateDateOfBirth() ? 'none' : 'inline';
-                        document.getElementById('email-aluno-error').style.display = email ? 'none' : 'inline';
-                        document.getElementById('celular-error').style.display = telefone ? 'none' : 'inline';
-                        document.getElementById('senha-error').style.display = validatePassword(senha) ? 'none' : 'inline';
-                
-                        if (!isValid) {
-                            document.getElementById('matricula-erro').style.display = 'block';
-                            document.getElementById('matricula-sucesso').style.display = 'none';
-                            return;
-                        }
-                
-                        const dados = {
-                            aluno_nome: aluno,
-                            aluno_cpf: cpfAluno,
-                            turma_id: serie,
-                            email: email,
-                            senha: senha,
-                            aluno_nasc: dataNasc,
-                            responsavel_nome: responsavel,
-                            responsavel_cpf: cpfResponsavel,
-                            responsavel_tel: telefone
-                        };
-                
-                        fetch('/aluno/cadastrar', {
-                            method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify(dados)
-                        })
-                        .then(res => res.json())
-                        .then(result => {
-                            if (result.sucesso) {
-                                document.getElementById('matricula-sucesso').style.display = 'block';
-                                document.getElementById('matricula-erro').style.display = 'none';
-                            } else {
-                                document.getElementById('matricula-erro').innerText = result.mensagem || 'Erro no cadastro';
-                                document.getElementById('matricula-erro').style.display = 'block';
-                                document.getElementById('matricula-sucesso').style.display = 'none';
-                            }
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            document.getElementById('matricula-erro').innerText = 'Erro na requisição';
-                            document.getElementById('matricula-erro').style.display = 'block';
-                        });
-                    }
-                
-                    function myMenuFunction() {
-                        var menu = document.getElementById("navMenu");
-                        if (menu.className === "nav-menu") {
-                            menu.className += " responsive";
-                        } else {
-                            menu.className = "nav-menu";
-                        }
-                    }
-                </script>
-<!--fim cadastro alunos-->
-                <!-- Table disciplinas  -->
+                        </div>
+                        <!--fim do formulário-->
+                <!-- fim Table alunos  -->
 
 
                 <div class="card">
@@ -781,115 +820,73 @@
                     </div>
                 </div>
 
-                <!-- Table Professores  -->
+                <!-- Table Professores 
 
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">
-                            <label for="turma-select" class="form-label">Professores - Selecione o Turno:</label>
-                            <select class="form-select" id="turma-select" name="turma">
-                                <option value="" selected disabled>Selecione o Turno</option>
-                                <option value="Manhã" selected>Manhã</option>
-                                <option value="Tarde">Tarde</option>
-                                <option value="Noite">Noite</option>
-
-                            </select>
+                            <label for="turma-select" class="form-label">Professores </label>
+                        
                         </h5>
 
-                        <!-- Select para o ano -->
-                        <h5 class="card-title mt-3">
-                            <label for="ano-select" class="form-label">Selecione o Ano:</label>
-                            <select class="form-select" id="ano-select" name="ano">
-                                <option value="" selected disabled>Selecione o ano</option>
-                                <option value="2016">2016</option>
-                                <option value="2017">2017</option>
-                                <option value="2018">2018</option>
-                                <option value="2019">2019</option>
-                                <option value="2020">2020</option>
-                                <option value="2021">2021</option>
-                                <option value="2022">2022</option>
-                                <option value="2023">2023</option>
-                                <option value="2024" selected>2024</option> <!-- Ano pré-selecionado -->
-                            </select>
-                        </h5>
+            
                         <table class="table table-borderless datatable">
                             <thead>
                                 <tr>
-                                    <th scope="col">Cód contratato #</th>
+                                    <th scope="col">Cód contratato (id) #</th>
                                     <th scope="col">Professor</th>
-                                    <th scope="col">Matéria</th>
-                                    <th scope="col">Salário</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col">email</th>
+                                 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row"><a href="#">#2457</a></th>
-                                    <td>Brandon Jacob</td>
-                                    <td><a href="#" class="text-primary">Português</a></td>
-                                    <td>R$5.645,00</td>
-                                    <td><span class="badge bg-success">Colaborador Ativo</span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><a href="#">#2147</a></th>
-                                    <td>Bridie Kessler</td>
-                                    <td><a href="#" class="text-primary">Matemática</a></td>
-                                    <td>R$5.470,00</td>
-                                    <td><span class="badge bg-warning">Comprindo Aviso</span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><a href="#">#2049</a></th>
-                                    <td>Ashleigh Langosh</td>
-                                    <td><a href="#" class="text-primary">Física</a></td>
-                                    <td>R$5.470,00</td>
-                                    <td><span class="badge bg-success">Colaborador Ativo</span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><a href="#">#2644</a></th>
-                                    <td>Raheem Lehner</td>
-                                    <td><a href="#" class="text-primary">Biologia</a></td>
-                                    <td>R$5.750,00</td>
-                                    <td><span class="badge bg-success">Colaborador Ativo</span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><a href="#">#2644</a></th>
-                                    <td>Angus Grady</td>
-                                    <td><a href="#" class="text-primar">História</a></td>
-                                    <td>----</td>
-                                    <td><span class="badge bg-danger">Demitido</span></td>
-                                </tr>
-
+                                <% professores.forEach(item => { %>
+                                    <tr>
+                                        <td><%= item.contrato_id %></td>
+                                        <td><%= item.professor %></td>
+                                        <td><%= item.email %></td>
+                                        <td>R$ -</td>
+                                    </tr>
+                                <% }) %>
                             </tbody>
                         </table>
-                        <!-- End Table with stripped rows -->
-                        <!-- Formulário para adicionar aluno à turma -->
-                        <h5 class="card-title mt-4">Adicionar Professor</h5>
-                        <form action="/adicionar-aluno-turma" method="post">
+                        End Table with stripped rows 
+                         formulario cadastro prof
+                        <h5 class="card-title mt-4">Cadastrar e Associar Professor</h5>
+                        <form action="/system/professores" method="post">
                             <div class="mb-3">
-                                <label for="nome-disciplina" class="form-label">Nome da Disciplina:</label>
-                                <select class="form-select" id="nome-disciplina" name="nome-disciplina" required>
+                                <label for="nome" class="form-label">Nome do Professor:</label>
+                                <input type="text" class="form-control" id="nome" name="nome" required>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email do Professor:</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="cpf" class="form-label">CPF:</label>
+                                <input type="text" class="form-control" id="cpf" name="cpf" required>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="senha" class="form-label">Senha:</label>
+                                <input type="password" class="form-control" id="senha" name="senha" required>
+                            </div>
+                        
+                           <div class="mb-3">
+                                <label for="disciplina" class="form-label">Disciplina:</label>
+                                <select class="form-select" id="disciplina" name="id_disciplina" required>
                                     <option value="" selected disabled>Selecione a disciplina</option>
-                                    <option value="Português">Português</option>
-                                    <option value="Matemática">Matemática</option>
-                                    <option value="Física">Física</option>
-                                    <option value="Biologia">Biologia</option>
-                                    <option value="História">História</option>
-                                    <option value="Geografia">Geografia</option>
+                                    <% disciplinas.forEach(d => { %>
+                                        <option value="<%= d.id %>"><%= d.nome %></option>
+                                    <% }) %>
                                 </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nome-professor" class="form-label">Nome do Professor:</label>
-                                <input type="number" class="form-control" id="nome-professor" name="nome-professor"
-                                    required placeholder="">
-                            </div>
-
-
-
-                            <button type="submit" class="btn btn-primary">Adicionar Professor</button>
-                        </form>
-                        <!-- Fim do formulário -->
+                            </div> 
+                            <button type="submit" class="btn btn-primary">Cadastrar Professor</button>
+                         Fim do formulário
                     </div>
-                </div>
+                </div> -->
 
 
             </div><!-- End Right side columns -->

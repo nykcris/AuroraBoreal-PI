@@ -2,6 +2,10 @@ const DB_Perfil = require("../models/perfilModel");
 const DB_Usuarios = require("../models/usuarioModel");
 const DB_Atividade = require("../models/atividadeModel");
 const DB_Resposta = require("../models/respostaModel");
+const DB_Aluno = require("../models/alunoModel");
+const DB_Professor = require('../models/professorModel');
+const DB_Disciplina = require("../models/disciplinaModel");
+
 
 class SystemController {
     async index(req, res) {
@@ -17,7 +21,7 @@ class SystemController {
         ))
         res.render("form_login",{ layout: false ,users:rows});
     }
-
+   
     async alunos(req,res) {
         console.log("Entrou na página de alunos");
         
@@ -51,12 +55,21 @@ class SystemController {
         res.render("alunos_index",{ layout: 'layout', rows, atividades_cadastradas:atividades, atividadesFeitas });
     }
 
-    async direcao(req,res) {
+    async direcao(req, res) {
         console.log("Entrou na página de direcao");
-        
-        res.render("direcao_index",{ layout: 'layout' });
+    
+        const alunoModel = new DB_Aluno();
+        const listaAlunos = await alunoModel.listar();
+        const professores = await DB_Professor.listarTodos(); // Agora usamos este
+    
+        res.render("direcao_index", {
+            layout: 'layout',
+            alunos: listaAlunos,
+            professores
+        });
     }
-
+    
+    
     async professores(req,res) {
         let db_func = new DB_Usuarios();
         let funcs = await db_func.listar([2]);
