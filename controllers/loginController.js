@@ -16,20 +16,7 @@ class LoginController{
 
         res.render("form_login",{ layout: false ,users:rows});
     }
-
-    /**
-     * Realiza o login do usuário com base nos dados recebidos.
-     *
-     * Recebe os dados de email e senha do usuário e verifica se
-     * existem um usuário com esses dados no banco de dados. Caso
-     * exista, armazena o ID do usuário em uma cookie e retorna
-     * uma resposta JSON com um status de sucesso e a descrição do
-     * perfil do usuário. Caso contrário, retorna uma resposta JSON
-     * com um status de erro e uma mensagem de erro.
-     *
-     * @param {Request} req - Requisição HTTP.
-     * @param {Response} res - Resposta HTTP.
-     */
+    
     async postlogin(req, res) {
         const { email, senha } = req.body;
         console.log("Tentativa de login:", email);

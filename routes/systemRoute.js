@@ -31,10 +31,10 @@ router.get("/register", AM.validar, SC.register);
 router.post("/cadastrarAluno", AM.validar, AC.postCadastrarAluno);
 
 
-
+/*
 router.get("/professores", AM.validar, PC.getProfessores);
 router.post("/professores", AM.validar, PC.postCadastrarProfessor);
-
+*/
 router.get("/teste", (req, res) => {
     console.log("Entrou na rota /system/teste");
     res.send("Funcionando");
