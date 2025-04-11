@@ -878,9 +878,11 @@
                                 <label for="disciplina" class="form-label">Disciplina:</label>
                                 <select class="form-select" id="disciplina" name="id_disciplina" required>
                                     <option value="" selected disabled>Selecione a disciplina</option>
-                                    <% disciplinas.forEach(d => { %>
-                                        <option value="<%= d.id %>"><%= d.nome %></option>
-                                    <% }) %>
+                                    if (typeof disciplinas != 'undefined') {
+                                        <% disciplinas.forEach(d => { %>
+                                            <option value="<%= d.id %>"><%= d.nome %></option>
+                                        <% }) %>
+                                    }
                                 </select>
                             </div> 
                             <button type="submit" class="btn btn-primary">Cadastrar Professor</button>
