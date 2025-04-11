@@ -342,7 +342,7 @@
                             <% atividades_row.forEach(atividade=> { %>
                                 <div class="mb-3"></div>
                                 <h6>
-                                    <%= atividade.titulo %> - <%= atividade.data_entrega %>
+                                    <span class="fw-bold">Atividade:</span> <%= atividade.titulo %> - <%= atividade.data_entrega.toLocaleString() %> 
                                 </h6>
                                 <ul class="list-group mb-3">
                                     <% atividade.respostas.forEach(res=> { %>
@@ -353,26 +353,41 @@
                                             <p><strong>Aluno:</strong>
                                                 <%= res.usu_nome %> - <%= res.data_envio.toLocaleString() %>
                                             </p>
-                                            <p><strong>Resposta:</strong>
-                                                <%= res.resposta %>
-                                            </p>
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal<%= res.res_id %>">Resposta</button>
+                                            <div class="modal fade" id="exampleModal<%= res.res_id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p><strong>Resposta:</strong>
+                                                            <%= res.resposta %>
+                                                        </p>
+                                                        <form method="POST" action="/system/corrigirResposta">
+                                                            <input type="hidden" name="res_id" value="<%= res.res_id %>">
+                                                            <div class="mb-2">
+                                                                <label>Nota:</label>
+                                                                <input type="number" name="nota" class="form-control" step="0.1" min="0"
+                                                                    max="10" value="<%= res.nota || '' %>">
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <label>Comentário:</label>
+                                                                <textarea name="comentario_professor"
+                                                                    class="form-control"><%= res.comentario_professor || '' %></textarea>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-success">Salvar Correção</button>
+                                                        </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
                                             <% if (res.anexo_resposta) { %>
+                                                
                                                 <p><a href="<%= res.anexo_resposta %>" target="_blank">Ver anexo</a></p>
                                                 <% } %>
-                                                    <form method="POST" action="/system/corrigirResposta">
-                                                        <input type="hidden" name="res_id" value="<%= res.res_id %>">
-                                                        <div class="mb-2">
-                                                            <label>Nota:</label>
-                                                            <input type="number" name="nota" class="form-control" step="0.1" min="0"
-                                                                max="10" value="<%= res.nota || '' %>">
-                                                        </div>
-                                                        <div class="mb-2">
-                                                            <label>Comentário:</label>
-                                                            <textarea name="comentario_professor"
-                                                                class="form-control"><%= res.comentario_professor || '' %></textarea>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-success">Salvar Correção</button>
-                                                    </form>
+                                                    
                                         </li>
                                         <% }) %>
                                 </ul>
