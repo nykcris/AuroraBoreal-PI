@@ -4,6 +4,27 @@ class DB_Aluno {
     #id; #aluno_nome; #aluno_cpf; #turma_id; #email; #senha;
     #aluno_nasc; #responsavel_nome; #responsavel_cpf; #responsavel_tel;
 
+    get id() { return this.#id; }
+    set id(value) { this.#id = value; }
+    get aluno_nome() { return this.#aluno_nome; }
+    set aluno_nome(value) { this.#aluno_nome = value; }
+    get aluno_cpf() { return this.#aluno_cpf; }
+    set aluno_cpf(value) { this.#aluno_cpf = value; }
+    get turma_id() { return this.#turma_id; }
+    set turma_id(value) { this.#turma_id = value; }
+    get email() { return this.#email; }
+    set email(value) { this.#email = value; }
+    get senha() { return this.#senha; }
+    set senha(value) { this.#senha = value; }
+    get aluno_nasc() { return this.#aluno_nasc; }
+    set aluno_nasc(value) { this.#aluno_nasc = value; }
+    get responsavel_nome() { return this.#responsavel_nome; }
+    set responsavel_nome(value) { this.#responsavel_nome = value; }
+    get responsavel_cpf() { return this.#responsavel_cpf; }
+    set responsavel_cpf(value) { this.#responsavel_cpf = value; }
+    get responsavel_tel() { return this.#responsavel_tel; }
+    set responsavel_tel(value) { this.#responsavel_tel = value; }
+
     constructor(id, aluno_nome, aluno_cpf, turma_id, email, senha, aluno_nasc, responsavel_nome, responsavel_cpf, responsavel_tel) {
         this.#id = id;
         this.#aluno_nome = aluno_nome;
@@ -18,20 +39,27 @@ class DB_Aluno {
     }
 
    
-        async listar() {
-            const DB = new db();
-            const sql = `
-                SELECT 
-                    a.*, 
-                    t.nome AS turma_nome 
-                FROM tb_aluno a
-                JOIN tb_turma t ON a.turma_id = t.id
-            `;
-            const rows = await DB.ExecutaComando(sql, []);
-            return rows; // Retorna os dados direto, sem encapsular na classe
+    async listar(id) {
+        const DB = new db();
+        const sql = `
+            SELECT 
+                a.*, 
+                t.nome AS turma_nome 
+            FROM tb_aluno a
+            JOIN tb_turma t ON a.turma_id = t.id
+        `;
+
+        if (id) {
+            sql += ` WHERE a.id = ?`;
+            return await DB.ExecutaComando(sql, [id]);
         }
-        //const rows = await DB.ExecutaComando("SELECT * FROM tb_aluno", []);
-        //return rows.map(aluno => new DB_Aluno(...Object.values(aluno)));
+
+        const rows = await DB.ExecutaComando(sql, []);
+        return rows; // Retorna os dados direto, sem encapsular na classe
+    }
+    //const rows = await DB.ExecutaComando("SELECT * FROM tb_aluno", []);
+    //return rows.map(aluno => new DB_Aluno(...Object.values(aluno)));
+
     
 
     async cadastrar() {

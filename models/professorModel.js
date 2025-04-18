@@ -3,6 +3,17 @@ const db = require('../utils/database');
 class DB_Professor {
     #id; #nome; #email; #cpf; #senha;
 
+    get id() { return this.#id; }
+    set id(value) { this.#id = value; }
+    get nome() { return this.#nome; }
+    set nome(value) { this.#nome = value; }
+    get email() { return this.#email; }
+    set email(value) { this.#email = value; }
+    get cpf() { return this.#cpf; }
+    set cpf(value) { this.#cpf = value; }
+    get senha() { return this.#senha; }
+    set senha(value) { this.#senha = value; }
+
     constructor(id, nome, email, cpf, senha) {
         this.#id = id;
         this.#nome = nome;
@@ -11,13 +22,17 @@ class DB_Professor {
         this.#senha = senha;
     }
 
-    getId() { return this.#id; }
-    getNome() { return this.#nome; }
 
     static async listarTodos() {
         const DB = new db();
         const rows = await DB.ExecutaComando("SELECT * FROM tb_professor", []);
         return rows.map(p => new DB_Professor(p.id, p.nome, p.email, p.cpf, p.senha));
+    }
+
+    async obter(id) {
+        const DB = new db();
+        const rows = await DB.ExecutaComando("SELECT * FROM tb_professor WHERE id = ?", [id]);
+        return rows;
     }
 
     async cadastrar() {
