@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddlewareProfessor = require("../middlewares/authMiddlewareProfessor");
 const alunoController = require("../controllers/alunoController");
 const ProfessorController = require("../controllers/professorController");
 
-let AM = new authMiddleware();
+let AM = new authMiddlewareProfessor();
 let PC = new ProfessorController();
 
 // ----- Outros -----

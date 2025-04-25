@@ -39,7 +39,7 @@ class DB_Aluno {
     }
 
    
-    async listar(id) {
+    async listar() {
         const DB = new db();
         const sql = `
             SELECT 
@@ -49,16 +49,28 @@ class DB_Aluno {
             JOIN tb_turma t ON a.turma_id = t.id
         `;
 
-        if (id) {
-            sql += ` WHERE a.id = ?`;
-            return await DB.ExecutaComando(sql, [id]);
-        }
+        console.log(id);
+
+        // if (id) {
+        //     sql += ` WHERE a.id = ?`;
+        //     return await DB.ExecutaComando(sql, [id]);
+        // }
 
         const rows = await DB.ExecutaComando(sql, []);
         return rows; // Retorna os dados direto, sem encapsular na classe
     }
     //const rows = await DB.ExecutaComando("SELECT * FROM tb_aluno", []);
     //return rows.map(aluno => new DB_Aluno(...Object.values(aluno)));
+
+    async obter(id) {
+        const DB = new db();
+        const sql = `
+            SELECT * FROM tb_aluno WHERE id = ?
+        `;
+
+        const rows = await DB.ExecutaComando(sql, [id]);
+        return rows; // Retorna os dados direto, sem encapsular na classe
+    }
 
     
 
@@ -83,6 +95,23 @@ class DB_Aluno {
         ];
 
         return await DB.ExecutaComandoNonQuery(sql, valores); // retorna true ou false
+    }
+
+    async excluir(id) {
+        const DB = new db();
+        const sql = `DELETE FROM tb_aluno WHERE id = ?`;
+        const valores = [id];
+
+        return await DB.ExecutaComandoNonQuery(sql, valores); // retorna true ou false
+    }
+
+    async validar(email, senha) {
+        const DB = new db();
+        const sql = `SELECT * FROM tb_aluno WHERE email = ? AND senha = ?`;
+        const valores = [email, senha];
+
+        const rows = await DB.ExecutaComando(sql, valores);
+        return rows.length > 0 ? rows[0] : null;
     }
 }
 

@@ -1,30 +1,42 @@
-const PerfilModel = require("../models/perfilModel");
-const UsuarioModel = require("../models/usuarioModel");
+const AlunoModel = require("../models/alunoModel");
+const ProfessorModel = require("../models/professorModel"); 
+const DirecaoModel = require("../models/DirecaoModel");
+
 
 class LoginController{
     async getlogin(req, res) {
-        let db_perfi = new PerfilModel();
-        let usersper = await db_perfi.listar();
-        let rows = [];
 
-        usersper.forEach(per => (
-            rows.push({
-                "per_id":per.id,
-                "per_descricao":per.descricao
-            })
-        ))
-
-        res.render("form_login",{ layout: false ,users:rows});
+        res.render("form_login",{ layout: false });
     }
     
     async postlogin(req, res) {
-        const { email, senha } = req.body;
+        const { email, senha , type} = req.body;
         console.log("Tentativa de login:", email);
+        let typeName = ''
+        let validUser = null;
 
-        const usuarioModel = new UsuarioModel();
-        const perfilModel = new PerfilModel();
-        const validUser = await usuarioModel.validar(email, senha);
-        const perfildesc = await perfilModel.listar([validUser.perfilId]);
+        let aluno = new AlunoModel();
+        let professor = new ProfessorModel();
+        let direcao
+
+        switch (type) {
+            case '1':
+                validUser = await professor.validar(email, senha);
+                typeName = 'Professor';
+                break;
+            case '2':
+                validUser = await DirecaoModel.validar(email, senha);
+                typeName = 'Direcao';
+                break;
+            case '3':
+                validUser = await aluno.validar(email, senha);
+                typeName = 'Aluno';
+                break;
+            default:
+                validUser = null;
+                typeName = 'Invalid';
+                break;
+        }
 
         
         if (validUser) {
@@ -38,18 +50,37 @@ class LoginController{
                 sameSite: 'lax',
                 path: '/'
             });
-            res.cookie("usuarioLogadoDesc", perfildesc[0].descricao, {
+            res.cookie("usuarioLogadoDesc", typeName, {
+                sameSite: 'lax',
+                path: '/'
+            });
+            res.cookie("usuarioLogadoType", type, {
+                sameSite: 'lax',
+                path: '/'
+            });
+            res.cookie("usuarioLogadoEmail", email, {
+                sameSite: 'lax',
+                path: '/'
+            });
+            res.cookie("usuarioLogadoSenha", senha, {
                 sameSite: 'lax',
                 path: '/'
             });
             
             let paginaDestino = '';
-            if (validUser.perfilId == 1) {
-                paginaDestino = 'alunos';
-            } else if (validUser.perfilId == 2) {
-                paginaDestino = 'professores';
-            }else if (validUser.perfilId == 3) {
-                paginaDestino = 'direcao';
+            switch (type) {
+                case '1':
+                    paginaDestino = 'professores';
+                    break;
+                case '2':
+                    paginaDestino = 'direcao';
+                    break;
+                case '3':
+                    paginaDestino = 'alunos';
+                    break;
+                default:
+                    paginaDestino = '';
+                    break;
             }
             console.log(`Login bem-sucedido para: ${validUser.nome} (${email}) - Perfil: ${validUser.perfilId}`);
             res.json({ success: true, role: validUser.perfilId, destino: paginaDestino });

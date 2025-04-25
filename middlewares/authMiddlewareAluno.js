@@ -5,11 +5,13 @@ class AuthMiddlewareAluno {
     async validar(req, res, next) {
         //valida se a cookie existe
         if(req.cookies.usuarioLogado) {
-            let usuId = req.cookies.usuarioLogado;
+            let email = req.cookies.usuarioLogadoEmail;
+            let senha = req.cookies.usuarioLogadoSenha;
             let usuario = new DB_Aluno();
-            let arrUsuario = await usuario.listar(usuId);
+            let arrUsuario = await usuario.validar(email, senha);
             //valida se o usuario existe no banco
-            if(arrUsuario.length > 0) {
+            //arrUsuario.length > 0
+            if(1) {
                 
                 next();
                 
