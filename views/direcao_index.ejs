@@ -747,12 +747,11 @@
                                 <label for="nome-disciplina" class="form-label">Nome da Disciplina:</label>
                                 <select class="form-select" id="nome-disciplina" name="nome-disciplina" required>
                                     <option value="" selected disabled>Selecione a disciplina</option>
-                                    <option value="Português">Português</option>
-                                    <option value="Matemática">Matemática</option>
-                                    <option value="Física">Física</option>
-                                    <option value="Biologia">Biologia</option>
-                                    <option value="História">História</option>
-                                    <option value="Geografia">Geografia</option>
+                                    <% if (typeof disciplinas != 'undefined') { %>
+                                        <% for (let index = 0; index < disciplinas.length; index++) { %>
+                                            <option value="<%= disciplinas[index].id %>"><%= disciplinas[index].nome %></option>
+                                        <% } %>
+                                    <% } %>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -819,74 +818,6 @@
                         <!-- Fim do formulário -->
                     </div>
                 </div>
-
-                <!-- Table Professores 
-
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <label for="turma-select" class="form-label">Professores </label>
-                        
-                        </h5>
-
-            
-                        <table class="table table-borderless datatable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Cód contratato (id) #</th>
-                                    <th scope="col">Professor</th>
-                                    <th scope="col">email</th>
-                                 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% professores.forEach(item => { %>
-                                    <tr>
-                                        <td><%= item.contrato_id %></td>
-                                        <td><%= item.professor %></td>
-                                        <td><%= item.email %></td>
-                                        <td>R$ -</td>
-                                    </tr>
-                                <% }) %>
-                            </tbody>
-                        </table>
-                        End Table with stripped rows 
-                         formulario cadastro prof
-                        <h5 class="card-title mt-4">Cadastrar e Associar Professor</h5>
-                        <form action="/system/professores" method="post">
-                            <div class="mb-3">
-                                <label for="nome" class="form-label">Nome do Professor:</label>
-                                <input type="text" class="form-control" id="nome" name="nome" required>
-                            </div>
-                        
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email do Professor:</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                        
-                            <div class="mb-3">
-                                <label for="cpf" class="form-label">CPF:</label>
-                                <input type="text" class="form-control" id="cpf" name="cpf" required>
-                            </div>
-                        
-                            <div class="mb-3">
-                                <label for="senha" class="form-label">Senha:</label>
-                                <input type="password" class="form-control" id="senha" name="senha" required>
-                            </div>
-                        
-                           <div class="mb-3">
-                                <label for="disciplina" class="form-label">Disciplina:</label>
-                                <select class="form-select" id="disciplina" name="id_disciplina" required>
-                                    <option value="" selected disabled>Selecione a disciplina</option>
-                                    <% disciplinas.forEach(d => { %>
-                                        <option value="<%= d.id %>"><%= d.nome %></option>
-                                    <% }) %>
-                                </select>
-                            </div> 
-                            <button type="submit" class="btn btn-primary">Cadastrar Professor</button>
-                         Fim do formulário
-                    </div>
-                </div> -->
 
 
             </div><!-- End Right side columns -->

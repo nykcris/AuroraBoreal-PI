@@ -1,14 +1,14 @@
-const UsuarioModel = require("../models/usuarioModel");
+const DB_Aluno = require("../models/alunoModel");
 
-
-class AuthMiddleware {
+class AuthMiddlewareAluno {
 
     async validar(req, res, next) {
         //valida se a cookie existe
         if(req.cookies.usuarioLogado) {
-            let usuId = req.cookies.usuarioLogado;
-            let usuario = new UsuarioModel();
-            let arrUsuario = await usuario.obter(usuId);
+            let email = req.cookies.usuarioLogadoEmail;
+            let senha = req.cookies.usuarioLogadoSenha;
+            let usuario = new DB_Aluno();
+            let arrUsuario = await usuario.validar(email, senha);
             //valida se o usuario existe no banco
             //arrUsuario.length > 0
             if(1) {
@@ -27,4 +27,4 @@ class AuthMiddleware {
     } 
 }
 
-module.exports = AuthMiddleware;
+module.exports = AuthMiddlewareAluno;

@@ -247,7 +247,7 @@
                                
                             </select>
                         </h5>
-                        <form action="/system/atividades" method="post">
+                        <form action="/system/professores/registro" method="post">
                            
                             <div class="mb-3">
                                 <label for="data-aula" class="form-label">Data da aula:</label>
@@ -270,7 +270,7 @@
                 <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">Nova Atividade</h5>
-                      <form id="form-atividade" method="POST" action="/system/atividades">
+                      <form id="form-atividade" method="POST" action="/system/professores/atividades">
                         <div class="mb-3">
                           <label for="titulo" class="form-label">Título da Atividade</label>
                           <input type="text" class="form-control" name="titulo" required>
@@ -315,8 +315,8 @@
                 <td><%= atividade.descricao %></td>
                 <td><%= new Date(atividade.data_entrega).toLocaleString() %></td>
                 <td>
-                  <a href="/system/editarAtividade?id=<%= atividade.ati_id %>" class="btn btn-warning btn-sm">Editar</a>
-                  <form action="/system/deletarAtividade?id=<%= atividade.ati_id %>" method="POST" style="display:inline;">
+                  <a href="/system/professores/editarAtividade?id=<%= atividade.ati_id %>" class="btn btn-warning btn-sm">Editar</a>
+                  <form action="/system/professores/deletarAtividade?id=<%= atividade.ati_id %>" method="POST" style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm" onsubmit="return confirm('Tem certeza que deseja excluir esta atividade?');">Excluir</button>
                   </form>
                 </td>
@@ -365,7 +365,7 @@
                                                         <p><strong>Resposta:</strong>
                                                             <%= res.resposta %>
                                                         </p>
-                                                        <form method="POST" action="/system/corrigirResposta">
+                                                        <form method="POST" action="/system/professores/corrigirResposta">
                                                             <input type="hidden" name="res_id" value="<%= res.res_id %>">
                                                             <div class="mb-2">
                                                                 <label>Nota:</label>

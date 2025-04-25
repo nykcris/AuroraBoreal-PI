@@ -44,12 +44,9 @@
                 </div>
                 <legend class="col-form-label col-sm-2 pt-0">Entrar como: </legend>
                 <select name="type" id="type" style="margin-bottom: 40px;">
-                    <% users.forEach(user => { %>
-                        <option class="optype" id="optype-<%= user["per_id"] %>" value="<%= user["per_id"] %>">
-                            <%= user["per_descricao"] %>
-                        </option>
-                    <% }) %>
-                    
+                    <option value="1">Professor</option>
+                    <option value="2">Direção</option>
+                    <option value="3">Aluno</option>
                 </select>
                 <div class="input-box">
                     <input type="email" class="input-field" placeholder="Email" id="email-login" required>
@@ -93,6 +90,7 @@
                     event.preventDefault(); // Evita o envio do formulário
                     const email = document.getElementById('email-login').value.trim();
                     const senha = document.getElementById('senha-login').value.trim();
+                    const type = document.getElementById('type').value;
                     console.log(email, senha);
                     let isValid = true;
 
@@ -110,7 +108,8 @@
 
                     let body = {
                         email: email,
-                        senha: senha
+                        senha: senha,
+                        type: type
                     };
 
                     fetch('/system/postlogin', {
