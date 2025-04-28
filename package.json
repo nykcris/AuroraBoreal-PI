@@ -8,6 +8,7 @@
     "express-fileupload": "^1.5.1",
     "froala-editor": "^4.5.0",
     "jsdoc": "^4.0.4",
+    "multer": "^1.4.5-lts.2",
     "mysql2": "^3.13.0",
     "nodemon": "^3.1.9"
   }

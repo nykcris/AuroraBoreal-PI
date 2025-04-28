@@ -6,6 +6,7 @@ class DB_Resposta {
     #id_atividade
     #id_aluno
     #resposta
+    #anexo_resposta
     #data_envio
     #nota
     #comentario_professor
@@ -58,11 +59,12 @@ class DB_Resposta {
     set comentario_professor(value) {
         this.#comentario_professor = value;
     }
-    constructor(res_id, id_atividade, id_aluno, resposta, data_envio, nota, comentario_professor) {
+    constructor(res_id, id_atividade, id_aluno, resposta, anexo_resposta, data_envio, nota, comentario_professor) {
         this.#res_id = res_id;
         this.#id_atividade = id_atividade;
         this.#id_aluno = id_aluno;
         this.#resposta = resposta;
+        this.#anexo_resposta = anexo_resposta;
         this.#data_envio = data_envio;
         this.#nota = nota;
         this.#comentario_professor = comentario_professor;
@@ -113,11 +115,9 @@ class DB_Resposta {
 
     async excluir(id) {
         let sql = "DELETE FROM tb_resposta WHERE res_id = ?";
-        console.log(id);
         let valores = [id];
         let DB = new db();
         let a = await DB.ExecutaComandoNonQuery(sql, valores);
-        console.log(a);
         return a;
     }
     

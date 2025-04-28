@@ -1,20 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddlewareDirecao = require("../middlewares/authMiddlewareDirecao");
 const userController = require("../controllers/userController");
 
 let UC = new userController();
-let AM = new authMiddleware();
+let AMD = new authMiddlewareDirecao();
 
 
 
-router.get("/",AM.validar,UC.index);
-router.get("/listar",AM.validar,UC.listar);
-router.get("/cadastrar",AM.validar,UC.cadastrar);
-router.post("/cadastrar",AM.validar,UC.gravar);
-router.get("/editar/:id",AM.validar,UC.editar);
-router.post("/editar/:id",AM.validar,UC.atualizar);
-router.get("/excluir/:id",AM.validar,UC.excluir);
+router.get("/",AMD.validar,UC.index);
+router.get("/listar",AMD.validar,UC.listar);
+router.get("/cadastrar",AMD.validar,UC.cadastrar);
+router.post("/cadastrar",AMD.validar,UC.gravar);
+router.get("/editar/:id",AMD.validar,UC.editar);
+router.post("/editar/:id",AMD.validar,UC.atualizar);
+router.get("/excluir/:id",AMD.validar,UC.excluir);
 
 
 

@@ -365,6 +365,9 @@
                                                         <p><strong>Resposta:</strong>
                                                             <%= res.resposta %>
                                                         </p>
+                                                        <% if (typeof res.anexo_resposta != 'undefined') { %>
+                                                            <p><a href="<%= res.anexo_resposta %>" target="_blank" download>Ver anexo</a></p>
+                                                        <% } %>
                                                         <form method="POST" action="/system/professores/corrigirResposta">
                                                             <input type="hidden" name="res_id" value="<%= res.res_id %>">
                                                             <div class="mb-2">

@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddlewareDirecao = require("../middlewares/authMiddlewareDirecao");
 const LoginController = require("../controllers/loginController");
 const SystemController = require("../controllers/systemController");
 const AlunoController = require("../controllers/alunoController");
 const ProfessorController = require('../controllers/professorController');
 
 let PC = new ProfessorController();
-let AM = new authMiddleware();
+let AM = new authMiddlewareDirecao();
 let SC = new SystemController();
 let LC = new LoginController();
 let AC = new AlunoController();

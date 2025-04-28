@@ -49,18 +49,9 @@ class DB_Aluno {
             JOIN tb_turma t ON a.turma_id = t.id
         `;
 
-        console.log(id);
-
-        // if (id) {
-        //     sql += ` WHERE a.id = ?`;
-        //     return await DB.ExecutaComando(sql, [id]);
-        // }
-
         const rows = await DB.ExecutaComando(sql, []);
         return rows; // Retorna os dados direto, sem encapsular na classe
     }
-    //const rows = await DB.ExecutaComando("SELECT * FROM tb_aluno", []);
-    //return rows.map(aluno => new DB_Aluno(...Object.values(aluno)));
 
     async obter(id) {
         const DB = new db();

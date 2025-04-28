@@ -11,13 +11,12 @@ class LoginController{
     
     async postlogin(req, res) {
         const { email, senha , type} = req.body;
-        console.log("Tentativa de login:", email);
         let typeName = ''
-        let validUser = null;
+        let validUser = '';
 
         let aluno = new AlunoModel();
         let professor = new ProfessorModel();
-        let direcao
+        let direcao = new DirecaoModel();
 
         switch (type) {
             case '1':
@@ -25,7 +24,7 @@ class LoginController{
                 typeName = 'Professor';
                 break;
             case '2':
-                validUser = await DirecaoModel.validar(email, senha);
+                validUser = await direcao.validar(email, senha);
                 typeName = 'Direcao';
                 break;
             case '3':
@@ -37,7 +36,6 @@ class LoginController{
                 typeName = 'Invalid';
                 break;
         }
-
         
         if (validUser) {
             

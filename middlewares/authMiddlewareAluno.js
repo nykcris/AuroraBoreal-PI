@@ -10,19 +10,18 @@ class AuthMiddlewareAluno {
             let usuario = new DB_Aluno();
             let arrUsuario = await usuario.validar(email, senha);
             //valida se o usuario existe no banco
-            //arrUsuario.length > 0
-            if(1) {
+            if(typeof arrUsuario != 'undefined') {
                 
                 next();
                 
               
             }
             else
-                res.redirect("/");
+                res.redirect("/acessoNegado");
  
         }
         else
-            res.redirect("/");
+            res.redirect("/acessoNegado");
 
     } 
 }
