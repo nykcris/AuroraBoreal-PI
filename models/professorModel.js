@@ -44,7 +44,6 @@ class DB_Professor {
     async validar(email, senha) {
         const DB = new db();
         const rows = await DB.ExecutaComando("SELECT * FROM tb_professor WHERE email = ? AND senha = ?", [email, senha]);
-        console.log(rows);
         return rows.length > 0 ? rows[0] : null;
     }
 
