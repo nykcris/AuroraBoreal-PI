@@ -10,24 +10,20 @@ class AuthMiddlewareProfessor {
             let senha = req.cookies.usuarioLogadoSenha;
             let usuario = new DB_Professor();
             let arrUsuario = await usuario.validar(email, senha);
-
-            console.log(arrUsuario);
-            console.log(email);
-            console.log(senha);
             //valida se o usuario existe no banco
-            //arrUsuario.length > 0
-            if(1) {
+
+            if(typeof arrUsuario != 'undefined') {
                 
                 next();
                 
               
             }
             else
-                res.redirect("/");
+                res.redirect("/acessoNegado");
  
         }
         else
-            res.redirect("/");
+            res.redirect("/acessoNegado");
 
     } 
 }

@@ -25,7 +25,6 @@ class ProfessorController {
                 "per_id":funcs[i].perfilId
             })
         }
-        console.log(rows.length);
 
         
         let db_atividade = new DB_Atividade();

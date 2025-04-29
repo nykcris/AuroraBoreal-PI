@@ -67,38 +67,36 @@
       <div class="card-body">
         <h5 class="card-title">Atividades </h5>
 
+          <div class="row mb-3">
+            <div class="mb-3">
+              <h3>
+                <% if (typeof atividade != 'undefined' ) { %>
+                <%= atividade[0].titulo %>
+              </h3>
+              <div class="mb-3"></div>
+              <p>
+                <%= atividade[0].descricao %>
+              </p>
 
-        
-
-
-          <form action="/system/resposta" method="post">
-
-            <div class="row mb-3">
-              <div class="mb-3">
-                <h3>
-                  <% if (typeof atividade != 'undefined' ) { %>
-                  <%= atividade[0].titulo %>
-                </h3>
-                <div class="mb-3"></div>
-                <p>
-                  <%= atividade[0].descricao %>
-                </p>
-
-              </div>
-              <input type="hidden" name="id_atividade" value="<%= atividade[0].ati_id %>">
-              <label for="TextResposta" class="col-sm-2 col-form-label">Resposta</label>
-
-              <div class="col-sm-10">
-                <textarea id="resposta" class="form-control" style="height: 100px" name="resposta"></textarea>
-              </div>
             </div>
-            <div class="row mb-3">
-              <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary">Enviar atividade</button>
-              </div>
+            <input type="hidden" name="id_atividade" id="id_atividade" value="<%= atividade[0].ati_id %>">
+            <label for="resposta" class="col-sm-2 col-form-label">Resposta</label>
+
+            <div class="col-sm-10">
+              <textarea id="resposta" class="form-control" style="height: 100px" name="resposta"></textarea>
             </div>
-            <% } %>
-          </form>
+            <div class="mb-3"></div>
+            <div class="col-sm-10">
+              <input type="file" class="form-control" name="anexo_resposta" id="anexo_resposta">
+              <label for="anexo_resposta" class="form-label">Anexo (opcional)</label>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-primary" id="submit">Enviar atividade</button>
+            </div>
+          </div>
+          <% } %>
 
   </main><!-- End #main -->
 
@@ -127,6 +125,8 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script src="../js/respostaPost.js"></script>
 
 </body>
 

@@ -9,56 +9,20 @@ class DB_Atividade {
     #id_professor;
     #anexo_atividade;
     
-    get ati_id() {
-        return this.#ati_id;
-    }
-    set ati_id(value) {
-        this.#ati_id = value;
-    }
-
-    get titulo() {
-        return this.#titulo;
-    }
-    set titulo(value) {
-        this.#titulo = value;
-    }
-
-    get descricao() {
-        return this.#descricao;
-    }
-    set descricao(value) {
-        this.#descricao = value;
-    }
-
-    get data_criacao() {
-        return this.#data_criacao;
-    }
-    set data_criacao(value) {
-        this.#data_criacao = value;
-    }
-    
-    get data_entrega() {
-        return this.#data_entrega;
-    }
-    set data_entrega(value) {
-        this.#data_entrega = value;
-    }
-
-    get id_professor() {
-        return this.#id_professor;
-    }
-    set id_professor(value) {
-        this.#id_professor = value;
-    }
-
-    get anexo_atividade() {
-        return this.#anexo_atividade;
-    }
-    set anexo_atividade(value) {
-        this.#anexo_atividade = value;
-    }
-
-
+    get ati_id() { return this.#ati_id; }
+    set ati_id(value) { this.#ati_id = value; }
+    get titulo() { return this.#titulo; }
+    set titulo(value) { this.#titulo = value; }
+    get descricao() { return this.#descricao; }
+    set descricao(value) { this.#descricao = value; }
+    get data_criacao() { return this.#data_criacao; }
+    set data_criacao(value) { this.#data_criacao = value; }
+    get data_entrega() { return this.#data_entrega; }
+    set data_entrega(value) { this.#data_entrega = value; }
+    get id_professor() { return this.#id_professor; }
+    set id_professor(value) { this.#id_professor = value; }
+    get anexo_atividade() { return this.#anexo_atividade; }
+    set anexo_atividade(value) { this.#anexo_atividade = value; }
 
     constructor(ati_id, titulo, descricao, data_criacao, data_entrega, id_professor, anexo_atividade) {
         this.#ati_id = ati_id;
@@ -104,11 +68,9 @@ class DB_Atividade {
 
     async excluir(id) {
         let sql = "DELETE FROM tb_atividade WHERE ati_id = ?";
-        console.log(id);
         let valores = [id];
         let DB = new db();
         let a = await DB.ExecutaComandoNonQuery(sql, valores);
-        console.log(a);
         return a;
     }
     

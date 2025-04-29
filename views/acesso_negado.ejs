@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style_form.css">
+    <link rel="stylesheet" href="css/custom_style.css">
+    <link rel="icon" type="image/x-icon" href="img/AURORALOGOSFUNDO.ico" />
+    <title>Aurora Boreal</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav class="nav" style="align-content: center;">
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="/" class="link active">voltar</a></li>
+
+                </ul>
+            </div>
+            <div class="nav-menu-btn">
+                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+            </div>
+        </nav>
+        <!----------------------------- Form box ----------------------------------->
+        <div class="form-box">
+
+            <!------------------- login form -------------------------->
+
+            <div class="login-container" id="login">
+                <div class="top">
+
+                    <header>Acesso Negado</header>
+                </div>
+                <div class="input-box" style="margin: 20px;text-align: center;color: white;">
+                    <p>Desculpe, você não tem permissão para acessar esta página.</p>
+                </div>
+            </div>
+
+            <script>
+
+                function validateEmail(email) {
+                    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                    return emailRegex.test(email);
+                }
+
+                function validatePassword(senha) {
+                    const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+                    return senhaRegex.test(senha);
+                }
+
+                function showError(elementId, errorId, condition) {
+                    document.getElementById(errorId).style.display = condition ? 'none' : 'inline';
+                }
+
+                function handleLogin(event) {
+                    event.preventDefault(); // Evita o envio do formulário
+                    const email = document.getElementById('email-login').value.trim();
+                    const senha = document.getElementById('senha-login').value.trim();
+                    const type = document.getElementById('type').value;
+                    console.log(email, senha);
+                    let isValid = true;
+
+                    // Valida Email
+                    const emailValido = email !== '' && validateEmail(email);
+                    showError('email-login', 'email-login-error', emailValido);
+
+                    // Valida senha
+                    const senhaValida = senha !== '' && validatePassword(senha);
+                    showError('senha-login', 'senha-login-error', senhaValida);
+
+                    if (!emailValido || !senhaValida) {
+                        return; // Para a execução se houver erros
+                    }
+
+                    let body = {
+                        email: email,
+                        senha: senha,
+                        type: type
+                    };
+
+                    fetch('/system/postlogin', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(body),
+                         credentials: "include"
+                    })
+                    .then(res => {
+                        if(res.ok) {
+                            return res.json();
+                        } else {
+                            throw new Error('Connection refused');
+                        }
+                    })
+                    .then(data => {
+                        console.log(data); // <-- Adiciona isso
+                          if (data.success) {
+                                window.location.href = `/system/${data.destino}`;
+                             } else {
+                           alert(data.message);
+                             }
+                    })
+
+                    .catch(err => alert(err.message));
+                }
+
+
+                function myMenuFunction() {
+                    var i = document.getElementById("navMenu");
+                    if (i.className === "nav-menu") {
+                        i.className += " responsive";
+                    } else {
+                        i.className = "nav-menu";
+                    }
+                }
+
+
+
+                var a = document.getElementById("loginBtn");
+                var b = document.getElementById("registerBtn");
+                var x = document.getElementById("login");
+                var y = document.getElementById("register");
+                function login() {
+                    x.style.left = "4px";
+                    y.style.right = "-520px";
+                    a.className += " white-btn";
+                    b.className = "btn";
+                    x.style.opacity = 1;
+                    y.style.opacity = 0;
+
+                }
+                function register() {
+                    x.style.left = "-510px";
+                    y.style.right = "5px";
+                    a.className = "btn";
+                    b.className += " white-btn";
+                    x.style.opacity = 0;
+                    y.style.opacity = 1;
+                }
+            </script>
+
+</body>
+
+</html>
+

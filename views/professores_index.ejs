@@ -351,7 +351,7 @@
                                         <% } %>
                                         <li class="list-group-item">
                                             <p><strong>Aluno:</strong>
-                                                <%= res.usu_nome %> - <%= res.data_envio.toLocaleString() %>
+                                                <%= res.aluno %> - <%= res.data_envio.toLocaleString() %>
                                             </p>
                                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal<%= res.res_id %>">Resposta</button>
                                             <div class="modal fade" id="exampleModal<%= res.res_id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -365,6 +365,9 @@
                                                         <p><strong>Resposta:</strong>
                                                             <%= res.resposta %>
                                                         </p>
+                                                        <% if (typeof res.anexo_resposta != 'undefined') { %>
+                                                            <p><a href="<%= res.anexo_resposta %>" target="_blank" download>Ver anexo</a></p>
+                                                        <% } %>
                                                         <form method="POST" action="/system/professores/corrigirResposta">
                                                             <input type="hidden" name="res_id" value="<%= res.res_id %>">
                                                             <div class="mb-2">

@@ -2,18 +2,12 @@ host: '132.226.245.178'
 database: 'PFS1_10442417275'
 user: '10442417275'
 password: '10442417275'
-logins professores 
 
-ana.paula@email.com 
-SenhA12345678! 
-- id 4 perfil id 2
+//Admin
+ny@email.com
+SenhA12345678!
 
-login Alunos
-marina.costa@email.com
+//Professor
+gi@email.com
 SenhA12345678! 
-- id e perfil id 1
 
-login direcao 
-direcao.@email.com
-SenhA12345678! 
-- id 1 e perfil id 3

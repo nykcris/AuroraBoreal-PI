@@ -110,7 +110,7 @@ class AlunoController {
     let atividade = await DBA.listar(req.query.id);
     console.log(atividade);
 
-    res.render("respostas", { layout: 'layout', atividade });
+    res.render("respostas", { layout: 'layouts/layout', atividade });
 
   }
 
@@ -120,12 +120,20 @@ class AlunoController {
     filtro.push(req.body.id_atividade);
     filtro.push(req.cookies.usuarioLogado);
     let update = await DBA.listar(filtro, 1);
+    let filepath = "uploads/"+req.file.mimetype.split("/").pop()+"/"+req.file.filename;
+    let file;
+    if(req.file != null){
+        file = filepath;
+    }else{
+        file = "null";
+    }
     if (update.length > 0) {
       DBA = new DB_Resposta(
         update[0].res_id,
         req.body.id_atividade,
         req.cookies.usuarioLogado,
         req.body.resposta,
+        file,
         new Date(),
         0,
         0
@@ -137,6 +145,7 @@ class AlunoController {
         req.body.id_atividade,
         req.cookies.usuarioLogado,
         req.body.resposta,
+        file,
         new Date(),
         0,
         0

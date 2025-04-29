@@ -1,6 +1,8 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const expressEjsLayouts = require("express-ejs-layouts");
+const multer = require('multer');
+const fs = require('fs');
 const RHome = require("./routes/homeRoute");
 const RSystem = require("./routes/systemRoute");
 const RUser = require("./routes/userRoute");
@@ -11,6 +13,10 @@ const porta = 3000;
 
 app.set("view engine", "ejs")
 
+let upload = multer({ 
+    dest: 'uploads/'
+     
+});
 
 
 app.use(expressEjsLayouts);
