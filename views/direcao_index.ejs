@@ -740,85 +740,40 @@
                         </table>
 
                         <!-- End Table with stripped rows -->
-                        <!-- Formulário para adicionar disciplina à turma -->
-                        <h5 class="card-title mt-4">Adicionar Disciplina à Turma</h5>
-                        <form action="/adicionar-aluno-turma" method="post">
-                            <div class="mb-3">
-                                <label for="nome-disciplina" class="form-label">Nome da Disciplina:</label>
-                                <select class="form-select" id="nome-disciplina" name="nome-disciplina" required>
-                                    <option value="" selected disabled>Selecione a disciplina</option>
-                                    <% if (typeof disciplinas != 'undefined') { %>
-                                        <% for (let index = 0; index < disciplinas.length; index++) { %>
-                                            <option value="<%= disciplinas[index].id %>"><%= disciplinas[index].nome %></option>
-                                        <% } %>
-                                    <% } %>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nome-professor" class="form-label">Nome do Professor:</label>
-                                <select class="form-select" id="nome-professor" name="nome-professor" required>
-                                    <option value="" selected disabled>Selecione o professor</option>
-                                    <option value="Maria">Maria</option>
-                                    <option value="Joao">Joao</option>
-                                    <option value="Fulano">Fulano</option>
-                                    <option value="Fulana">Fulana</option>
-                                    <option value="Ciclana">Ciclana</option>
-                                </select>
-                            </div>
+                        <!-- horários table  -->
+                        <h5 class="card-title mt-4">Horários</h5>
+                 
 
                             <div class="mb-3">
-                                <label for="carga-displina-turma" class="form-label">Carga Horária da disciplina(horas
-                                    por semana):</label>
-                                <input type="number" class="form-control" id="carga-displina-turma"
-                                    name="carga-displina-turma" required placeholder="">
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Dias da Semana:</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="segunda-feira"
-                                        name="dias-semana[]" value="Segunda-feira">
-                                    <label class="form-check-label" for="segunda-feira">Segunda-feira</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="terca-feira"
-                                        name="dias-semana[]" value="Terça-feira">
-                                    <label class="form-check-label" for="terca-feira">Terça-feira</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="quarta-feira"
-                                        name="dias-semana[]" value="Quarta-feira">
-                                    <label class="form-check-label" for="quarta-feira">Quarta-feira</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="quinta-feira"
-                                        name="dias-semana[]" value="Quinta-feira">
-                                    <label class="form-check-label" for="quinta-feira">Quinta-feira</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="sexta-feira"
-                                        name="dias-semana[]" value="Sexta-feira">
-                                    <label class="form-check-label" for="sexta-feira">Sexta-feira</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="sabado" name="dias-semana[]"
-                                        value="Sábado">
-                                    <label class="form-check-label" for="sabado">Sábado</label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="horario-displina-turma" class="form-label">Horário da aula :</label>
-                                <input type="number" class="form-control" id="horario-displina-turma"
-                                    name="horario-displina-turma" required
-                                    placeholder="início (00:00) - término (00:00)">
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Adicionar Disciplina</button>
-                        </form>
-                        <!-- Fim do formulário -->
+                                <table class="table table-hover">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Horário</th>
+                                        <th scope="col">Segunda-feira</th>
+                                        <th scope="col">Terça-feira</th>
+                                        <th scope="col">Quarta-feira</th>
+                                        <th scope="col">Quinta-feira</th>
+                                        <th scope="col">Sexta-feira</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row"></th>
+                                        
+                                      </tr>
+                                      <tr>
+                                        <th scope="row"></th>
+                                       
+                                      </tr>
+                                      <tr>
+                                        <th scope="row"></th>
+                                     
+                                      </tr>
+                                    </tbody>
+                                  </table>
                     </div>
                 </div>
-
+                
 
             </div><!-- End Right side columns -->
             </div>
