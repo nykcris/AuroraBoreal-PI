@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  
+    <title>Alunos-Aurora Boreal</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <!-- Bootstrap CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
+    <!-- Favicons -->
+    <link href="/static/img/AURORALOGOSFUNDO.ico" rel="icon">
+    <link href="/static/img/AURORALOGOSFUNDO.ico" rel="apple-touch-icon">
+  
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  
+    <!-- Vendor CSS Files -->
+    <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="/static/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="/static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="/static/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  
+    <!-- Template Main CSS File -->
+    <link href="/static/assets/css/style.css" rel="stylesheet">
+
+    <!-- Base URL -->
+    <base href="/system/">
+
+    <style>
+      #header{
+        background: rgb(4,196,0);
+        background: linear-gradient(90deg, rgba(4,196,0,1) 0%, rgba(9,17,121,1) 79%, rgba(154,0,255,1) 100%); 
+      }
+    </style>
+    <!-- =======================================================
+    * Template Name: NiceAdmin
+    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+    * Updated: Apr 20 2024 with Bootstrap v5.3.3
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+  </head>
+
+ <!-- =======  <body>
+     Sidebar  -->
+    <aside id="sidebar" class="sidebar">
+
+      <div class="profile">
+        <div class="profile-img">
+          <img src="img/AURORALOGOSFUNDO.ico" onerror="this.src='/img/AURORALOGOSFUNDO.ico'">
+        </div>
+        <h3 id="NomeUsu"></h3>
+        <p id="PerfilUsu"></p>
+      </div>
+
+      <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#students-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-people"></i><span>Alunos</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="students-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="alunos/atividades">
+                <i class="bi bi-circle"></i><span>Atividades</span>
+              </a>
+            </li>
+            <li>
+              <a href="alunos/pagamentos">
+                <i class="bi bi-circle"></i><span>Pagamentos</span>
+              </a>
+            </li>
+            <li>
+              <a href="alunos/notas">
+                <i class="bi bi-circle"></i><span>Notas</span>
+              </a>
+            </li>
+            <li>
+              <a href="alunos/informacoes">
+                <i class="bi bi-circle"></i><span>Informa es Gerais</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#manageUsers" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-people"></i><span>Gerenciar Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="manageUsers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="users/cadastrar">
+                <i class="bi bi-circle"></i><span>Criar Usuario</span>
+              </a>
+            </li>
+            <li>
+              <a href="users/listar">
+                <i class="bi bi-circle"></i><span>Listar Usuarios</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-cash-stack"></i><span>Gerenciamento Financeiro</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+              <li>
+                <a href="professores">
+                  <i class="bi bi-circle"></i><span>Acadêmicos</span>
+                </a>
+              </li>
+              <li>
+                <a href="alunos">
+                  <i class="bi bi-circle"></i><span>Alunos</span>
+                </a>
+              </li>
+              <li>
+                <a href="direcao">
+                  <i class="bi bi-circle"></i><span>Painéis e gerenciamentos</span>
+                </a>
+              </li>
+            </ul>
+        </li>
+
+      </ul>
+
+  </aside>
+  <!-- End Sidebar-->
+   <!--<%- body %> --> 
+    <!-- Bootstrap JS Files -->
+    <script src="/static/js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="/static/js/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="/static/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+      function yes(){
+        let usuNome = req.cookies.usuarioLogadoNome;
+        let usuperfil = req.cookies.usuarioLogadoDesc;
+
+        let nome = document.querySelector("#NomeUsu");
+        let perfil = document.querySelector("#perfilUsu");
+
+        nome.innerHTML = usuNome;
+        perfil.innerHTML = usuperfil;
+      }
+      document.addEventListener("DOMContentLoaded", (event) => {
+        yes();
+      });
+
+    </script>
+  </body>
