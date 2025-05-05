@@ -1,10 +1,10 @@
-const DB_Perfil = require("../models/perfilModel");
+const DB_Disciplina = require("../models/disciplinaModel");
 const DB_Usuarios = require("../models/usuarioModel");
 const DB_Atividade = require("../models/atividadeModel");
 const DB_Resposta = require("../models/respostaModel");
 const DB_Aluno = require("../models/alunoModel");
-const DB_Professor = require('../models/professorModel');
-const DB_Disciplina = require("../models/disciplinaModel");
+const DB_Notas = require("../models/notasModel");
+const DB_TurmaDisciplina = require("../models/turmaDisciplinaModel");
 
 class AlunoController {
   async alunos(req,res) {
@@ -154,6 +154,21 @@ class AlunoController {
     }
 
     res.redirect("/system/alunos");
+  }
+
+  async tabelaNotasFetch(req, res){
+    let DBN = new DB_Notas();
+    let DBD = new DB_Disciplina();
+    let DBT = new DB_TurmaDisciplina();
+    let notas = await DBN.obter(req.body.id_aluno, req.body.id_turma_disciplina);
+    let turma_disciplina = await DBT.obter(req.body.id_turma_disciplina);
+    let disciplina = await DBD.obter(turma_disciplina[0].id_disciplina);
+    let data = {
+      "turma_disciplina":turma_disciplina,
+      "disciplina":disciplina,
+      "notas":notas
+    }
+    res.send(data);
   }
 
   

@@ -52,7 +52,7 @@ class DB_Notas {
     }
 
     async obter(id_aluno, id_turma_disciplina) {
-        let sql = "SELECT * FROM tb_notas WHERE id_aluno = ? AND id_turma_disciplina = ?";
+        let sql = "SELECT * FROM tb_notas JOIN tb_turma_disciplina ON tb_notas.turma_disciplina_id = tb_turma_disciplina.id WHERE id_aluno = ? AND id_turma_disciplina = ?";
         let valores = [id_aluno, id_turma_disciplina];
         let DB = new db();
         let rows = await DB.ExecutaComando(sql, valores);
@@ -60,3 +60,9 @@ class DB_Notas {
     }
 
 }
+
+
+
+
+
+module.exports = DB_Notas;
