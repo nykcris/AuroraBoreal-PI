@@ -264,7 +264,58 @@
                         <!-- Fim do formulário -->
                     </div>
                 </div>
+                  <!--  chamada ainda nao envia pra BD -->
+                  <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <label for="turma-select" class="form-label">Adicionar Nota bimestral</label>
+                            
+                            <select class="form-select" id="turma-select" name="turma">
+                                <option value="" selected disabled>Selecione a turma</option>
+                                <option value="1A">1° A- Química</option>
+                                <option value="1B">1° B-Física</option>
+                                <option value="1C">1° B- Química</option>
+                            </select>
+                        </h5>
+                
+                        <h5 class="card-title mt-4">Bimestre</h5>
+                        <select class="form-select" id="turma-select" name="turma">
+                            <option value="" selected disabled>Selecione a turma</option>
+                            <option value="1B">1° Bimestre</option>
+                            <option value="2B">2° Bimestre</option>
+                            <option value="3B">3° Bimestre</option>       
+                            <option value="4B">4° Bimestre</option>
+                        </select>
+                
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Nota</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (typeof rows != 'undefined') { %>
+                                    <% for (let index = 0; index < rows.length; index++) { %>
+                                        <% if (rows[index].per_id == 1) { %>
+                                            <tr>
+                                                <th scope="row">#<%= rows[index].usu_id %></th>
+                                                <td><%= rows[index].usu_nome %></td>
+                                                <td><input type="number" class="form-control" id="nota" name="nota"></td>
+                                                <td><a type="button" id="enviarNota" class="btn btn-primary">Enviar nota</a></td>
+                                            </tr>
+                                        <% } %>
+                                    <% } %>
+                                <% } %>
+                                
+                            </tbody>
 
+                        </table>
+                        
+                    </div>
+                </div>
+                <!--fim do formulário-->
                
                 <!--tabela nova atividades-->            
                 <div class="card">
