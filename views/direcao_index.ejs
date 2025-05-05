@@ -708,8 +708,204 @@
                 </div>
                 
 
-            </div><!-- End Right side columns -->
             </div>
+             <!-- Cadastro Professores -->
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title">CADASTRAR PROFESSOR</h5>
+      <h3>Dados do Professor>
+  
+      <div class="mb-3">
+        <input type="text" class="form-control" name="nome-prof" placeholder="Nome completo do professor" id="nome-prof" required>
+      
+        <small id="nome-prof-error" style="color: red; display: none;">Campo obrigatório</small>
+      </div>
+  
+     
+  
+      <div class="mb-3">
+        <input type="text" name="cpf-prof" id="cpf-prof" class="form-control" placeholder="CPF do Professor" maxlength="14" required oninput="maskCPF(this)">
+      
+        <small id="cpf-prof-error" style="color: red; display: none;">CPF inválido</small>
+      </div>
+  
+     
+  
+      <div class="mb-3">
+        <label for="salario">Salário</label>
+        <input type="number" class="form-control" name="salario" id="salario" required>
+        <small id="salario-error" style="color: red; display: none;">Salário inválido</small>
+      </div>
+   <!-- Disciplinas table  -->
+   <h5 class="card-title mt-4">Disciplinas</h5>
+   <a type="button" id="enviarNota" class="btn btn-primary">Adicionar mais disciplina </a>
+      <div class="mb-3">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Turma</th>
+                <th scope="col">Disciplina</th>
+             
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"> <select class="form-select" aria-label="Default select example">
+                    <option selected>1°A</option>
+                    <option >1°B</option>
+                    <option >2°A</option>
+                    <option >3°A</option>
+                  </select>
+                </th>
+                <th scope="row"> <select class="form-select" aria-label="Default select example">
+                    <option selected>Matemática</option>
+                    <option >Ciências</option>
+                    <option >Português</option>
+                   
+                  </select>
+                </th>
+              </tr>
+              
+            </tbody>
+          </table>
+</div>
+  
+      <h3>Dados para contato</h3>
+  
+      <div class="mb-3">
+        <input type="text" name="email-prof" id="email-prof" class="form-control" placeholder="Email" required>
+        
+        <small id="email-prof-error" style="color: red; display: none;">Email inválido</small>
+      </div>
+  
+      <div class="mb-3">
+        <input type="text" name="numero-celular" id="numero-celular" class="form-control" placeholder="Número de celular" maxlength="11" required>
+        
+        <small id="celular-error" style="color: red; display: none;">Número inválido</small>
+      </div>
+  
+      <h3>Senha para o acesso ao Sistema Acadêmico</h3>
+  
+      <div class="mb-3">
+        <input type="password" name="senha-academica" id="senha-academica" class="form-control" placeholder="Crie uma senha" required>
+
+        <small id="senha-error" style="color: red; display: none;">Senha inválida</small>
+      </div>
+  
+      <div class="mb-3">
+        <button type="button" class="btn btn-primary" onclick="validateForm()">Efetuar Registro</button>
+      </div>
+  
+      <div id="registro-sucesso" style="display:none;color:green;">Registro efetuada com sucesso!</div>
+      <div id="registro-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+    </div>
+  </div>
+  
+  <script>
+    function maskCPF(cpf) {
+      cpf.value = cpf.value.replace(/\D/g, '')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    }
+  
+    function isValidCPF(cpf) {
+      cpf = cpf.replace(/[^\d]+/g, '');
+      if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+      let sum = 0, remainder;
+      for (let i = 1; i <= 9; i++) sum += parseInt(cpf[i - 1]) * (11 - i);
+      remainder = (sum * 10) % 11;
+      if (remainder === 10 || remainder === 11) remainder = 0;
+      if (remainder !== parseInt(cpf[9])) return false;
+      sum = 0;
+      for (let i = 1; i <= 10; i++) sum += parseInt(cpf[i - 1]) * (12 - i);
+      remainder = (sum * 10) % 11;
+      if (remainder === 10 || remainder === 11) remainder = 0;
+      return remainder === parseInt(cpf[10]);
+    }
+  
+    function validatePassword(pwd) {
+      return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(pwd);
+    }
+  
+  
+  
+    function validateForm() {
+      const prof = document.getElementById('nome-prof').value.trim();
+        const cpfProf = document.getElementById('cpf-prof').value.trim();
+     
+        const salario = document.getElementById('salario').value.trim();
+      const email = document.getElementById('email-prof').value.trim();
+      const telefone = document.getElementById('numero-celular').value.trim();
+      const senha = document.getElementById('senha-academica').value.trim();
+      const disciplinas = document.querySelector('input[name="disciplinas"]:checked').value;
+  
+      let isValid = true;
+  
+      isValid = isValid && prof !== '';
+      isValid = isValid && isValidCPF(cpfProf);
+      isValid = isValid && salario !== '';
+      isValid = isValid && email !== '';
+      isValid = isValid && telefone !== '';
+      isValid = isValid && validatePassword(senha);
+  
+      document.getElementById('nome-prof-error').style.display = prof ? 'none' : 'inline';
+      document.getElementById('cpf-prof-error').style.display = isValidCPF(cpfProf) ? 'none' : 'inline';
+      document.getElementById('salario-error').style.display = salario ? 'none' : 'inline';
+      document.getElementById('email-prof-error').style.display = email ? 'none' : 'inline';
+      document.getElementById('disciplinas-error').style.display = disciplinas ? 'none' : 'inline';
+      document.getElementById('celular-error').style.display = telefone ? 'none' : 'inline';
+      document.getElementById('senha-error').style.display = validatePassword(senha) ? 'none' : 'inline';
+  
+      if (!isValid) {
+        document.getElementById('registro-erro').style.display = 'block';
+        document.getElementById('registro-sucesso').style.display = 'none';
+        return;
+      }
+  
+      const dados = {
+        prof_nome: prof,
+        prof_cpf: cpfProf,
+        prof_salario: salario,
+        email: email,
+        senha: senha,
+        telefone: telefone,
+        disciplinas: disciplinas
+      };
+  
+      fetch('/system/cadastrarProfessor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(dados)
+      })
+      .then(res => res.json())
+      .then(result => {
+        if (result.sucesso) {
+          document.getElementById('registro-sucesso').style.display = 'block';
+          document.getElementById('registro-erro').style.display = 'none';
+        } else {
+          document.getElementById('registro-erro').innerText = result.mensagem || 'Erro no cadastro';
+          document.getElementById('registro-erro').style.display = 'block';
+          document.getElementById('registro-sucesso').style.display = 'none';
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('registro-erro').innerText = 'Erro na requisição';
+        document.getElementById('registro-erro').style.display = 'block';
+      });
+    }
+  
+    function myMenuFunction() {
+      const menu = document.getElementById("navMenu");
+      menu.className = (menu.className === "nav-menu") ? "nav-menu responsive" : "nav-menu";
+    }
+  </script>
+  <!-- fim cadastro alunos -->
+  
+                
+            </div><!-- End Right side columns -->
         </section>
 
     </main><!-- End #main -->
