@@ -1,7 +1,13 @@
 const db = require('../utils/database');
 
 class DB_Professor {
-    #id; #nome; #email; #cpf; #senha; #salario; #telefone;
+    #id; 
+    #nome; 
+    #email; 
+    #cpf; 
+    #senha; 
+    #salario; 
+    #telefone;
 
     get id() { return this.#id; }
     set id(value) { this.#id = value; }
