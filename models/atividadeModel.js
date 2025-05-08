@@ -80,6 +80,18 @@ class DB_Atividade {
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(sql, valores);
     }
+
+    toJSON() {
+        return {
+            ati_id: this.#ati_id,
+            titulo: this.#titulo,
+            descricao: this.#descricao,
+            data_criacao: this.#data_criacao,
+            data_entrega: this.#data_entrega,
+            id_professor: this.#id_professor,
+            anexo_atividade: this.#anexo_atividade,
+        };
+    }
 }
 
 module.exports = DB_Atividade;

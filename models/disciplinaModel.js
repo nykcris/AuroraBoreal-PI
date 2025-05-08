@@ -11,7 +11,7 @@ class DB_Disciplina {
     async listar() {
         let DB = new db();
         let rows = await DB.ExecutaComando("SELECT * FROM tb_disciplina", []);
-        return rows.map(d => new DB_Disciplina(d.id, d.nome));
+        return rows
     }
 
     async cadastrar() {
@@ -20,6 +20,13 @@ class DB_Disciplina {
             "INSERT INTO tb_disciplina (nome) VALUES (?)",
             [this.#nome]
         );
+    }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            nome: this.#nome
+        };
     }
 }
 

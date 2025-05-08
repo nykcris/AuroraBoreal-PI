@@ -64,6 +64,13 @@ class DB_Perfil {
         let DB = new db();
         DB.ExecutaComandoNonQuery(str, values);
     }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            descricao: this.#descricao
+        };
+    }
 }
 
 module.exports = DB_Perfil;

@@ -18,6 +18,10 @@ router.get("/direcao", AM.validar, SC.direcao);
 router.get("/register", AM.validar, SC.register);
 router.post("/cadastrarAluno", AM.validar, AC.postCadastrarAluno);
 
+router.get("/direcaoFetchTurma", AM.validar, SC.direcaoFetchTurma);
+router.get("/direcaoFetchDisciplina", AM.validar, SC.direcaoFetchDisciplina);
+router.post("/cadastrarProfessorTurmaDisciplina", AM.validar, PC.cadastrarProfessorTurmaDisciplina);
+
 
 /*
 router.get("/professores", AM.validar, PC.getProfessores);

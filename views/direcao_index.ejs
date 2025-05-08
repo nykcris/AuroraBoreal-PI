@@ -738,9 +738,9 @@
       </div>
    <!-- Disciplinas table  -->
    <h5 class="card-title mt-4">Disciplinas</h5>
-   <a type="button" id="enviarNota" class="btn btn-primary">Adicionar mais disciplina </a>
-      <div class="mb-3">
-        <table class="table table-hover">
+   <a type="button" id="addDisciplina" class="btn btn-primary">Adicionar mais disciplina </a>
+      <div class="mb-3 table-div">
+        <table id="professor-table" class="table table-hover">
             <thead>
               <tr>
                 <th scope="col">Turma</th>
@@ -750,14 +750,14 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row"> <select class="form-select" aria-label="Default select example">
+                <th scope="row"> <select class="form-select turma-select0" aria-label="Default select example">
                     <option selected>1°A</option>
                     <option >1°B</option>
                     <option >2°A</option>
                     <option >3°A</option>
                   </select>
                 </th>
-                <th scope="row"> <select class="form-select" aria-label="Default select example">
+                <th scope="row"> <select class="form-select disciplina-select0" aria-label="Default select example">
                     <option selected>Matemática</option>
                     <option >Ciências</option>
                     <option >Português</option>
@@ -802,6 +802,12 @@
   </div>
   
   <script>
+
+    let number = 0;
+
+    const addDisciplinaButton = document.getElementById('addDisciplina');
+    addDisciplinaButton.addEventListener('click', addDisciplina);
+  
     function maskCPF(cpf) {
       cpf.value = cpf.value.replace(/\D/g, '')
         .replace(/(\d{3})(\d)/, '$1.$2')
@@ -896,11 +902,113 @@
         document.getElementById('registro-erro').style.display = 'block';
       });
     }
+
+    function cadastrarProfessorTurmaDisciplina() {
+      for (let i = 0; i < number; i++) {
+        let dis = ".disciplina-select"+i;
+        let tur = ".turma-select"+i;
+        let disciplina = document.querySelector(dis);
+        let turma = document.querySelector(tur);
+
+        let dadosDT = {
+          professor: prof,
+          disciplina: disciplina.value,
+          turma: turma.value
+        }
+
+
+        fetch('/system/cadastrarProfessorTurmaDisciplina', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(dados)
+        })
+        
+      }
+
   
+    }
+    
+    
+    
+    
+    
     function myMenuFunction() {
       const menu = document.getElementById("navMenu");
       menu.className = (menu.className === "nav-menu") ? "nav-menu responsive" : "nav-menu";
     }
+
+    function TurmaSelectFetch(number){
+      fetch('/system/direcaoFetchTurma', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
+      })
+      .then(res => res.json())
+      .then(result => {
+        console.log(result);
+        let sel = ".turma-select"+number;
+        let turmaSelect = document.querySelectorAll(sel);
+        turmaSelect.forEach(select => {
+          select.innerHTML = '';
+          result.forEach(turma => {
+            let option = document.createElement('option');
+            option.value = turma.id;
+            option.text = turma.nome;
+            select.appendChild(option);
+          });
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    }
+    
+    function DisciplinaSelectFetch(number){
+      fetch('/system/direcaoFetchDisciplina', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
+      })
+      .then(res => res.json())
+      .then(result => {
+        console.log(result);
+        let sel = ".disciplina-select"+number;
+        let disciplinaSelect = document.querySelectorAll(sel);
+        disciplinaSelect.forEach(select => {
+          select.innerHTML = '';
+          result.forEach(disciplina => {
+            let option = document.createElement('option');
+            option.value = disciplina.id;
+            option.text = disciplina.nome;
+            select.appendChild(option);
+          });
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    }
+    
+    function addDisciplina() {
+      number++;
+      let table = document.querySelector('#professor-table');
+      let tbody = table.querySelector('tbody');
+      console.log(tbody);
+      let newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <th scope="row"> <select class="form-select turma-select${number}" aria-label="Default select example"></select></th>
+        <th scope="row"> <select class="form-select disciplina-select${number}" aria-label="Default select example"></select></th>
+      `;
+      table.querySelector('tbody').appendChild(newRow);
+      TurmaSelectFetch(number);
+      DisciplinaSelectFetch(number);
+    }
+
+    TurmaSelectFetch(number);
+    DisciplinaSelectFetch(number);
+
+
   </script>
   <!-- fim cadastro alunos -->
   

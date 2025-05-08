@@ -5,6 +5,7 @@ const DB_Resposta = require("../models/respostaModel");
 const DB_Aluno = require("../models/alunoModel");
 const DB_Professor = require('../models/professorModel');
 const DB_Disciplina = require("../models/disciplinaModel");
+const DB_Turma = require("../models/turmaModel");
 
 
 class SystemController {
@@ -37,9 +38,18 @@ class SystemController {
             professores
         });
     }
-    
-    
-    
+
+    async direcaoFetchTurma(req, res) {
+        let DBT = new DB_Turma();
+        let turmas = await DBT.listar();
+        res.send(turmas);
+    }
+
+    async direcaoFetchDisciplina(req, res) {
+        let DBD = new DB_Disciplina();
+        let disciplinas = await DBD.listar();
+        res.send(disciplinas);
+    }
 
     async register(req,res) {
         let db_perfi = new DB_Perfil();

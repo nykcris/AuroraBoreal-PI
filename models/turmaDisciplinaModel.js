@@ -37,6 +37,14 @@ class DB_TurmaDisciplina {
             [this.#id_turma, this.#id_disciplina]
         );
     }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            id_turma: this.#id_turma,
+            id_disciplina: this.#id_disciplina
+        };
+    }
 }
 
 module.exports = DB_TurmaDisciplina;

@@ -11,7 +11,7 @@ class DB_Turma {
     async listar() {
         let DB = new db();
         let rows = await DB.ExecutaComando("SELECT * FROM tb_turma", []);
-        return rows.map(t => new DB_Turma(t.id, t.nome));
+        return rows
     }
 
     async cadastrar() {
@@ -20,6 +20,13 @@ class DB_Turma {
             "INSERT INTO tb_turma (nome) VALUES (?)",
             [this.#nome]
         );
+    }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            nome: this.#nome
+        };
     }
 }
 

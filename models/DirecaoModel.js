@@ -50,6 +50,16 @@ class DB_Direcao {
         const rows = await DB.ExecutaComando("SELECT * FROM tb_direcao WHERE email = ? AND senha = ?", [email, senha]);
         return rows.length > 0 ? rows[0] : null;
     }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            nome: this.#nome,
+            email: this.#email,
+            cpf: this.#cpf,
+            senha: this.#senha
+        };
+    }
 }
 
 module.exports = DB_Direcao;
