@@ -630,6 +630,7 @@
                                             <th scope="col">Email</th>
                                             <th scope="col">responsavel</th>
                                             <th scope="col">telefone</th>
+                                            <th scope="col">ações</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -642,6 +643,10 @@
                                               <td><%= aluno.email %></td>
                                               <td><%= aluno.responsavel_nome %></td>
                                               <td><%= aluno.responsavel_tel %></td>
+                                              <td>
+                                                 <button type="button" class="btn btn-warning btn-sm" onclick="editAluno(<%= aluno.aluno_id %>)">Editar</button>
+                                                <button type="button" class="btn btn-danger btn-sm" onclick="deleteAluno(<%= aluno.aluno_id %>)">Excluir</button>
+                                               
                                             </tr>
                                           <% }) %>
                                         
@@ -742,39 +747,7 @@
         <input type="number" class="form-control" name="salario" id="salario" required>
         <small id="salario-error" style="color: red; display: none;">Salário inválido</small>
       </div>
-   <!-- Disciplinas table  -->
-   <h5 class="card-title mt-4">Disciplinas</h5>
-   <a type="button" id="addDisciplina" class="btn btn-primary">Adicionar mais disciplina </a>
-      <div class="mb-3 table-div">
-        <table id="professor-table" class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">Turma</th>
-                <th scope="col">Disciplina</th>
-             
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row"> <select class="form-select turma-select0" aria-label="Default select example">
-                    <option selected>1°A</option>
-                    <option >1°B</option>
-                    <option >2°A</option>
-                    <option >3°A</option>
-                  </select>
-                </th>
-                <th scope="row"> <select class="form-select disciplina-select0" aria-label="Default select example">
-                    <option selected>Matemática</option>
-                    <option >Ciências</option>
-                    <option >Português</option>
-                   
-                  </select>
-                </th>
-              </tr>
-              
-            </tbody>
-          </table>
-</div>
+  
   
       <h3>Dados para contato</h3>
   
@@ -806,13 +779,58 @@
       <div id="registro-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
     </div>
   </div>
-  
+    <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Associar professor a disciplina</h5>
+      <h3>escolha o professor</h3>
+      <select  class="form-select ">
+                    <option selected>anderson</option>
+                    <option >bia</option>
+                    <option >ny</option>
+                    <option >gi</option>
+                  </select>
+      <!-- Disciplinas table  -->
+   <h5 class="card-title mt-4">Disciplinas</h5>
+   <a type="button" id="addDisciplina" class="btn btn-primary">Adicionar mais disciplina </a>
+      <div class="mb-3 table-div">
+        <table id="professor-table" class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Turma</th>
+                <th scope="col">Disciplina</th>
+             
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"> <select class="form-select turma-select0" aria-label="Default select example">
+                    <option selected>1°A</option>
+                    <option >1°B</option>
+                    <option >2°A</option>
+                    <option >3°A</option>
+                  </select>
+                </th>
+                <th scope="row"> <select class="form-select disciplina-select0" aria-label="Default select example">
+                    <option selected>Matemática</option>
+                    <option >Ciências</option>
+                    <option >Português</option>
+                   
+                  </select>
+                </th>
+              </tr>
+              
+            </tbody>
+          </table>
+          <a type="button"  class="btn btn-primary">Associar</a>
+</div>
+      </div>
+    </div>
   <script>
 
     let number = 0;
 
-    const addDisciplinaButton = document.getElementById('addDisciplina');
-    addDisciplinaButton.addEventListener('click', addDisciplina);
+   const addDisciplinaButton = document.getElementById('addDisciplina');
+   addDisciplinaButton.addEventListener('click', addDisciplina);
   
     function maskCPF(cpf) {
       cpf.value = cpf.value.replace(/\D/g, '')
@@ -850,7 +868,7 @@
       const email = document.getElementById('email-prof').value.trim();
       const telefone = document.getElementById('numero-celular').value.trim();
       const senha = document.getElementById('senha-academica').value.trim();
-      const disciplinas = document.querySelector('input[name="disciplinas"]:checked').value;
+     const disciplinas = document.querySelector('input[name="disciplinas"]:checked').value;
   
       let isValid = true;
   
