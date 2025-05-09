@@ -59,6 +59,14 @@ class DB_Notas {
         return rows;
     }
 
+    toJSON() {
+        return {
+            id: this.#id,
+            id_aluno: this.#id_aluno,
+            id_turma_disciplina: this.#id_turma_disciplina,
+            nota: this.#nota
+        };
+    }
 }
 
 

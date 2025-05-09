@@ -6,6 +6,8 @@ const DB_Resposta = require("../models/respostaModel");
 const DB_Aluno = require("../models/alunoModel");
 const DB_Professor = require('../models/professorModel');
 const DB_Disciplina = require("../models/disciplinaModel");
+const DB_Turma = require("../models/turmaModel");
+const DB_ProfessorTurmaDisciplina = require("../models/professorTurmaDisciplinaModel");
 
 var DB = new db();
 
@@ -143,7 +145,29 @@ class ProfessorController {
           console.log("Erro ao gravar atividade");
           res.send("Erro ao gravar atividade");
         }
-      }
+    }
+
+    async cadastrarProfessorTurmaDisciplina(req, res) {
+        console.log("Entrou na rota /system/cadastrarProfessorTurmaDisciplina");
+        console.log(req.body);
+        res.send("Funcionando");
+
+        let DBT = new DB_Turma();
+        let turma = await DBT.obter(req.body.turma);
+        let DBD = new DB_Disciplina();
+        let disciplina = await DBD.obter(req.body.disciplina);
+        let DBP = new DB_Professor();
+        let professor = await DBP.obter(req.body.professor);
+        let DBPD = new DB_ProfessorTurmaDisciplina(0, professor[0].id, turma[0].id, disciplina[0].id);
+        if (sucesso) {
+            console.log("Sucesso ao cadastrar professor disciplina");
+            res.send("Sucesso ao cadastrar professor disciplina");
+        } else {
+            console.log("Erro ao cadastrar professor disciplina");
+            res.send("Erro ao cadastrar professor disciplina");
+        }
+
+    }
 }
 
 module.exports = ProfessorController;

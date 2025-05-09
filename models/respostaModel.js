@@ -149,6 +149,21 @@ class DB_Resposta {
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(sql, valores);
     }
+
+    toJSON() {
+        return {
+            res_id: this.#res_id,
+            id_atividade: this.#id_atividade,
+            id_aluno: this.#id_aluno,
+            resposta: this.#resposta,
+            data_envio: this.#data_envio,
+            nota: this.#nota,
+            comentario_professor: this.#comentario_professor,
+            anexo_resposta: this.#anexo_resposta,
+            nome_aluno: this.#nome_aluno
+        };
+    }
+
 }
 
 module.exports = DB_Resposta;

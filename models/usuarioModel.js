@@ -86,6 +86,16 @@ class DB_Usuario {
         let valores = [this.#nome, this.#email, this.#senha, this.#perfilId, id];
         return await db.ExecutaComandoNonQuery(sql, valores);
     }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            nome: this.#nome,
+            email: this.#email,
+            senha: this.#senha,
+            perfilId: this.#perfilId
+        };
+    }
 }
 
 module.exports = DB_Usuario;

@@ -61,6 +61,18 @@ class DB_Professor {
         this.#id = result.insertId;
         return result;
     }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            nome: this.#nome,
+            email: this.#email,
+            cpf: this.#cpf,
+            senha: this.#senha,
+            salario: this.#salario,
+            telefone: this.#telefone
+        };
+    }
 }
 
 module.exports = DB_Professor;

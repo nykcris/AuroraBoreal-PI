@@ -39,5 +39,7 @@ router.get("/", AMA.validar, AC.alunos);
 // router.get("/atividades", AM.validar, AC.atividades);
 router.get("/resposta", AMA.validar, AC.responderAtividades);
 router.post("/resposta", AMA.validar, upload.single('anexo_resposta'), AC.responderAtividadesPost);
+router.get("/quadroNotas",AMA.validar, AC.quadroNotas);
+router.post("/quadroNotasFetch",AMA.validar, AC.tabelaNotasFetch);
 
 module.exports = router;

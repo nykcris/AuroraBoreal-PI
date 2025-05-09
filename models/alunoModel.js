@@ -104,6 +104,21 @@ class DB_Aluno {
         const rows = await DB.ExecutaComando(sql, valores);
         return rows.length > 0 ? rows[0] : null;
     }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            aluno_nome: this.#aluno_nome,
+            aluno_cpf: this.#aluno_cpf,
+            turma_id: this.#turma_id,
+            email: this.#email,
+            senha: this.#senha,
+            aluno_nasc: this.#aluno_nasc,
+            responsavel_nome: this.#responsavel_nome,
+            responsavel_cpf: this.#responsavel_cpf,
+            responsavel_tel: this.#responsavel_tel
+        };
+    }
 }
 
 module.exports = DB_Aluno;
