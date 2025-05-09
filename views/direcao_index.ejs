@@ -449,14 +449,14 @@
         <small id="data-aniversario-error" style="color: red; display: none;">Data inválida</small>
       </div>
   
-      <fieldset class="row mb-3">
-        <legend>Série</legend>
-        <div>
-          <label><input type="radio" name="serie" value="1" checked> 1° ano do EM</label><br>
-          <label><input type="radio" name="serie" value="2"> 2° ano do EM</label><br>
-          <label><input type="radio" name="serie" value="3"> 3° ano do EM</label>
-        </div>
-      </fieldset>
+      <div class="mb-3">
+        <label for="turma-select" class="form-label">Selecione a Turma:</label>
+        <select class="form-select" id="turma-select" name="turma">
+            <option value="" selected disabled>Selecione a turma</option>
+        </select>
+      </div>
+
+
   
       <h3>Dados para contato</h3>
   
@@ -477,7 +477,7 @@
       <div class="mb-3">
         <input type="email" name="senha-academica" id="email-academica" class="form-control" placeholder="Crie um E-mail" required>
 
-        <small id="senha-error" style="color: red; display: none;">Email inválido</small>
+        <small id="email-error" style="color: red; display: none;">Email inválido</small>
       </div>
   
       <div class="mb-3">
@@ -487,7 +487,7 @@
       </div>
   
       <div class="mb-3">
-        <button type="button" class="btn btn-primary" onclick="validateForm()">Efetuar Matrícula</button>
+        <button type="button" class="btn btn-primary" onclick="validateAlunoForm()">Efetuar Matrícula</button>
       </div>
   
       <div id="matricula-sucesso" style="display:none;color:green;">Matrícula efetuada com sucesso!</div>
@@ -525,12 +525,13 @@
     function validateDateOfBirth() {
       const input = document.getElementById('data_aniversario');
       const date = new Date(input.value);
-      const minDate = new Date('2010-01-01');
+      const minDate = new Date('2000-01-01');
       const now = new Date();
       return date >= minDate && date <= now;
     }
   
-    function validateForm() {
+    function validateAlunoForm() {
+      
       const aluno = document.getElementById('nome-aluno').value.trim();
       const responsavel = document.getElementById('nome-responsavel').value.trim();
       const cpfAluno = document.getElementById('cpf-aluno').value.trim();
@@ -540,7 +541,12 @@
       const telefone = document.getElementById('numero-celular').value.trim();
       const senha = document.getElementById('senha-academica').value.trim();
       const serie = document.querySelector('input[name="serie"]:checked').value;
+      const email_aca = document.querySelector('#email-academica').value.trim();
+      const senha_aca = document.querySelector('#senha-academica').value.trim();
   
+
+      
+
       let isValid = true;
   
       isValid = isValid && aluno !== '';
@@ -550,7 +556,6 @@
       isValid = isValid && validateDateOfBirth();
       isValid = isValid && email !== '';
       isValid = isValid && telefone !== '';
-      isValid = isValid && validatePassword(senha);
   
       document.getElementById('nome-aluno-error').style.display = aluno ? 'none' : 'inline';
       document.getElementById('nome-responsavel-error').style.display = responsavel ? 'none' : 'inline';
@@ -559,7 +564,6 @@
       document.getElementById('data-aniversario-error').style.display = validateDateOfBirth() ? 'none' : 'inline';
       document.getElementById('email-aluno-error').style.display = email ? 'none' : 'inline';
       document.getElementById('celular-error').style.display = telefone ? 'none' : 'inline';
-      document.getElementById('senha-error').style.display = validatePassword(senha) ? 'none' : 'inline';
   
       if (!isValid) {
         document.getElementById('matricula-erro').style.display = 'block';
@@ -571,8 +575,8 @@
         aluno_nome: aluno,
         aluno_cpf: cpfAluno,
         turma_id: serie,
-        email: email,
-        senha: senha,
+        email: email_aca,
+        senha: senha_aca,
         aluno_nasc: dataNasc,
         responsavel_nome: responsavel,
         responsavel_cpf: cpfResponsavel,
@@ -602,11 +606,38 @@
         document.getElementById('matricula-erro').style.display = 'block';
       });
     }
+
+    function TurmaIDSelectFetch(){
+      fetch('/system/direcaoFetchTurma', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
+      })
+      .then(res => res.json())
+      .then(result => {
+        console.log(result);
+        let sel = "#turma-select";
+        let turmaSelect = document.querySelectorAll(sel);
+        turmaSelect.forEach(select => {
+          select.innerHTML = '';
+          result.forEach(turma => {
+            let option = document.createElement('option');
+            option.value = turma.id;
+            option.text = turma.nome;
+            select.appendChild(option);
+          });
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    }
   
     function myMenuFunction() {
       const menu = document.getElementById("navMenu");
       menu.className = (menu.className === "nav-menu") ? "nav-menu responsive" : "nav-menu";
     }
+    TurmaIDSelectFetch();
   </script>
   <!-- fim cadastro alunos -->
   
