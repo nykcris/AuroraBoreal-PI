@@ -4,7 +4,8 @@ const DB_Atividade = require("../models/atividadeModel");
 const DB_Resposta = require("../models/respostaModel");
 const DB_Aluno = require("../models/alunoModel");
 const DB_Notas = require("../models/notasModel");
-const DB_TurmaDisciplina = require("../models/turmaDisciplinaModel");
+const DB_Turma = require("../models/turmaModel");
+const DB_ProfessorTurmaDisciplina = require("../models/professorTurmaDisciplinaModel");
 
 class AlunoController {
   async alunos(req,res) {
@@ -159,17 +160,45 @@ class AlunoController {
   async tabelaNotasFetch(req, res){
     let DBN = new DB_Notas();
     let DBD = new DB_Disciplina();
-    let DBT = new DB_TurmaDisciplina();
-    let notas = await DBN.obter(req.body.id_aluno, req.body.id_turma_disciplina);
-    let turma_disciplina = await DBT.obter(req.body.id_turma_disciplina);
-    let disciplina = await DBD.obter(turma_disciplina[0].id_disciplina);
-    let data = {
-      "turma_disciplina":turma_disciplina,
-      "disciplina":disciplina,
-      "notas":notas
+    let DBA = new DB_Aluno();
+    let DBT = new DB_Turma();
+    let DBPTD = new DB_ProfessorTurmaDisciplina();
+    let aluno = await DBA.obter(req.cookies.usuarioLogado);
+    if(aluno.length == 0){
+        res.send("Aluno não encontrado!");
+        return;
     }
+    let turma = await DBT.obter(aluno[0].turma_id);
+    let turma_disciplinas = await DBPTD.listarDisciplinas(turma[0].id);
+    let disciplinas = [];
+    for (let i = 0; i < turma_disciplinas.length; i++) {
+        disciplinas.push(await DBD.obter(turma_disciplinas[i].id_disciplina));
+    }
+    let data = [];
+    for (let i = 0; i < disciplinas.length; i++) {
+        let notas = await DBN.obter(req.cookies.usuarioLogado, turma_disciplinas[i].id);
+        data.push({
+            "disciplina_nome":disciplinas[i][0].nome,
+            "nota1":notas[0] ? notas[0].nota : 0,
+            "nota2":notas[1] ? notas[1].nota : 0,
+            "nota3":notas[2] ? notas[2].nota : 0,
+            "nota4":notas[3] ? notas[3].nota : 0,
+            "media":(notas[0] ? notas[0].nota : 0 + notas[1] ? notas[1].nota : 0 + notas[2] ? notas[2].nota : 0 + notas[3] ? notas[3].nota : 0)/4
+        })
+    }
+
+
     res.send(data);
+
+
+
+
   }
+
+  async quadroNotas(req, res){
+    res.render("quadroNotas",{ layout: 'layouts/layout'});
+  }
+
 
   
 

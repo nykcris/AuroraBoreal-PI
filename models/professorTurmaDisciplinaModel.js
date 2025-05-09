@@ -43,6 +43,17 @@ class DB_ProfessorTurmaDisciplina {
         `, [this.#id_professor, this.#id_turma, this.#id_disciplina]);
     }
 
+    async listarDisciplinas(id_turma) {
+        const DB = new db();
+        const rows = await DB.ExecutaComando(`
+            SELECT pd.id, d.nome
+            FROM tb_turma_disciplina_professor pd
+            JOIN tb_disciplina d ON pd.disciplina_id = d.id
+            WHERE pd.turma_id = ?
+        `, [id_turma]);
+        return rows;
+    }
+
     toJSON() {
         return {
             id: this.#id,

@@ -67,8 +67,33 @@ class SystemController {
 
     
 
+    //======== Area de Fetch para Nome e Outros =========
 
+    async fetchNomeAluno(req, res) {
+        let DBA = new DB_Aluno();
+        let alunos = await DBA.obter(req.query.id);
+        res.send(alunos);
+    }
     
+    async fetchNomeProfessor(req, res) {
+        let DBP = new DB_Professor();
+        let professores = await DBP.obter(req.query.id);
+        res.send(professores);
+    }
+    
+    async fetchNomeDisciplina(req, res) {
+        let DBD = new DB_Disciplina();
+        let disciplinas = await DBD.obter(req.query.id);
+        res.send(disciplinas);
+    }
+    
+    async fetchNomeTurma(req, res) {
+        let DBT = new DB_Turma();
+        let turmas = await DBT.obter(req.query.id);
+        res.send(turmas);
+    }
+
+    //======== Fim da Area de Fetch para Nome e Outros =========
 }
 
 

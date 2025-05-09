@@ -22,6 +22,12 @@ class DB_Disciplina {
         );
     }
 
+    async obter(id) {
+        let DB = new db();
+        let rows = await DB.ExecutaComando("SELECT * FROM tb_disciplina WHERE id = ?", [id]);
+        return rows;
+    }
+
     toJSON() {
         return {
             id: this.#id,
