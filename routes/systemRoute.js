@@ -16,6 +16,8 @@ router.get("/", LC.getlogin);
 router.post("/postlogin", LC.postlogin);
 router.get("/direcao", AM.validar, SC.direcao);
 router.get("/register", AM.validar, SC.register);
+
+router.post("/cadastrarProfessor", AM.validar, PC.cadastrarProfessor);
 router.post("/cadastrarAluno", AM.validar, AC.postCadastrarAluno);
 
 router.get("/direcaoFetchTurma", AM.validar, SC.direcaoFetchTurma);

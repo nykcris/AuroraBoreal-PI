@@ -56,7 +56,7 @@ class ProfessorController {
             console.log(atividades[i].data_entrega);
         }
 
-        res.render("professores_index",{ layout: 'layouts/layout',rows, 'atividades_cadastradas':atividades_lista, atividades_row});
+        res.render("Professor/professores_index",{ layout: 'layouts/layout',rows, 'atividades_cadastradas':atividades_lista, atividades_row});
     }
 
     async deletarAtividades(req, res) {
@@ -78,7 +78,7 @@ class ProfessorController {
         let atividade = await DBA.listar(req.query.id);
         console.log(atividade);
 
-        res.render("editar_atividades", { layout: 'layout', atividade });
+        res.render("Professor/editar_atividades", { layout: 'layout', atividade });
     }
 
     async editarAtividadesPost(req, res) {
@@ -168,6 +168,34 @@ class ProfessorController {
         }
 
     }
+
+    async cadastrarProfessor(req,res){
+        let DBP = new DB_Professor();
+        let professor = new DB_Professor(0,req.body.prof_nome,req.body.email,req.body.prof_cpf,req.body.senha,req.body.prof_salario,req.body.telefone);
+        let sucesso = await professor.cadastrar();
+        if (sucesso) {
+            console.log("Sucesso ao cadastrar professor");
+            res.send("Sucesso ao cadastrar professor");
+        } else {
+            console.log("Erro ao cadastrar professor");
+            res.send("Erro ao cadastrar professor");
+        }
+
+    }
+
+    //========== Fetchs ==========
+    async fetchNomeProfessor(req, res) {
+        let DBP = new DB_Professor();
+        let professores = await DBP.obter(req.query.id);
+        res.send(professores);
+    }
+
+    async fetchListaProfessor(req, res) {
+        let DBP = new DB_Professor();
+        let professores = await DBP.listar();
+        res.send(professores);
+    }
+    //========== Fim Fetchs ==========
 }
 
 module.exports = ProfessorController;

@@ -1,0 +1,77 @@
+<body>
+    <div class="pagetitle">
+        <h1>Editar Aluno</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Pág.inicial</a></li>
+                <li class="breadcrumb-item active">Editar Aluno</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Editar Aluno</h5>
+                    <form id="form-aluno" method="POST" action="/system/alunos/atualizar">
+                        <input type="hidden" name="id" value="<%=aluno.aluno_id%>">
+                        <div class="mb-3">
+                            <label for="nome-aluno" class="form-label">Nome do Aluno</label>
+                            <input type="text" class="form-control" name="aluno_nome" required value="<%=aluno.aluno_nome%>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="cpf-aluno" class="form-label">CPF do Aluno</label>
+                            <input type="text" class="form-control" name="aluno_cpf" required value="<%=aluno.aluno_cpf%>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="turma-select" class="form-label">Turma</label>
+                            <select class="form-select" id="turma-select" name="turma_id" required>
+                                <option value="" selected disabled>Selecione a turma</option>
+                                <% for( let i = 0; i < turmas.length; i++ ) { %>
+                                    <option value="<%=turmas[i].id%>" <%=turmas[i].id == aluno.turma_id ? 'selected' : ''%>><%=turmas[i].nome%></option>
+                                <% } %> 
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email-aluno" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" required value="<%=aluno.email%>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="senha-academica" class="form-label">Senha</label>
+                            <input type="password" class="form-control" name="senha" required value="<%=aluno.senha%>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="data_aniversario" class="form-label">Data de Nascimento</label>
+                            <input type="date" class="form-control" name="aluno_nasc" required value="<%=aluno.aluno_nasc%>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="nome-responsavel" class="form-label">Nome do Responsável</label>
+                            <input type="text" class="form-control" name="responsavel_nome" required value="<%=aluno.responsavel_nome%>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="cpf-responsavel" class="form-label">CPF do Responsável</label>
+                            <input type="text" class="form-control" name="responsavel_cpf" required value="<%=aluno.responsavel_cpf%>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="numero-celular" class="form-label">Número de Celular</label>
+                            <input type="text" class="form-control" name="responsavel_tel" required value="<%=aluno.responsavel_tel%>">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Atualizar Aluno</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+    <script src="/js/direcao.js"></script>
+</body>

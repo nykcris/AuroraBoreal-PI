@@ -98,11 +98,7 @@
                     const emailValido = email !== '' && validateEmail(email);
                     showError('email-login', 'email-login-error', emailValido);
 
-                    // Valida senha
-                    const senhaValida = senha !== '' && validatePassword(senha);
-                    showError('senha-login', 'senha-login-error', senhaValida);
-
-                    if (!emailValido || !senhaValida) {
+                    if (!emailValido) {
                         return; // Para a execução se houver erros
                     }
 

@@ -6,7 +6,7 @@ const DirecaoModel = require("../models/DirecaoModel");
 class LoginController{
     async getlogin(req, res) {
 
-        res.render("form_login",{ layout: false });
+        res.render("Sistema/form_login",{ layout: false });
     }
     
     async postlogin(req, res) {
