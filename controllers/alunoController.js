@@ -201,8 +201,12 @@ class AlunoController {
 
   async editarAluno(req, res){
     let DBA = new DB_Aluno();
+    let DBT = new DB_Turma();
+    let turmas = await DBT.listar();
     let aluno = await DBA.obter(req.query.id);
-    res.render("Aluno/editar_aluno",{ layout: 'layouts/layout', aluno });
+    console.log(aluno);
+    console.log(turmas);
+    res.render("Aluno/editar_aluno",{ layout: 'layouts/layout', aluno , turmas });
 
   }
 
@@ -219,6 +223,9 @@ class AlunoController {
     let DBA = new DB_Aluno();
     let aluno = new DB_Aluno(req.body.id,req.body.aluno_nome,req.body.aluno_cpf,req.body.turma_id,req.body.email,req.body.senha,req.body.aluno_nasc,req.body.responsavel_nome,req.body.responsavel_cpf,req.body.responsavel_tel);
     let sucesso = await aluno.atualizar();
+    if(sucesso){
+      res.redirect("/system/direcao");
+    }
   }
 
 

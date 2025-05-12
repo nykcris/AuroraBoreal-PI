@@ -2,38 +2,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var number = 0;
 
-    const professorAssociarButton = document.getElementById('professorAssociarButton');
-    professorAssociarButton.addEventListener('click', cadastrarProfessorTurmaDisciplina);
+    const professorAssociarButton = document.getElementById('professorAssociarButton'); professorAssociarButton.addEventListener('click', cadastrarProfessorTurmaDisciplina);
+    const addDisciplinaButton = document.getElementById('addDisciplina'); addDisciplinaButton.addEventListener('click', addDisciplina);
+    const validadeprofessorButton = document.getElementById('validar-professor-button'); validadeprofessorButton.addEventListener('click', validateProfessorForm);
+    const validateAlunoFormButton = document.getElementById('validar-aluno-button'); validateAlunoFormButton.addEventListener('click', validateAlunoForm);
+    
 
-    const addDisciplinaButton = document.getElementById('addDisciplina');
-    addDisciplinaButton.addEventListener('click', addDisciplina);
-
-    const validadeprofessorButton = document.getElementById('validar-professor-button');
-    validadeprofessorButton.addEventListener('click', validateProfessorForm);
-
-    const editAlunoButton = document.querySelectorAll('.editAlunoButton');
+    const editAlunoButton = document.querySelectorAll('.button-edit-aluno');
     editAlunoButton.forEach(button => {
         button.addEventListener('click', editAluno);
     })
 
-    const deleteAlunoButton = document.querySelectorAll('.deleteAlunoButton');
+    const deleteAlunoButton = document.querySelectorAll('.button-delete-aluno');
     deleteAlunoButton.forEach(button => {
         button.addEventListener('click', deleteAluno);
     })
 
-    const editProfessorButton = document.querySelectorAll('.editProfessorButton');
+    const editProfessorButton = document.querySelectorAll('.button-edit-professor');
     editProfessorButton.forEach(button => {
         button.addEventListener('click', editProfessor);
     })
 
-    const deleteProfessorButton = document.querySelectorAll('.deleteProfessorButton');
+    const deleteProfessorButton = document.querySelectorAll('.button-delete-professor');
     deleteProfessorButton.forEach(button => {
         button.addEventListener('click', deleteProfessor);
     })
 
+    const maskCPFInputs = document.querySelectorAll('.mask-cpf');
+    maskCPFInputs.forEach(input => {
+        input.addEventListener('input', maskCPF);
+    })
 
-    function maskCPF(cpf) {
-        cpf.value = cpf.value.replace(/\D/g, '')
+
+
+    function maskCPF() {
+        this.value = this.value.replace(/\D/g, '')
             .replace(/(\d{3})(\d)/, '$1.$2')
             .replace(/(\d{3})(\d)/, '$1.$2')
             .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
@@ -281,22 +284,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(err => {
                 console.error(err);
             });
-    }
-
-
-
-
-    function deleteProfessor(id){
-        fetch(`/system/professores/delete/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                alert(data);
-                location.reload();
-            })
-            .catch(err => {
-                console.error(err);
-            });
-
     }
 
 
