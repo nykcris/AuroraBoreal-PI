@@ -20,19 +20,20 @@ class SystemController {
                 "per_descricao":per.descricao
             })
         ))
-        res.render("form_login",{ layout: false ,users:rows});
+        res.render("Sistema/form_login",{ layout: false ,users:rows});
     }
    
     
 
     async direcao(req, res) {
-        console.log("Entrou na página de direcao");
     
         const alunoModel = new DB_Aluno();
         const listaAlunos = await alunoModel.listar();
-        const professores = await DB_Professor.listarTodos(); // Agora usamos este
+        const professores = await DB_Professor.listar();
+
+        console.log(listaAlunos);
     
-        res.render("direcao_index", {
+        res.render("Direcao/direcao_index", {
             layout: 'layouts/layout',
             alunos: listaAlunos,
             professores
@@ -62,7 +63,7 @@ class SystemController {
                 "per_descricao":per.descricao
             })
         ))
-        res.render("form_register",{ layout: 'imports_layout',rows});
+        res.render("Sistema/form_register",{ layout: 'imports_layout',rows});
     }
 
     

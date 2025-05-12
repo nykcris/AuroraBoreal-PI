@@ -5,7 +5,6 @@ const multer = require('multer');
 const fs = require('fs');
 const RHome = require("./routes/homeRoute");
 const RSystem = require("./routes/systemRoute");
-const RUser = require("./routes/userRoute");
 const RProfessor = require("./routes/professorRoute");
 const RAluno = require("./routes/alunoRoute");
 const app = express();
@@ -27,7 +26,6 @@ app.use(cookieParser());
 app.use('/static', express.static('public'));
 app.use("/",RHome);
 app.use("/system",RSystem);
-app.use("/system/users",RUser);
 app.use("/system/professores",RProfessor);
 app.use("/system/alunos",RAluno);
 

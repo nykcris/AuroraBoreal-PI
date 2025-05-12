@@ -39,7 +39,7 @@ class AlunoController {
     }
     
     
-    res.render("alunos_index",{ layout: 'layouts/layout', rows, atividades_cadastradas:atividades, atividadesFeitas });
+    res.render("Aluno/alunos_index",{ layout: 'layouts/layout', rows, atividades_cadastradas:atividades, atividadesFeitas });
   }
 
   async postCadastrarAluno(req, res) {
@@ -111,7 +111,7 @@ class AlunoController {
     let atividade = await DBA.listar(req.query.id);
     console.log(atividade);
 
-    res.render("respostas", { layout: 'layouts/layout', atividade });
+    res.render("Aluno/respostas", { layout: 'layouts/layout', atividade });
 
   }
 
@@ -196,8 +196,32 @@ class AlunoController {
   }
 
   async quadroNotas(req, res){
-    res.render("quadroNotas",{ layout: 'layouts/layout'});
+    res.render("Aluno/quadroNotas",{ layout: 'layouts/layout'});
   }
+
+  async editarAluno(req, res){
+    let DBA = new DB_Aluno();
+    let aluno = await DBA.obter(req.query.id);
+    res.render("Aluno/editar_aluno",{ layout: 'layouts/layout', aluno });
+
+  }
+
+  async deleteAluno(req, res){
+    let DBA = new DB_Aluno();
+    let aluno = await DBA.excluir(req.body.id);
+    if(aluno){
+      res.send("Aluno excluido!");
+    }
+
+  }
+
+  async atualizarAluno(req, res){
+    let DBA = new DB_Aluno();
+    let aluno = new DB_Aluno(req.body.id,req.body.aluno_nome,req.body.aluno_cpf,req.body.turma_id,req.body.email,req.body.senha,req.body.aluno_nasc,req.body.responsavel_nome,req.body.responsavel_cpf,req.body.responsavel_tel);
+    let sucesso = await aluno.atualizar();
+  }
+
+
 
 
   

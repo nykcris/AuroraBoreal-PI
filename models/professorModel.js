@@ -35,10 +35,10 @@ class DB_Professor {
     }
 
 
-    static async listarTodos() {
+    static async listar() {
         const DB = new db();
         const rows = await DB.ExecutaComando("SELECT * FROM tb_professor", []);
-        return rows.map(p => new DB_Professor(p.id, p.nome, p.email, p.cpf, p.senha));
+        return rows;
     }
 
     async obter(id) {
