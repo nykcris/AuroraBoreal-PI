@@ -105,6 +105,32 @@ class DB_Aluno {
         return rows.length > 0 ? rows[0] : null;
     }
 
+    async atualizar() {
+        const DB = new db();
+        const sql = `
+            UPDATE tb_aluno SET 
+                aluno_nome = ?, aluno_cpf = ?, turma_id = ?, email = ?, senha = ?, 
+                aluno_nasc = ?, responsavel_nome = ?, responsavel_cpf = ?, responsavel_tel = ?
+            WHERE id = ?
+        `;
+        const valores = [
+            this.#aluno_nome,
+            this.#aluno_cpf,
+            this.#turma_id,
+            this.#email,
+            this.#senha,
+            this.#aluno_nasc,
+            this.#responsavel_nome,
+            this.#responsavel_cpf,
+            this.#responsavel_tel,
+            this.#id
+        ];
+        
+        let sucesso = await DB.ExecutaComandoNonQuery(sql, valores); // retorna true ou false
+        return sucesso; 
+    }
+
+
     toJSON() {
         return {
             id: this.#id,

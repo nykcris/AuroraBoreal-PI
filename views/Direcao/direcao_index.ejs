@@ -266,15 +266,15 @@
             </div>
 
             <div class="mb-3">
-              <input type="text" name="cpf-aluno" id="cpf-aluno" class="form-control" placeholder="CPF do aluno"
-                maxlength="14" required oninput="maskCPF(this)">
+              <input type="text" name="cpf-aluno" id="cpf-aluno" class="form-control mask-cpf" placeholder="CPF do aluno"
+                maxlength="14" required >
 
               <small id="cpf-aluno-error" style="color: red; display: none;">CPF inválido</small>
             </div>
 
             <div class="mb-3">
-              <input type="text" name="cpf-responsavel" id="cpf-responsavel" class="form-control"
-                placeholder="CPF do responsável" maxlength="14" required oninput="maskCPF(this)">
+              <input type="text" name="cpf-responsavel" id="cpf-responsavel" class="form-control mask-cpf"
+                placeholder="CPF do responsável" maxlength="14" required >
 
               <small id="cpf-responsavel-error" style="color: red; display: none;">CPF inválido</small>
             </div>
@@ -326,7 +326,7 @@
             </div>
 
             <div class="mb-3">
-              <button type="button" class="btn btn-primary" onclick="validateAlunoForm()">Efetuar Matrícula</button>
+              <button type="button" class="btn btn-primary" id="validar-aluno-button">Efetuar Matrícula</button>
             </div>
 
             <div id="matricula-sucesso" style="display:none;color:green;">Matrícula efetuada com sucesso!</div>
@@ -383,9 +383,9 @@
                       <%= aluno.responsavel_tel %>
                     </td>
                     <td>
-                      <button type="button" class="btn btn-warning btn-sm"
+                      <button type="button" class="btn btn-warning btn-sm button-edit-aluno"
                         value="<%= aluno.id %>">Editar</button>
-                      <button type="button" class="btn btn-danger btn-sm"
+                      <button type="button" class="btn btn-danger btn-sm button-delete-aluno"
                         value="<%= aluno.id %>">Excluir</button>
 
                   </tr>
@@ -477,7 +477,7 @@
 
 
               <div class="mb-3">
-                <input type="text" name="cpf-prof" id="cpf-prof" class="form-control" placeholder="CPF do Professor"
+                <input type="text" name="cpf-prof" id="cpf-prof" class="form-control mask-cpf" placeholder="CPF do Professor"
                   maxlength="14" required oninput="maskCPF(this)">
 
                 <small id="cpf-prof-error" style="color: red; display: none;">CPF inválido</small>
@@ -562,9 +562,9 @@
                       <%= professor.telefone %>
                     </td>
                     <td>
-                      <button type="button" class="btn btn-warning btn-sm"
+                      <button type="button" class="btn btn-warning btn-sm button-edit-professor"
                         value="<%= professor.id %>">Editar</button>
-                      <button type="button" class="btn btn-danger btn-sm"
+                      <button type="button" class="btn btn-danger btn-sm button-delete-professor"
                         value="<%= professor.id %>">Excluir</button>
 
                   </tr>

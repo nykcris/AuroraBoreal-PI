@@ -2,11 +2,11 @@ const express = require("express");
 const multer = require('multer');
 const fs = require('fs');
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddlewareDirecao = require("../middlewares/authMiddlewareDirecao");
 const authMiddlewareAluno = require("../middlewares/authMiddlewareAluno");
 const alunoController = require("../controllers/alunoController");
 
-let AM = new authMiddleware();
+let AMD = new authMiddlewareDirecao();
 let AMA = new authMiddlewareAluno();
 let AC = new alunoController();
 
@@ -31,6 +31,13 @@ let upload = multer({storage});
 
 
 router.get("/", AMA.validar, AC.alunos);
+
+// ----- Gerenciar Aluno -----
+router.get("/editar", AMD.validar, AC.editarAluno);
+router.post("/atualizar", AMD.validar, AC.atualizarAluno);
+router.post("/delete", AMD.validar, AC.deleteAluno);
+
+// ----- Outros -----
 // router.get("/pagamentos", AM.validar, AC.pagamentos);
 // router.get("/notas", AM.validar, AC.notas);
 // router.get("/informacoes", AM.validar, AC.informacoes);
