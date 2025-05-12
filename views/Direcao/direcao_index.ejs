@@ -399,9 +399,61 @@
         </div>
         <!--fim do formulário-->
         <!-- fim Table alunos  -->
+<!--Adicionar turmas-->
+            <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Adicionar Turma</h5>
+            <form class="row g-3" id="formRegistro">
+              <div class="col-md-12">
+                <label for="inputName5" class="form-label">Nome da turma:</label>
+                <input type="text" class="form-control" id="inputName5" required>
+                <span id="nameError" style="color:red; display:none;">Nome da turma é obrigatório.</span>
+              </div>
+             
+              <div class="col-md-6">
+                <label for="quantidade" class="form-label">ano: </label>
+                <input type="number" class="form-control" id="quantidade" min="1900" max="2099" step="1" required>
+                <span id="quantidadeError" style="color:red; display:none;">Quantidade não pode ser negativa.</span>
+              </div>
 
+              
 
-        <div class="card">
+             
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Adicionar Turma</button>
+                <button type="reset" class="btn btn-secondary">Limpar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Adicionar Disciplina</h5>
+            <form class="row g-3" id="formRegistro">
+              <div class="col-md-12">
+                <label for="inputName5" class="form-label">Nome da disciplina:</label>
+                <input type="text" class="form-control" id="inputName5" required>
+                <span id="nameError" style="color:red; display:none;">Nome da disciplina é obrigatório.</span>
+              </div>
+             
+            
+
+              
+
+             
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Adicionar disciplina</button>
+                <button type="reset" class="btn btn-secondary">Limpar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        
+     <div class="card">
           <div class="card-body">
             <h5 class="card-title">
               <label for="turma-select" class="form-label"> Selecione a Turma:</label>
@@ -423,7 +475,6 @@
 
               </select>
             </h5>
-
 
             <!-- horários table  -->
             <h5 class="card-title mt-4">Horários</h5>
