@@ -438,6 +438,36 @@
 <!--Adicionar turmas-->
             <div class="card">
           <div class="card-body">
+            <h5 class="card-title">Adicionar Série</h5>
+            <form class="row g-3" id="formRegistro">
+              <div class="col-md-12">
+                <label for="inputName5" class="form-label">Nome da série:</label>
+                <input type="text" class="form-control" id="inputName5" required>
+                <span id="nameError" style="color:red; display:none;">Nome da série é obrigatório.</span>
+              </div>
+             
+              <div class="col-md-6">
+               
+               <label for="ano" class="form-label">Ano:</label>
+<input type="number" id="ano" name="ano" min="1900" max="2099" step="1">
+              </div>
+
+              
+
+             
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Adicionar Série</button>
+                <button type="reset" class="btn btn-secondary">Limpar</button>
+              </div>
+              <div id="turma-sucesso" style="display:none;color:green;">Série adicionada com sucesso!</div>
+              <div id="turma-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+            </form>
+          </div>
+        </div>
+
+         <div class="card">
+          <div class="card-body">
             <h5 class="card-title">Adicionar Turma</h5>
             <form class="row g-3" id="formRegistro">
               <div class="col-md-12">
@@ -466,8 +496,6 @@
             </form>
           </div>
         </div>
-
-
       <div class="card">
           <div class="card-body">
 
