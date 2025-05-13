@@ -229,6 +229,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title mt-4">Registro de Produtos</h5>
+            <h6>Total gasto: R$ <span id="totalGasto">0,00</span></h6>
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -236,11 +237,39 @@
                   <th scope="col">Nome</th>
                   <th scope="col">Quantidade</th>
                   <th scope="col">Tipo de produto</th>
-                  <th scope="col">Excluir</th>
+                  <th scope="col">Valor</th>
+                  <th scope="col">Ações</th>
                 </tr>
               </thead>
               <tbody id="tabelaProdutos">
-                <!-- Conteúdo dinâmico será inserido aqui -->
+                <% if (typeof produtos != 'undefined') { %>
+                  <% produtos.forEach(produto => { %>
+                    <tr>
+                      <th scope="row">
+                        <%= produto.id %>
+                      </th>
+                      <td>
+                        <%= produto.nome %>
+                      </td>
+                      <td>
+                        <%= produto.quantidade %>
+                      </td>
+                      <td>
+                        <%= produto.tipo %>
+                      </td>
+                      <td>
+                        <%= produto.valor %>
+                      </td>
+                      <td>
+                        <button type="button" class="btn btn-warning btn-sm button-edit-produto"
+                          value="<%= produto.id %>">Editar</button>
+                        <button type="button" class="btn btn-danger btn-sm button-delete-produto"
+                          value="<%= produto.id %>">Excluir</button>
+                      </td>
+                    </tr>
+                  <% }) %>
+
+                <% } %>
               </tbody>
             </table>
           </div>
@@ -411,9 +440,10 @@
               </div>
              
               <div class="col-md-6">
-                <label for="quantidade" class="form-label">ano: </label>
-                <input type="number" class="form-control" id="quantidade" min="1900" max="2099" step="1" required>
-                <span id="quantidadeError" style="color:red; display:none;">Quantidade não pode ser negativa.</span>
+                <label for="Serie" class="form-label">Serie: </label>
+                <select class="form-select" id="Serie" name="Serie">
+                  <option value="">Não há serie cadastrada</option>
+                </select>
               </div>
 
               
@@ -424,7 +454,58 @@
                 <button type="submit" class="btn btn-primary">Adicionar Turma</button>
                 <button type="reset" class="btn btn-secondary">Limpar</button>
               </div>
+              <div id="turma-sucesso" style="display:none;color:green;">Turma adicionada com sucesso!</div>
+              <div id="turma-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
             </form>
+          </div>
+        </div>
+
+
+      <div class="card">
+          <div class="card-body">
+
+
+            <h5 class="card-title mt-4">Turmas</h5>
+
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+
+                  <th scope="col">Nome</th>
+                  <th scope="col">Serie</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (typeof turmas != 'undefined') { %>
+                 <% turmas.forEach(turma => { %>
+                  <tr>
+                    <th scope="row">
+                      <%= turma.id %>
+                    </th>
+                    <td>
+                      <%= turma.nome %>
+                    </td>
+                    <td>
+                      <%= turma.serie_nome %>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-sm button-edit-turma"
+                        value="<%= turma.id %>">Editar</button>
+                      <button type="button" class="btn btn-danger btn-sm button-delete-turma"
+                        value="<%= turma.id %>">Excluir</button>
+
+                    </td>
+                  </tr>
+                <% }) %>
+                <% } %>
+
+              </tbody>
+
+            </table>
+
           </div>
         </div>
 
@@ -451,6 +532,52 @@
             </form>
           </div>
         </div>
+
+        <div class="card">
+          <div class="card-body">
+
+
+            <h5 class="card-title mt-4">Disciplinas</h5>
+
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+
+                  <th scope="col">Nome</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (typeof disciplinas != 'undefined') { %>
+                 <% disciplinas.forEach(disciplina => { %>
+                  <tr>
+                    <th scope="row">
+                      <%= disciplina.id %>
+                    </th>
+                    <td>
+                      <%= disciplina.nome %>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-sm button-edit-disciplina"
+                        value="<%= disciplina.id %>">Editar</button>
+                      <button type="button" class="btn btn-danger btn-sm button-delete-disciplina"
+                        value="<%= disciplina.id %>">Excluir</button>
+
+                    </td>
+                  </tr>
+                <% }) %>
+                <% } %>
+
+              </tbody>
+
+            </table>
+
+          </div>
+        </div>
+
+
 
         
      <div class="card">

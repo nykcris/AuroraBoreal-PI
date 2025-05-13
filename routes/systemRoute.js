@@ -25,6 +25,11 @@ router.get("/direcaoFetchDisciplina", AM.validar, SC.direcaoFetchDisciplina);
 router.post("/cadastrarProfessorTurmaDisciplina", AM.validar, PC.cadastrarProfessorTurmaDisciplina);
 
 
+router.post("/cadastrarTurma", AMD.validar, SC.cadastrarTurma);
+router.post("/delete", AMD.validar, SC.deleteTurma);
+router.get("/editar", AMD.validar, SC.editarTurma);
+router.post("/atualizar", AMD.validar, SC.atualizarTurma);
+
 /*
 router.get("/professores", AM.validar, PC.getProfessores);
 router.post("/professores", AM.validar, PC.postCadastrarProfessor);
