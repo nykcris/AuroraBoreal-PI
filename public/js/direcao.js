@@ -401,6 +401,32 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    function SerieSelectFetch() {
+        fetch('/system/fetchSerie', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(result => {
+                let sel = "#serie-select";
+                let serieSelect = document.querySelectorAll(sel);
+                serieSelect.forEach(select => {
+                    select.innerHTML = '';
+                    result.forEach(serie => {
+                        let option = document.createElement('option');
+                        option.value = serie.id;
+                        option.text = serie.nome;
+                        select.appendChild(option);
+                    });
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+
     function validateTurmaForm() {
         const turma = document.getElementById('inputName5').value.trim();
         const serie = document.getElementById('Serie').value.trim();

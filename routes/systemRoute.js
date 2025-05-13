@@ -7,28 +7,25 @@ const AlunoController = require("../controllers/alunoController");
 const ProfessorController = require('../controllers/professorController');
 
 let PC = new ProfessorController();
-let AM = new authMiddlewareDirecao();
+let AMD = new authMiddlewareDirecao();
 let SC = new SystemController();
 let LC = new LoginController();
 let AC = new AlunoController();
 
 router.get("/", LC.getlogin);
 router.post("/postlogin", LC.postlogin);
-router.get("/direcao", AM.validar, SC.direcao);
-router.get("/register", AM.validar, SC.register);
+router.get("/direcao", AMD.validar, SC.direcao);
+router.get("/register", AMD.validar, SC.register);
 
-router.post("/cadastrarProfessor", AM.validar, PC.cadastrarProfessor);
-router.post("/cadastrarAluno", AM.validar, AC.postCadastrarAluno);
+router.post("/cadastrarProfessor", AMD.validar, PC.cadastrarProfessor);
+router.post("/cadastrarAluno", AMD.validar, AC.postCadastrarAluno);
 
-router.get("/direcaoFetchTurma", AM.validar, SC.direcaoFetchTurma);
-router.get("/direcaoFetchDisciplina", AM.validar, SC.direcaoFetchDisciplina);
-router.post("/cadastrarProfessorTurmaDisciplina", AM.validar, PC.cadastrarProfessorTurmaDisciplina);
+router.get("/direcaoFetchTurma", AMD.validar, SC.direcaoFetchTurma);
+router.get("/direcaoFetchDisciplina", AMD.validar, SC.direcaoFetchDisciplina);
+router.post("/cadastrarProfessorTurmaDisciplina", AMD.validar, PC.cadastrarProfessorTurmaDisciplina);
 
 
-router.post("/cadastrarTurma", AMD.validar, SC.cadastrarTurma);
-router.post("/delete", AMD.validar, SC.deleteTurma);
-router.get("/editar", AMD.validar, SC.editarTurma);
-router.post("/atualizar", AMD.validar, SC.atualizarTurma);
+
 
 /*
 router.get("/professores", AM.validar, PC.getProfessores);
