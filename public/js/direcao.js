@@ -401,6 +401,219 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    function validateTurmaForm() {
+        const turma = document.getElementById('inputName5').value.trim();
+        const serie = document.getElementById('Serie').value.trim();
+
+        let isValid = true;
+
+        isValid = isValid && turma !== '';
+        isValid = isValid && serie !== '';
+
+        document.getElementById('nameError').style.display = turma ? 'none' : 'inline';
+        document.getElementById('serieError').style.display = serie ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('turma-erro').style.display = 'block';
+            document.getElementById('turma-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            turma_nome: turma,
+            serie_id: serie
+        };
+
+        fetch('/system/cadastrarTurma', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.sucesso) {
+                    document.getElementById('turma-sucesso').style.display = 'block';
+                    document.getElementById('turma-erro').style.display = 'none';
+                } else {
+                    document.getElementById('turma-erro').innerText = result.mensagem || 'Erro no cadastro';
+                    document.getElementById('turma-erro').style.display = 'block';
+                    document.getElementById('turma-sucesso').style.display = 'none';
+                }
+            })
+    }
+
+    function editTurma(){
+        window.location.href = `/system/turma/editar?id=${this.value}`;
+    }
+
+    function deleteTurma(){
+        fetch(`/system/turma/delete`,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({id: this.value})
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    function ValidateDisciplinaForm() {
+        const disciplina = document.getElementById('inputName5').value.trim();
+
+        let isValid = true;
+
+        isValid = isValid && disciplina !== '';
+
+        document.getElementById('nameError').style.display = disciplina ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('disciplina-erro').style.display = 'block';
+            document.getElementById('disciplina-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            disciplina_nome: disciplina
+        };
+
+        fetch('/system/cadastrarDisciplina', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.sucesso) {
+                    document.getElementById('disciplina-sucesso').style.display = 'block';
+                    document.getElementById('disciplina-erro').style.display = 'none';
+                } else {
+                    document.getElementById('disciplina-erro').innerText = result.mensagem || 'Erro no cadastro';
+                    document.getElementById('disciplina-erro').style.display = 'block';
+                    document.getElementById('disciplina-sucesso').style.display = 'none';
+                }
+            })
+    }
+
+    function editDisciplina(){
+        window.location.href = `/system/turma/editar?id=${this.value}`;
+    }
+
+    function deleteDisciplina(){
+        fetch(`/system/turma/delete`,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({id: this.value})
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    function validateProdutoForm() {
+        const nome = document.getElementById('inputName5').value.trim();
+        const descricao = document.getElementById('descricao').value.trim();
+        const quantidade = document.getElementById('quantidade').value.trim();
+        const valor = document.getElementById('valor-gasto').value.trim();
+        const tipo = document.getElementById('inputState').value.trim();
+
+        let isValid = true;
+
+        isValid = isValid && nome !== '';
+        isValid = isValid && descricao !== '';
+        isValid = isValid && quantidade !== '';
+        isValid = isValid && valor !== '';
+        isValid = isValid && tipo !== '';
+
+        document.getElementById('nameError').style.display = nome ? 'none' : 'inline';
+        document.getElementById('descricaoError').style.display = descricao ? 'none' : 'inline';
+        document.getElementById('quantidadeError').style.display = quantidade ? 'none' : 'inline';
+        document.getElementById('valorError').style.display = valor ? 'none' : 'inline';
+        document.getElementById('tipoError').style.display = tipo ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('produto-erro').style.display = 'block';
+            document.getElementById('produto-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            nome: nome,
+            descricao: descricao,
+            quantidade: quantidade,
+            valor: valor,
+            tipo: tipo
+        };
+
+        fetch('/system/cadastrarProduto', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.sucesso) {
+                    document.getElementById('produto-sucesso').style.display = 'block';
+                    document.getElementById('produto-erro').style.display = 'none';
+                    ProdutoValorTotal();
+                } else {
+                    document.getElementById('produto-erro').innerText = result.mensagem || 'Erro no cadastro';
+                    document.getElementById('produto-erro').style.display = 'block';
+                    document.getElementById('produto-sucesso').style.display = 'none';
+                }
+            })
+    }
+
+    function editProduto(){
+        window.location.href = `/system/produtos/editar?id=${this.value}`;
+    }
+
+    function deleteProduto(){
+        fetch(`/system/produtos/delete`,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({id: this.value})
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+
+
+
+
+
+
+    function ProdutoValorTotal() {
+        let total = 0;
+        let produtos = document.querySelectorAll('#tabelaProdutos tr');
+        produtos.forEach(produto => {
+            let valor = parseFloat(produto.querySelector('td:nth-child(5)').innerText);
+            total += valor;
+        });
+        document.getElementById('totalGasto').innerText = total.toFixed(2);
+    }
 
     function addDisciplina() {
         number++;
@@ -420,5 +633,6 @@ document.addEventListener("DOMContentLoaded", function () {
     TurmaIDSelectFetch();
     TurmaSelectFetch(number);
     DisciplinaSelectFetch(number);
+    ProdutoValorTotal();
 
 });

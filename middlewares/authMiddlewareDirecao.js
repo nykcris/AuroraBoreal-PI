@@ -1,4 +1,4 @@
-const DB_Direcao = require("../models/DirecaoModel");
+const DB_Direcao = require("../models/direcaoModel");
 
 class AuthMiddlewareAluno {
 
