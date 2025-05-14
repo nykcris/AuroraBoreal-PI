@@ -6,6 +6,7 @@ const DB_Aluno = require("../models/alunoModel");
 const DB_Professor = require('../models/professorModel');
 const DB_Disciplina = require("../models/disciplinaModel");
 const DB_Turma = require("../models/turmaModel");
+const DB_Serie = require("../models/serieModel");
 
 
 class SystemController {
@@ -30,26 +31,12 @@ class SystemController {
         const alunoModel = new DB_Aluno();
         const listaAlunos = await alunoModel.listar();
         const professores = await DB_Professor.listar();
-
-        console.log(listaAlunos);
     
         res.render("Direcao/direcao_index", {
             layout: 'layouts/layout',
             alunos: listaAlunos,
             professores
         });
-    }
-
-    async direcaoFetchTurma(req, res) {
-        let DBT = new DB_Turma();
-        let turmas = await DBT.listar();
-        res.send(turmas);
-    }
-
-    async direcaoFetchDisciplina(req, res) {
-        let DBD = new DB_Disciplina();
-        let disciplinas = await DBD.listar();
-        res.send(disciplinas);
     }
 
     async register(req,res) {
@@ -69,6 +56,24 @@ class SystemController {
     
 
     //======== Area de Fetch para Nome e Outros =========
+
+    async direcaoFetchTurma(req, res) {
+        let DBT = new DB_Turma();
+        let turmas = await DBT.listar();
+        res.send(turmas);
+    }
+
+    async direcaoFetchDisciplina(req, res) {
+        let DBD = new DB_Disciplina();
+        let disciplinas = await DBD.listar();
+        res.send(disciplinas);
+    }
+
+    async direcaoFetchSerie(req, res) {
+        let DBS = new DB_Serie();
+        let series = await DBS.listar();
+        res.send(series);
+    }
 
     async fetchNomeAluno(req, res) {
         let DBA = new DB_Aluno();
