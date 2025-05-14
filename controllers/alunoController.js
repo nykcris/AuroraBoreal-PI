@@ -11,7 +11,7 @@ class AlunoController {
   async alunos(req,res) {
     console.log("Entrou na página de alunos");
     
-    let db_aluno = new DB_Usuarios();
+    let db_aluno = new DB_Aluno();
     let alunos = await db_aluno.listar([1]);
     let rows = [];
     for (let i = 0; i < alunos.length; i++) {

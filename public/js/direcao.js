@@ -402,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function SerieSelectFetch() {
-        fetch('/system/fetchSerie', {
+        fetch('/system/direcaofetchSerie', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
@@ -659,6 +659,7 @@ document.addEventListener("DOMContentLoaded", function () {
     TurmaIDSelectFetch();
     TurmaSelectFetch(number);
     DisciplinaSelectFetch(number);
+    SerieSelectFetch();
     ProdutoValorTotal();
 
 });

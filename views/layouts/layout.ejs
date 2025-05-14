@@ -71,7 +71,7 @@
 
       <div class="profile">
         <div class="profile-img">
-          <img onerror="this.src='/img/AURORALOGOSFUNDO.ico'">
+          <img src='/img/AURORALOGOSFUNDO.ico' onerror="this.src='/img/AURORALOGOSFUNDO.ico'">
         </div>
         <h3 id="NomeUsu"></h3>
         <p id="PerfilUsu"></p>
@@ -80,71 +80,15 @@
       <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#students-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-people"></i><span>Alunos</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-people"></i><span>Gerenciar Alunos</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="students-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
-              <a href="alunos/atividades">
-                <i class="bi bi-circle"></i><span>Atividades</span>
-              </a>
-            </li>
-            <li>
-              <a href="alunos/pagamentos">
-                <i class="bi bi-circle"></i><span>Pagamentos</span>
-              </a>
-            </li>
-            <li>
-              <a href="alunos/notas">
-                <i class="bi bi-circle"></i><span>Notas</span>
-              </a>
-            </li>
-            <li>
-              <a href="alunos/informacoes">
-                <i class="bi bi-circle"></i><span>Informa es Gerais</span>
+              <a href="/system/direcao/alunos/atividades">
+                <i class="bi bi-circle"></i><span>Cadastro e Listagem de Alunos</span>
               </a>
             </li>
           </ul>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#manageUsers" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-people"></i><span>Gerenciar Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
-          </a>
-          <ul id="manageUsers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-              <a href="users/cadastrar">
-                <i class="bi bi-circle"></i><span>Criar Usuario</span>
-              </a>
-            </li>
-            <li>
-              <a href="users/listar">
-                <i class="bi bi-circle"></i><span>Listar Usuarios</span>
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-              <i class="bi bi-cash-stack"></i><span>Gerenciamento Financeiro</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-              <li>
-                <a href="professores">
-                  <i class="bi bi-circle"></i><span>Acadêmicos</span>
-                </a>
-              </li>
-              <li>
-                <a href="alunos">
-                  <i class="bi bi-circle"></i><span>Alunos</span>
-                </a>
-              </li>
-              <li>
-                <a href="direcao">
-                  <i class="bi bi-circle"></i><span>Painéis e gerenciamentos</span>
-                </a>
-              </li>
-            </ul>
         </li>
 
       </ul>
