@@ -41,15 +41,21 @@ class DB_Professor {
         return rows;
     }
 
+    async listar(){
+        const DB = new db();
+        const rows = await DB.ExecutaComando("SELECT * FROM tb_professor", []);
+        return rows;
+    }
+
     async obter(id) {
         const DB = new db();
         const rows = await DB.ExecutaComando("SELECT * FROM tb_professor WHERE id = ?", [id]);
         return rows;
     }
 
-    async validar(email, senha) {
+    async validar(email, senha, usuId) {
         const DB = new db();
-        const rows = await DB.ExecutaComando("SELECT * FROM tb_professor WHERE email = ? AND senha = ?", [email, senha]);
+        const rows = await DB.ExecutaComando("SELECT * FROM tb_professor WHERE email = ? AND senha = ? AND id = ?", [email, senha, usuId]);
         return rows.length > 0 ? rows[0] : null;
     }
 
