@@ -1,51 +1,95 @@
 const DB_Serie = require("../models/serieModel");
 
 class SerieController {
-    async cadastrarSerie(req, res) {
-        let DBS = new DB_Serie(0, req.body.serie_nome);
-        let sucesso = await DBS.cadastrar();
-        if (sucesso) {
-            console.log("Sucesso ao cadastrar serie");
-            res.send("Sucesso ao cadastrar serie");
-        } else {
-            console.log("Erro ao cadastrar serie");
-            res.send("Erro ao cadastrar serie");
-        }
-    }
+  async cadastrarSerie(req, res) {
+    try {
+      const { serie_nome, serie_ano } = req.body;
 
-    async deleteSerie(req, res) {
-        let DBS = new DB_Serie();
-        let sucesso = await DBS.excluir(req.body.id);
-        if (sucesso) {
-            console.log("Sucesso ao deletar serie");
-            res.send("Sucesso ao deletar serie");
-        } else {
-            console.log("Erro ao deletar serie");
-            res.send("Erro ao deletar serie");
-        }
-    }
+      // Verificação de campos obrigatórios
+      if (!serie_nome || !serie_ano) {
+        return res.status(400).json({
+          sucesso: false,
+          mensagem: "Preencha todos os campos obrigatórios.",
+        });
+      }
 
-    async editarSerie(req, res) {
-        let DBS = new DB_Serie();
-        let serie = await DBS.obter(req.query.id);
-        res.render("Serie/editar_serie", { layout: 'layouts/layout', serie });
-    }
+      const novaSerie = new DB_Serie(
+        null, // id
+        serie_nome,
+        serie_ano
+      );
 
-    async atualizarSerie(req, res) {
-        let DBS = new DB_Serie();
-        let serie = new DB_Serie(req.body.id, req.body.serie_nome);
-        let sucesso = await serie.atualizar();
-        if (sucesso) {
-            console.log("Sucesso ao atualizar serie");
-            res.redirect("/system/direcao");
-        } else {
-            console.log("Erro ao atualizar serie");
-            res.send("Erro ao atualizar serie");
-        }
+      const resultado = await novaSerie.cadastrar();
+
+      if (resultado) {
+        // resultado será true se a inserção foi bem-sucedida
+        return res.status(201).json({
+          sucesso: true,
+          mensagem: "Serie cadastrada com sucesso!",
+        });
+      } else {
+        return res.status(500).json({
+          sucesso: false,
+          mensagem: "Erro ao salvar serie no banco de dados.",
+        });
+      }
+    } catch (error) {
+      if (error.errno == 1062) {
+        return res.status(400).json({
+          sucesso: false,
+          mensagem: "Serie já cadastrada.",
+        });
+      }
+      console.error("ERRO INTERNO no cadastro de serie:", error);
+      return res.status(500).json({
+        sucesso: false,
+        mensagem: "Erro interno no servidor ao tentar cadastrar a serie.",
+      });
     }
+  }
+
+  async deleteSerie(req, res) {
+    try {
+      let DBS = new DB_Serie();
+      let sucesso = await DBS.excluir(req.body.id);
+      if (sucesso) {
+        return res.status(201).json({
+          sucesso: true,
+          mensagem: "Serie deletada com sucesso!"
+        });
+      } else {
+        return res.status(500).json({
+          sucesso: false,
+          mensagem: "Erro ao deletar serie.",
+        });
+      }
+    } catch (error) {
+      console.error("ERRO INTERNO ao deletar serie:", error);
+      return res.status(500).json({
+        sucesso: false,
+        mensagem: "Erro interno no servidor ao tentar deletar a serie.",
+      });
+    }
+  }
+
+  async editarSerie(req, res) {
+    let DBS = new DB_Serie();
+    let serie = await DBS.obter(req.query.id);
+    res.render("Serie/editar_serie", { layout: "layouts/layout", serie });
+  }
+
+  async atualizarSerie(req, res) {
+    let DBS = new DB_Serie();
+    let serie = new DB_Serie(req.body.id, req.body.serie_nome);
+    let sucesso = await serie.atualizar();
+    if (sucesso) {
+      console.log("Sucesso ao atualizar serie");
+      res.redirect("/system/direcao");
+    } else {
+      console.log("Erro ao atualizar serie");
+      res.send("Erro ao atualizar serie");
+    }
+  }
 }
 
 module.exports = SerieController;
-
-
-

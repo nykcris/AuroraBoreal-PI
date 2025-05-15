@@ -45,9 +45,9 @@ class DB_Direcao {
         return result;
     }
 
-    async validar(email, senha) {
+    async validar(email, senha, usuId) {
         const DB = new db();
-        const rows = await DB.ExecutaComando("SELECT * FROM tb_direcao WHERE email = ? AND senha = ?", [email, senha]);
+        const rows = await DB.ExecutaComando("SELECT * FROM tb_direcao WHERE email = ? AND senha = ? AND id = ?", [email, senha, usuId]);
         return rows.length > 0 ? rows[0] : null;
     }
 

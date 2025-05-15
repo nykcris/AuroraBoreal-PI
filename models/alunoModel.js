@@ -96,10 +96,10 @@ class DB_Aluno {
         return await DB.ExecutaComandoNonQuery(sql, valores); // retorna true ou false
     }
 
-    async validar(email, senha) {
+    async validar(email, senha, usuId) {
         const DB = new db();
-        const sql = `SELECT * FROM tb_aluno WHERE email = ? AND senha = ?`;
-        const valores = [email, senha];
+        const sql = `SELECT * FROM tb_aluno WHERE email = ? AND senha = ? AND id = ?`;
+        const valores = [email, senha, usuId];
 
         const rows = await DB.ExecutaComando(sql, valores);
         return rows.length > 0 ? rows[0] : null;
