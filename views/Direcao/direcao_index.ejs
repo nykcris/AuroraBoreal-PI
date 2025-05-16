@@ -64,6 +64,7 @@
 
 
   <main id="main" class="main">
+
     <div class="pagetitle">
       <h1>Painéis e gerenciamentos</h1>
       <nav>
@@ -73,82 +74,117 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
+
     <section class="section dashboard">
       <div class="row">
+
         <!-- Left side columns -->
         <div class="col-lg-12">
           <div class="row">
+
             <!-- Sales Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
+
+
+
                 <div class="card-body">
                   <h5 class="card-title">Gastos em Compras <span>| Hoje</span></h5>
+
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-cart" style="color: red;"></i>
                     </div>
                     <div class="ps-3">
                       <h6>R$145,00</h6>
+
+
                     </div>
                   </div>
                 </div>
+
               </div>
             </div><!-- End Sales Card -->
+
             <!-- Revenue Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
+
+
                 <div class="card-body">
                   <h5 class="card-title">Mensalidades pagas <span>| Hoje </span></h5>
+
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
                       <h6>R$3.264,00</h6>
+
                     </div>
                   </div>
                 </div>
+
               </div>
             </div><!-- End Revenue Card -->
+
             <!-- Customers Card -->
             <div class="col-xxl-4 col-xl-12">
+
               <div class="card info-card customers-card">
+
+
                 <div class="card-body">
                   <h5 class="card-title">Novas Matrículas <span>| Hoje</span></h5>
+
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
                       <h6>R$144,00</h6>
+
+
                     </div>
                   </div>
+
                 </div>
               </div>
+
             </div><!-- End Customers Card -->
             <!-- Pagamentos Card -->
             <div class="col-xxl-4 col-xl-12">
+
               <div class="card info-card customers-card">
+
+
                 <div class="card-body">
                   <h5 class="card-title">Salários de funcionários <span>| Hoje</span></h5>
+
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-cash" style="color: red;"></i>
                     </div>
                     <div class="ps-3">
                       <h6>R$ 2.800,00</h6>
+
+
                     </div>
                   </div>
+
                 </div>
               </div>
+
             </div><!-- End Customers Card -->
+
+
           </div>
         </div><!-- End Left side columns -->
         <!-- Table with stripped rows -->
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Registro de Compras/Gastos</h5>
-            <div class="row g-3" id="formRegistro">
+            <form class="row g-3" id="formRegistro">
               <div class="col-md-12">
                 <label for="inputName5" class="form-label">Nome do Produto:</label>
                 <input type="text" class="form-control" id="inputName5" required>
@@ -165,11 +201,13 @@
                 <input type="number" class="form-control" id="quantidade" required>
                 <span id="quantidadeError" style="color:red; display:none;">Quantidade não pode ser negativa.</span>
               </div>
+
               <div class="col-md-6">
                 <label for="valor-gasto">Valor (R$):</label>
                 <input type="number" class="form-control" id="valor-gasto" name="valor-gasto" step="0.01" required>
                 <span id="valorError" style="color:red; display:none;">Valor não pode ser negativo.</span><br><br>
               </div>
+
               <div class="col-md-4">
                 <label for="inputState" class="form-label">Tipo de produto</label>
                 <select id="inputState" class="form-select" required>
@@ -179,64 +217,61 @@
                 </select>
                 <span id="tipoError" style="color:red; display:none;">Tipo de produto é obrigatório.</span>
               </div>
+
               <div class="text-center">
-                <button class="btn btn-primary" id="adicionar-produto-button">Enviar</button>
+                <button type="submit" class="btn btn-primary">Enviar</button>
                 <button type="reset" class="btn btn-secondary">Limpar</button>
               </div>
-              <div id="produto-sucesso" style="display:none;color:green;">Registro efetuado com sucesso!</div>
-              <div id="produto-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-            </div>
-            <div class="mb-3">
-              <a href="#" class="nav-link" data-bs-target="#table-produtos" data-bs-toggle="collapse">
-                <h5 class="card-title mt-4">Produtos Cadastrados
-                  <i class="bi bi-chevron-down ms-auto btn"></i>
-                </h5>
-              </a>
-              <div id="table-produtos" class="collapse">
-                <h6>Custo Total: R$ <span id="totalGasto"></span></h6>
-                <table class="table table-striped">
-                  <thead>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title mt-4">Registro de Produtos</h5>
+            <h6>Total gasto: R$ <span id="totalGasto">0,00</span></h6>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Quantidade</th>
+                  <th scope="col">Tipo de produto</th>
+                  <th scope="col">Valor</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaProdutos">
+                <% if (typeof produtos != 'undefined') { %>
+                  <% produtos.forEach(produto => { %>
                     <tr>
-                      <th scope="col">#id</th>
-                      <th scope="col">Nome</th>
-                      <th scope="col">Quantidade</th>
-                      <th scope="col">Tipo de produto</th>
-                      <th scope="col">Valor</th>
-                      <th scope="col">Ações</th>
+                      <th scope="row">
+                        <%= produto.id %>
+                      </th>
+                      <td>
+                        <%= produto.nome %>
+                      </td>
+                      <td>
+                        <%= produto.quantidade %>
+                      </td>
+                      <td>
+                        <%= produto.tipo %>
+                      </td>
+                      <td>
+                        <%= produto.valor %>
+                      </td>
+                      <td>
+                        <button type="button" class="btn btn-warning btn-sm button-edit-produto"
+                          value="<%= produto.id %>">Editar</button>
+                        <button type="button" class="btn btn-danger btn-sm button-delete-produto"
+                          value="<%= produto.id %>">Excluir</button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    <% if (typeof produtos !='undefined' ) { %>
-                      <% produtos.forEach(produto=> { %>
-                        <tr>
-                          <th scope="row">
-                            <%= produto.id %>
-                          </th>
-                          <td>
-                            <%= produto.nome %>
-                          </td>
-                          <td>
-                            <%= produto.quantidade %>
-                          </td>
-                          <td>
-                            <%= produto.tipo %>
-                          </td>
-                          <td>
-                            <%= produto.valor %>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-warning btn-sm button-edit-produto"
-                              value="<%= produto.id %>">Editar</button>
-                            <button type="button" class="btn btn-danger btn-sm button-delete-produto"
-                              value="<%= produto.id %>">Excluir</button>
-                          </td>
-                        </tr>
-                        <% }) %>
-                          <% } %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                  <% }) %>
+
+                <% } %>
+              </tbody>
+            </table>
           </div>
         </div>
         <!-- Cadastro alunos-->
@@ -244,339 +279,369 @@
           <div class="card-body">
             <h5 class="card-title">CADASTRAR ALUNO</h5>
             <h3>Dados do aluno e responsável</h3>
+
             <div class="mb-3">
               <input type="text" class="form-control" name="nome-aluno" placeholder="Nome completo do aluno"
                 id="nome-aluno" required>
+
               <small id="nome-aluno-error" style="color: red; display: none;">Campo obrigatório</small>
             </div>
+
             <div class="mb-3">
               <input type="text" class="form-control" name="nome-responsavel" placeholder="Nome completo do responsável"
                 id="nome-responsavel" required>
+
               <small id="nome-responsavel-error" style="color: red; display: none;">Campo obrigatório</small>
             </div>
+
             <div class="mb-3">
-              <input type="text" name="cpf-aluno" id="cpf-aluno" class="form-control mask-cpf"
-                placeholder="CPF do aluno" maxlength="14" required>
+              <input type="text" name="cpf-aluno" id="cpf-aluno" class="form-control mask-cpf" placeholder="CPF do aluno"
+                maxlength="14" required >
+
               <small id="cpf-aluno-error" style="color: red; display: none;">CPF inválido</small>
             </div>
+
             <div class="mb-3">
               <input type="text" name="cpf-responsavel" id="cpf-responsavel" class="form-control mask-cpf"
-                placeholder="CPF do responsável" maxlength="14" required>
+                placeholder="CPF do responsável" maxlength="14" required >
+
               <small id="cpf-responsavel-error" style="color: red; display: none;">CPF inválido</small>
             </div>
+
             <div class="mb-3">
               <label for="data_aniversario">Data de nascimento do aluno</label>
               <input type="date" class="form-control" name="data_aniversario" id="data_aniversario" required>
               <small id="data-aniversario-error" style="color: red; display: none;">Data inválida</small>
             </div>
+
             <div class="mb-3">
               <label for="serie-select" class="form-label">Selecione a Serie:</label>
-              <select class="form-select serie-select" id="aluno-serie-select" name="serie">
+              <select class="form-select" id="serie-select" name="serie">
                 <option value="" selected disabled>Selecione a Serie</option>
               </select>
             </div>
+
             <div class="mb-3">
               <label for="turma-select" class="form-label">Selecione a Turma:</label>
-              <select class="form-select turma-select" id="aluno-turma-select" name="turma">
+              <select class="form-select" id="turma-select" name="turma">
                 <option value="" selected disabled>Selecione a turma</option>
               </select>
             </div>
+
+
+
             <h3>Dados para contato</h3>
+
             <div class="mb-3">
               <input type="text" name="email-aluno" id="email-aluno" class="form-control" placeholder="Email" required>
+
               <small id="email-aluno-error" style="color: red; display: none;">Email inválido</small>
             </div>
+
             <div class="mb-3">
               <input type="text" name="numero-celular" id="numero-celular" class="form-control"
                 placeholder="Número de celular" maxlength="11" required>
+
               <small id="celular-error" style="color: red; display: none;">Número inválido</small>
             </div>
+
             <h3>Cadastro para o acesso ao Sistema Acadêmico</h3>
+
             <div class="mb-3">
-              <input type="email" name="senha-academica" id="email-academica-aluno" class="form-control"
+              <input type="email" name="senha-academica" id="email-academica" class="form-control"
                 placeholder="Crie um E-mail" required>
-              <small id="email-academica-aluno-error" style="color: red; display: none;">Email inválido</small>
+
+              <small id="email-error" style="color: red; display: none;">Email inválido</small>
             </div>
+
             <div class="mb-3">
-              <input type="password" name="senha-academica" id="senha-academica-aluno" class="form-control"
+              <input type="password" name="senha-academica" id="senha-academica" class="form-control"
                 placeholder="Crie uma senha" required>
-              <small id="senha-academica-aluno-error" style="color: red; display: none;">Senha inválida</small>
+
+              <small id="senha-error" style="color: red; display: none;">Senha inválida</small>
             </div>
+
             <div class="mb-3">
               <button type="button" class="btn btn-primary" id="validar-aluno-button">Efetuar Matrícula</button>
             </div>
+
             <div id="matricula-sucesso" style="display:none;color:green;">Matrícula efetuada com sucesso!</div>
             <div id="matricula-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-
-
-            <a href="#" class="nav-link" data-bs-target="#table-alunos" data-bs-toggle="collapse">
-              <h5 class="card-title mt-2">Alunos Cadastrados
-                <i class="bi bi-chevron-down ms-auto btn"></i>
-              </h5>
-            </a>
-            <div id="table-alunos" class="collapse">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#id</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">cpf aluno </th>
-                    <th scope="col">turma</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">responsavel</th>
-                    <th scope="col">telefone</th>
-                    <th scope="col">ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% alunos.forEach((aluno, index)=> { %>
-                    <tr>
-                      <th scope="row">
-                        <%= aluno.id %>
-                      </th>
-                      <td>
-                        <%= aluno.aluno_nome %>
-                      </td>
-                      <td>
-                        <%= aluno.aluno_cpf %>
-                      </td>
-                      <td>
-                        <%= aluno.turma_nome %>
-                      </td> <!-- Aqui é o nome da turma -->
-                      <td>
-                        <%= aluno.email %>
-                      </td>
-                      <td>
-                        <%= aluno.responsavel_nome %>
-                      </td>
-                      <td>
-                        <%= aluno.responsavel_tel %>
-                      </td>
-                      <td>
-                        <button type="button" class="btn btn-warning btn-sm button-edit-aluno"
-                          value="<%= aluno.id %>">Editar</button>
-                        <button type="button" class="btn btn-danger btn-sm button-delete-aluno"
-                          value="<%= aluno.id %>">Excluir</button>
-                    </tr>
-                    <% }) %>
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
         <!-- fim cadastro alunos -->
+
+
         <!--  table alunos -->
-        <!--fim do formulário-->
-        <!-- fim Table alunos  -->
-        <!--Adicionar turmas-->
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Adicionar Série</h5>
-            <div class="row g-3" id="formSerie">
-              <div class="col-md-12">
-                <label for="nome-serie" class="form-label">Nome da série:</label>
-                <input type="text" class="form-control" id="nome-serie" required>
-                <span id="nameError" style="color:red; display:none;">Nome da série é obrigatório.</span>
-              </div>
-              <div class="col-md-6">
-                <label for="ano" class="form-label">Ano:</label>
-                <input type="number" class="form-control" id="ano" name="ano" min="1900" max="2099" step="1">
-                <span id="anoError" style="color:red; display:none;">Ano é obrigatório.</span>
-              </div>
-              <div class="text-center">
-                <button class="btn btn-primary" id="adicionar-serie-button">Adicionar Série</button>
-                <button type="reset" class="btn btn-secondary">Limpar</button>
-              </div>
-              <div id="serie-sucesso" style="display:none;color:green;">Série adicionada com sucesso!</div>
-              <div id="serie-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-            </div>
 
-            <a href="#" class="nav-link" data-bs-target="#table-series" data-bs-toggle="collapse">
-              <h5 class="card-title mt-2">Series Cadastradas
-                <i class="bi bi-chevron-down ms-auto btn"></i>
-              </h5>
-            </a>
-            <div id="table-series" class="collapse">
-              <table class="table table-striped dropdown-table">
-                <thead>
+
+            <h5 class="card-title mt-4">Alunos</h5>
+
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+
+                  <th scope="col">Nome</th>
+                  <th scope="col">cpf aluno </th>
+                  <th scope="col">turma</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">responsavel</th>
+                  <th scope="col">telefone</th>
+                  <th scope="col">ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% alunos.forEach((aluno, index)=> { %>
                   <tr>
-                    <th scope="col">#id</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Ano</th>
-                    <th scope="col">Ações</th>
+                    <th scope="row">
+                      <%= index + 1 %>
+                    </th>
+                    <td>
+                      <%= aluno.aluno_nome %>
+                    </td>
+                    <td>
+                      <%= aluno.aluno_cpf %>
+                    </td>
+                    <td>
+                      <%= aluno.turma_nome %>
+                    </td> <!-- Aqui é o nome da turma -->
+                    <td>
+                      <%= aluno.email %>
+                    </td>
+                    <td>
+                      <%= aluno.responsavel_nome %>
+                    </td>
+                    <td>
+                      <%= aluno.responsavel_tel %>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-sm button-edit-aluno"
+                        value="<%= aluno.id %>">Editar</button>
+                      <button type="button" class="btn btn-danger btn-sm button-delete-aluno"
+                        value="<%= aluno.id %>">Excluir</button>
+
                   </tr>
-                </thead>
-                <tbody>
-                  <% if (typeof series !='undefined' ) { %>
-                    <% series.forEach(serie=> { %>
-                      <tr>
-                        <th scope="row">
-                          <%= serie.id %>
-                        </th>
-                        <td>
-                          <%= serie.nome %>
-                        </td>
-                        <td>
-                          <%= serie.ano %>
-                        </td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-sm button-edit-serie"
-                            value="<%= serie.id %>">Editar</button>
-                          <button type="button" class="btn btn-danger btn-sm button-delete-serie"
-                            value="<%= serie.id %>">Excluir</button>
-                        </td>
-                      </tr>
-                      <% }) %>
-                        <% } %>
-                </tbody>
-              </table>
-            </div>
+                  <% }) %>
+
+              </tbody>
+
+            </table>
+
           </div>
         </div>
-        <div class="card">
+        <!--fim do formulário-->
+        <!-- fim Table alunos  -->
+<!--Adicionar turmas-->
+            <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Adicionar Série</h5>
+            <form class="row g-3" id="formRegistro">
+              <div class="col-md-12">
+                <label for="inputName5" class="form-label">Nome da série:</label>
+                <input type="text" class="form-control" id="inputName5" required>
+                <span id="nameError" style="color:red; display:none;">Nome da série é obrigatório.</span>
+              </div>
+             
+              <div class="col-md-6">
+               
+               <label for="ano" class="form-label">Ano:</label>
+<input type="number" id="ano" name="ano" min="1900" max="2099" step="1">
+              </div>
+
+              
+
+             
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Adicionar Série</button>
+                <button type="reset" class="btn btn-secondary">Limpar</button>
+              </div>
+              <div id="turma-sucesso" style="display:none;color:green;">Série adicionada com sucesso!</div>
+              <div id="turma-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+            </form>
+          </div>
+        </div>
+
+         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Adicionar Turma</h5>
-            <div class="row g-3" id="formTurma">
+            <form class="row g-3" id="formRegistro">
               <div class="col-md-12">
-                <label for="turma-nome" class="form-label">Nome da turma:</label>
-                <input type="text" class="form-control" id="turma-nome" required>
+                <label for="inputName5" class="form-label">Nome da turma:</label>
+                <input type="text" class="form-control" id="inputName5" required>
                 <span id="nameError" style="color:red; display:none;">Nome da turma é obrigatório.</span>
               </div>
+             
               <div class="col-md-6">
                 <label for="Serie" class="form-label">Serie: </label>
-                <select class="form-select serie-select" id="turma-serie-select" name="Serie">
-                  <option value="" disabled selected>-- Selecione a Serie --</option>
+                <select class="form-select" id="Serie" name="Serie">
+                  <option value="">Não há serie cadastrada</option>
                 </select>
-                <span id="serieError" style="color:red; display:none;">Serie é obrigatório.</span>
               </div>
+
+              
+
+             
+
               <div class="text-center">
-                <button class="btn btn-primary" id="adicionar-turma-button">Adicionar Turma</button>
+                <button type="submit" class="btn btn-primary">Adicionar Turma</button>
                 <button type="reset" class="btn btn-secondary">Limpar</button>
               </div>
               <div id="turma-sucesso" style="display:none;color:green;">Turma adicionada com sucesso!</div>
               <div id="turma-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-
-              <div>
-                <a href="#" class="nav-link" data-bs-target="#table-turmas" data-bs-toggle="collapse">
-                  <h5 class="card-title mt-4">Turmas Cadastradas
-                    <i class="bi bi-chevron-down ms-auto btn"></i>
-                  </h5>
-                </a>
-                <div id="table-turmas" class="collapse">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">#id</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Serie</th>
-                        <th scope="col">Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% if (typeof turmas !='undefined' ) { %>
-                        <% turmas.forEach(turma=> { %>
-                          <tr>
-                            <th scope="row">
-                              <%= turma.id %>
-                            </th>
-                            <td>
-                              <%= turma.nome %>
-                            </td>
-                            <td>
-                              <% if (typeof series !='undefined' ) { %>
-                                <% series.forEach(serie=> { %>
-                                  <% if (turma.serie_id==serie.id) { %>
-                                    <%= serie.nome %>
-                                      <% } %>
-                                        <% }) %>
-                                          <% } %>
-                            </td>
-                            <td>
-                              <button type="button" class="btn btn-warning btn-sm button-edit-turma"
-                                value="<%= turma.id %>">Editar</button>
-                              <button type="button" class="btn btn-danger btn-sm button-delete-turma"
-                                value="<%= turma.id %>">Excluir</button>
-                            </td>
-                          </tr>
-                          <% }) %>
-                            <% } %>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
-        <div class="card">
+      <div class="card">
+          <div class="card-body">
+
+
+            <h5 class="card-title mt-4">Turmas</h5>
+
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+
+                  <th scope="col">Nome</th>
+                  <th scope="col">Serie</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (typeof turmas != 'undefined') { %>
+                 <% turmas.forEach(turma => { %>
+                  <tr>
+                    <th scope="row">
+                      <%= turma.id %>
+                    </th>
+                    <td>
+                      <%= turma.nome %>
+                    </td>
+                    <td>
+                      <%= turma.serie_nome %>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-sm button-edit-turma"
+                        value="<%= turma.id %>">Editar</button>
+                      <button type="button" class="btn btn-danger btn-sm button-delete-turma"
+                        value="<%= turma.id %>">Excluir</button>
+
+                    </td>
+                  </tr>
+                <% }) %>
+                <% } %>
+
+              </tbody>
+
+            </table>
+
+          </div>
+        </div>
+
+      <div class="card">
           <div class="card-body">
             <h5 class="card-title">Adicionar Disciplina</h5>
-            <div class="row g-3" id="formRegistro">
+            <form class="row g-3" id="formRegistro">
               <div class="col-md-12">
-                <label for="disciplina-nome" class="form-label">Nome da disciplina:</label>
-                <input type="text" class="form-control" id="disciplina-nome" required>
+                <label for="inputName5" class="form-label">Nome da disciplina:</label>
+                <input type="text" class="form-control" id="inputName5" required>
                 <span id="nameError" style="color:red; display:none;">Nome da disciplina é obrigatório.</span>
               </div>
+             
+            
+
+              
+
+             
+
               <div class="text-center">
-                <button class="btn btn-primary" id="adicionar-disciplina-button">Adicionar disciplina</button>
+                <button type="submit" class="btn btn-primary">Adicionar disciplina</button>
                 <button type="reset" class="btn btn-secondary">Limpar</button>
               </div>
-              <div id="disciplina-sucesso" style="display:none;color:green;">Disciplina adicionada com sucesso!</div>
-              <div id="disciplina-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-            </div>
-            <div class="mb-3">
-              <a href="#" class="nav-link" data-bs-target="#table-disciplinas" data-bs-toggle="collapse">
-                <h5 class="card-title mt-4">Disciplinas Cadastradas
-                  <i class="bi bi-chevron-down ms-auto btn"></i>
-                </h5>
-              </a>
-              <div id="table-disciplinas" class="collapse">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col">#id</th>
-                      <th scope="col">Nome</th>
-                      <th scope="col">Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% if (typeof disciplinas !='undefined' ) { %>
-                      <% disciplinas.forEach(disciplina=> { %>
-                        <tr>
-                          <th scope="row">
-                            <%= disciplina.id %>
-                          </th>
-                          <td>
-                            <%= disciplina.nome %>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-warning btn-sm button-edit-disciplina"
-                              value="<%= disciplina.id %>">Editar</button>
-                            <button type="button" class="btn btn-danger btn-sm button-delete-disciplina"
-                              value="<%= disciplina.id %>">Excluir</button>
-                          </td>
-                        </tr>
-                        <% }) %>
-                          <% } %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
+
         <div class="card">
+          <div class="card-body">
+
+
+            <h5 class="card-title mt-4">Disciplinas</h5>
+
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+
+                  <th scope="col">Nome</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (typeof disciplinas != 'undefined') { %>
+                 <% disciplinas.forEach(disciplina => { %>
+                  <tr>
+                    <th scope="row">
+                      <%= disciplina.id %>
+                    </th>
+                    <td>
+                      <%= disciplina.nome %>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-sm button-edit-disciplina"
+                        value="<%= disciplina.id %>">Editar</button>
+                      <button type="button" class="btn btn-danger btn-sm button-delete-disciplina"
+                        value="<%= disciplina.id %>">Excluir</button>
+
+                    </td>
+                  </tr>
+                <% }) %>
+                <% } %>
+
+              </tbody>
+
+            </table>
+
+          </div>
+        </div>
+
+
+
+        
+     <div class="card">
           <div class="card-body">
             <h5 class="card-title">
               <label for="turma-select" class="form-label"> Selecione a Turma:</label>
-              <select class="form-select turma-select" id="Turma-select" name="Turma">
+              <select class="form-select" id="Turma-select" name="Turma">
+
+                <option value="Matematica">1°A</option>
+                <option value="Portugues">1°B</option>
+                <option value="Ciencia"> 2°A</option>
+
               </select>
             </h5>
             <h5 class="card-title">
               <label for="turma-select" class="form-label"> Selecione a Disciplina:</label>
-              <select class="form-select disciplina-select" id="Disciplina-select" name="disciplinas">
+              <select class="form-select" id="Disciplina-select" name="disciplinas">
+
+                <option value="Matematica"> Matematica</option>
+                <option value="Portugues">Portugues</option>
+                <option value="Ciencia"> Ciencias</option>
+
               </select>
             </h5>
+
             <!-- horários table  -->
             <h5 class="card-title mt-4">Horários</h5>
+
+
             <div class="mb-3">
               <table class="table table-hover">
                 <thead>
@@ -592,68 +657,97 @@
                 <tbody>
                   <tr>
                     <th scope="row"></th>
+
                   </tr>
                   <tr>
                     <th scope="row"></th>
+
                   </tr>
                   <tr>
                     <th scope="row"></th>
+
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
+
+
         </div>
         <!-- Cadastro Professores -->
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">CADASTRAR PROFESSOR</h5>
             <h3>Dados do Professor</h3>
-            <div class="mb-3">
-              <input type="text" class="form-control" name="nome-prof" placeholder="Nome completo do professor"
-                id="nome-prof" required>
-              <small id="nome-prof-error" style="color: red; display: none;">Campo obrigatório</small>
-            </div>
-            <div class="mb-3">
-              <input type="text" name="cpf-prof" id="cpf-prof" class="form-control mask-cpf"
-                placeholder="CPF do Professor" maxlength="14" required oninput="maskCPF(this)">
-              <small id="cpf-prof-error" style="color: red; display: none;">CPF inválido</small>
-            </div>
-            <div class="mb-3">
-              <label for="salario">Salário</label>
-              <input type="number" class="form-control" name="salario" id="salario" required>
-              <small id="salario-error" style="color: red; display: none;">Salário inválido</small>
-            </div>
-            <h3>Dados para contato</h3>
-            <div class="mb-3">
-              <input type="text" name="email-prof" id="email-prof" class="form-control" placeholder="Email" required>
-              <small id="email-prof-error" style="color: red; display: none;">Email inválido</small>
-            </div>
-            <div class="mb-3">
-              <input type="text" name="prof-numero-celular" id="prof-numero-celular" class="form-control"
-                placeholder="Número de celular" maxlength="11" required>
-              <small id="celular-error" style="color: red; display: none;">Número inválido</small>
-            </div>
-            <h3>Senha para o acesso ao Sistema Acadêmico</h3>
-            <div class="mb-3">
-              <input type="password" name="senha-academica" id="senha-academica-professor" class="form-control"
-                placeholder="Crie uma senha" required>
-              <small id="senha-academica-professor-error" style="color: red; display: none;">Senha inválida</small>
-            </div>
-            <div class="mb-3">
-              <button type="button" class="btn btn-primary" id="validar-professor-button">Efetuar Registro</button>
-            </div>
-            <div id="registro-sucesso" style="display:none;color:green;">Registro efetuada com sucesso!</div>
-            <div id="registro-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+              <div class="mb-3">
+                <input type="text" class="form-control" name="nome-prof" placeholder="Nome completo do professor"
+                  id="nome-prof" required>
+
+                <small id="nome-prof-error" style="color: red; display: none;">Campo obrigatório</small>
+              </div>
+
+
+
+              <div class="mb-3">
+                <input type="text" name="cpf-prof" id="cpf-prof" class="form-control mask-cpf" placeholder="CPF do Professor"
+                  maxlength="14" required oninput="maskCPF(this)">
+
+                <small id="cpf-prof-error" style="color: red; display: none;">CPF inválido</small>
+              </div>
+
+
+
+              <div class="mb-3">
+                <label for="salario">Salário</label>
+                <input type="number" class="form-control" name="salario" id="salario" required>
+                <small id="salario-error" style="color: red; display: none;">Salário inválido</small>
+              </div>
+
+
+              <h3>Dados para contato</h3>
+
+              <div class="mb-3">
+                <input type="text" name="email-prof" id="email-prof" class="form-control" placeholder="Email" required>
+
+                <small id="email-prof-error" style="color: red; display: none;">Email inválido</small>
+              </div>
+
+              <div class="mb-3">
+                <input type="text" name="prof-numero-celular" id="prof-numero-celular" class="form-control"
+                  placeholder="Número de celular" maxlength="11" required>
+
+                <small id="celular-error" style="color: red; display: none;">Número inválido</small>
+              </div>
+
+              <h3>Senha para o acesso ao Sistema Acadêmico</h3>
+
+              <div class="mb-3">
+                <input type="password" name="senha-academica" id="senha-academica" class="form-control"
+                  placeholder="Crie uma senha" required>
+
+                <small id="senha-error" style="color: red; display: none;">Senha inválida</small>
+              </div>
+
+              <div class="mb-3">
+                <button type="button" class="btn btn-primary"  id="validar-professor-button">Efetuar Registro</button>
+              </div>
+
+              <div id="registro-sucesso" style="display:none;color:green;">Registro efetuada com sucesso!</div>
+              <div id="registro-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
           </div>
         </div>
         <div class="card">
           <div class="card-body">
+
+
             <h5 class="card-title mt-4">Professores</h5>
+
+
             <table class="table table-striped">
               <thead>
                 <tr>
                   <th scope="col">id</th>
+
                   <th scope="col">Nome</th>
                   <th scope="col">cpf</th>
                   <th scope="col">Email</th>
@@ -684,10 +778,14 @@
                         value="<%= professor.id %>">Editar</button>
                       <button type="button" class="btn btn-danger btn-sm button-delete-professor"
                         value="<%= professor.id %>">Excluir</button>
+
                   </tr>
                   <% }) %>
+
               </tbody>
+
             </table>
+
           </div>
         </div>
         <div class="card">
@@ -695,11 +793,9 @@
             <h5 class="card-title">Associar professor a disciplina</h5>
             <h3>escolha o professor</h3>
             <select class="form-select " id="professor-select" name="professor" onchange="fetchDisciplinasProfessor()">
-              <% for( let i=0; i < professores.length; i++ ) { %>
-                <option value="<%= professores[i].id %>">
-                  <%= professores[i].nome %>
-                </option>
-                <% } %>
+              <% for( let i = 0; i < professores.length; i++ ) { %>
+                <option value="<%= professores[i].id %>"><%= professores[i].nome %></option>
+              <% } %>
             </select>
             <!-- Disciplinas table  -->
             <h5 class="card-title mt-4">Disciplinas</h5>
@@ -708,16 +804,13 @@
               <table id="professor-table" class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">Serie</th>
                     <th scope="col">Turma</th>
                     <th scope="col">Disciplina</th>
+
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row"> <select class="form-select serie-select0" aria-label="Default select example">
-                      </select>
-                    </th>
                     <th scope="row"> <select class="form-select turma-select0" aria-label="Default select example">
                       </select>
                     </th>
@@ -725,6 +818,7 @@
                       </select>
                     </th>
                   </tr>
+
                 </tbody>
               </table>
               <a type="button" class="btn btn-primary" id="professorAssociarButton">Associar</a>
@@ -732,6 +826,8 @@
           </div>
         </div>
         <!-- fim cadastro alunos -->
+
+
       </div><!-- End Right side columns -->
     </section>
 

@@ -3,11 +3,11 @@ const DB_Usuarios = require("../models/usuarioModel");
 const DB_Atividade = require("../models/atividadeModel");
 const DB_Resposta = require("../models/respostaModel");
 const DB_Aluno = require("../models/alunoModel");
-const DB_Professor = require("../models/professorModel");
-const DB_Direcao = require("../models/direcaoModel");
+const DB_Professor = require('../models/professorModel');
 const DB_Disciplina = require("../models/disciplinaModel");
 const DB_Turma = require("../models/turmaModel");
 const DB_Serie = require("../models/serieModel");
+
 
 class SystemController {
     async index(req, res) {
@@ -29,26 +29,13 @@ class SystemController {
     async direcao(req, res) {
     
         const alunoModel = new DB_Aluno();
-        const professorModel = new DB_Professor();
-        const direcaoModel = new DB_Direcao();
-        const turmaModel = new DB_Turma();
-        const serieModel = new DB_Serie();
-        const disciplinaModel = new DB_Disciplina();
-
         const listaAlunos = await alunoModel.listar();
-        const professores = await professorModel.listar();
-        const turmas = await turmaModel.listar();
-        const series = await serieModel.listar();
-        const disciplinas = await disciplinaModel.listar();
-        
+        const professores = await DB_Professor.listar();
     
         res.render("Direcao/direcao_index", {
             layout: 'layouts/layout',
             alunos: listaAlunos,
-            professores,
-            turmas,
-            series,
-            disciplinas
+            professores
         });
     }
 

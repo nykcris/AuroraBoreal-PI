@@ -6,10 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const addDisciplinaButton = document.getElementById('addDisciplina'); addDisciplinaButton.addEventListener('click', addDisciplina);
     const validadeprofessorButton = document.getElementById('validar-professor-button'); validadeprofessorButton.addEventListener('click', validateProfessorForm);
     const validateAlunoFormButton = document.getElementById('validar-aluno-button'); validateAlunoFormButton.addEventListener('click', validateAlunoForm);
-    const validateTurmaFormButton = document.getElementById('adicionar-turma-button'); validateTurmaFormButton.addEventListener('click', validateTurmaForm);
-    const validateSerieFormButton = document.getElementById('adicionar-serie-button'); validateSerieFormButton.addEventListener('click', validateSerieForm);
-    const validateDisciplinaFormButton = document.getElementById('adicionar-disciplina-button'); validateDisciplinaFormButton.addEventListener('click', validateDisciplinaForm);
-    
     
 
     const editAlunoButton = document.querySelectorAll('.button-edit-aluno');
@@ -30,36 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const deleteProfessorButton = document.querySelectorAll('.button-delete-professor');
     deleteProfessorButton.forEach(button => {
         button.addEventListener('click', deleteProfessor);
-    })
-
-    const editTurmaButton = document.querySelectorAll('.button-edit-turma');
-    editTurmaButton.forEach(button => {
-        button.addEventListener('click', editTurma);
-    })
-
-    const deleteTurmaButton = document.querySelectorAll('.button-delete-turma');
-    deleteTurmaButton.forEach(button => {
-        button.addEventListener('click', deleteTurma);
-    })
-
-    const editSerieButton = document.querySelectorAll('.button-edit-serie');
-    editSerieButton.forEach(button => {
-        button.addEventListener('click', editSerie);
-    })
-
-    const deleteSerieButton = document.querySelectorAll('.button-delete-serie');
-    deleteSerieButton.forEach(button => {
-        button.addEventListener('click', deleteSerie);
-    })
-
-    const editDisciplinaButton = document.querySelectorAll('.button-edit-disciplina');
-    editDisciplinaButton.forEach(button => {
-        button.addEventListener('click', editDisciplina);
-    })
-
-    const deleteDisciplinaButton = document.querySelectorAll('.button-delete-disciplina');
-    deleteDisciplinaButton.forEach(button => {
-        button.addEventListener('click', deleteDisciplina);
     })
 
     const maskCPFInputs = document.querySelectorAll('.mask-cpf');
@@ -112,10 +78,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const dataNasc = document.getElementById('data_aniversario').value.trim();
         const email = document.getElementById('email-aluno').value.trim();
         const telefone = document.getElementById('numero-celular').value.trim();
-        const serie = document.querySelector('select[name="serie"]').value;
-        const turma = document.querySelector('select[name="turma"]').value;
-        const email_aca = document.querySelector('#email-academica-aluno').value.trim();
-        const senha_aca = document.querySelector('#senha-academica-aluno').value.trim();
+        const senha = document.getElementById('senha-academica').value.trim();
+        const serie = document.querySelector('input[name="serie"]:checked').value;
+        const email_aca = document.querySelector('#email-academica').value.trim();
+        const senha_aca = document.querySelector('#senha-academica').value.trim();
 
 
 
@@ -129,8 +95,6 @@ document.addEventListener("DOMContentLoaded", function () {
         isValid = isValid && validateDateOfBirth();
         isValid = isValid && email !== '';
         isValid = isValid && telefone !== '';
-        isValid = isValid && email_aca !== '';
-        isValid = isValid && senha_aca !== '';
 
         document.getElementById('nome-aluno-error').style.display = aluno ? 'none' : 'inline';
         document.getElementById('nome-responsavel-error').style.display = responsavel ? 'none' : 'inline';
@@ -139,8 +103,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('data-aniversario-error').style.display = validateDateOfBirth() ? 'none' : 'inline';
         document.getElementById('email-aluno-error').style.display = email ? 'none' : 'inline';
         document.getElementById('celular-error').style.display = telefone ? 'none' : 'inline';
-        document.getElementById('email-academica-aluno-error').style.display = email_aca ? 'none' : 'inline';
-        document.getElementById('senha-academica-aluno-error').style.display = senha_aca ? 'none' : 'inline';
 
         if (!isValid) {
             document.getElementById('matricula-erro').style.display = 'block';
@@ -151,8 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const dados = {
             aluno_nome: aluno,
             aluno_cpf: cpfAluno,
-            serie_id: serie,
-            turma_id: turma,
+            turma_id: serie,
             email: email_aca,
             senha: senha_aca,
             aluno_nasc: dataNasc,
@@ -183,7 +144,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('matricula-erro').innerText = 'Erro na requisição';
                 document.getElementById('matricula-erro').style.display = 'block';
             });
-        window.location.reload();
     }
 
     function editAluno(){
@@ -201,12 +161,11 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.mensagem);
+                alert(data);
                 location.reload();
             })
             .catch(err => {
                 console.error(err);
-                alert('Erro ao deletar aluno');
             });
 
     }
@@ -220,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(res => res.json())
             .then(result => {
                 console.log(result);
-                let sel = ".turma-select";
+                let sel = "#turma-select";
                 let turmaSelect = document.querySelectorAll(sel);
                 turmaSelect.forEach(select => {
                     select.innerHTML = '';
@@ -250,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const salario = document.getElementById('salario').value.trim();
         const email = document.getElementById('email-prof').value.trim();
         const telefone = document.getElementById('prof-numero-celular').value.trim();
-        const senha = document.getElementById('senha-academica-professor').value.trim();
+        const senha = document.getElementById('senha-academica').value.trim();
 
         let isValid = true;
 
@@ -265,14 +224,12 @@ document.addEventListener("DOMContentLoaded", function () {
         isValid = isValid && telefone !== '';
         console.log(telefone);
         console.log(isValid);
-        isValid = isValid && senha !== '';
 
         document.getElementById('nome-prof-error').style.display = prof ? 'none' : 'inline';
         document.getElementById('cpf-prof-error').style.display = isValidCPF(cpfProf) ? 'none' : 'inline';
         document.getElementById('salario-error').style.display = salario ? 'none' : 'inline';
         document.getElementById('email-prof-error').style.display = email ? 'none' : 'inline';
         document.getElementById('celular-error').style.display = telefone ? 'none' : 'inline';
-        document.getElementById('senha-academica-professor-error').style.display = senha ? 'none' : 'inline';
 
         if (!isValid) {
             document.getElementById('registro-erro').style.display = 'block';
@@ -306,12 +263,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById('registro-sucesso').style.display = 'none';
                 }
             })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('registro-erro').innerText = 'Erro na requisição';
-                document.getElementById('registro-erro').style.display = 'block';
-            });
-        window.location.reload();
     }
 
     function editProfessor(){
@@ -327,17 +278,16 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.mensagem);
+                alert(data);
                 location.reload();
             })
             .catch(err => {
                 console.error(err);
-                alert('Erro ao deletar professor');
             });
     }
 
 
-    function cadastrarProfessorTurmaDisciplina(number) {
+    function cadastrarProfessorTurmaDisciplina() {
         let prof = document.getElementById('professor-select').value;
         for (let i = 0; i < number; i++) {
             let dis = ".disciplina-select" + i;
@@ -368,83 +318,118 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    function validateSerieForm() {
-        const serie = document.getElementById('nome-serie').value.trim();
-        const ano = document.getElementById('ano').value.trim();
-
-        let isValid = true;
-
-        isValid = isValid && serie !== '';
-        isValid = isValid && ano !== '';
-
-        document.getElementById('nameError').style.display = serie ? 'none' : 'inline';
-        document.getElementById('anoError').style.display = ano ? 'none' : 'inline';
-
-        if (!isValid) {
-            document.getElementById('serie-erro').style.display = 'block';
-            document.getElementById('serie-sucesso').style.display = 'none';
-            return;
-        }
-
-        const dados = {
-            serie_nome: serie,
-            serie_ano: ano
-        };
-
-        fetch('/system/serie/cadastrarSerie', {
-            method: 'POST',
+    function TurmaSelectFetch(number) {
+        fetch('/system/direcaoFetchTurma', {
+            method: 'GET',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify(dados)
+            credentials: 'include'
         })
             .then(res => res.json())
             .then(result => {
-                if (result.sucesso) {
-                    document.getElementById('serie-sucesso').style.display = 'block';
-                    document.getElementById('serie-erro').style.display = 'none';
-                } else {
-                    document.getElementById('serie-erro').innerText = result.mensagem || 'Erro no cadastro';
-                    document.getElementById('serie-erro').style.display = 'block';
-                    document.getElementById('serie-sucesso').style.display = 'none';
-                }
+                console.log(result);
+                let sel = ".turma-select" + number;
+                let turmaSelect = document.querySelectorAll(sel);
+                turmaSelect.forEach(select => {
+                    select.innerHTML = '';
+                    result.forEach(turma => {
+                        let option = document.createElement('option');
+                        option.value = turma.id;
+                        option.text = turma.nome;
+                        select.appendChild(option);
+                    });
+                });
             })
             .catch(err => {
                 console.error(err);
-                document.getElementById('serie-erro').innerText = 'Erro na requisição';
-                document.getElementById('serie-erro').style.display = 'block';
             });
-        window.location.reload();
     }
 
-    function editSerie(){
-        window.location.href = `/system/serie/editar?id=${this.value}`;
+    function DisciplinaSelectFetch(number) {
+        fetch('/system/direcaoFetchDisciplina', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                let sel = ".disciplina-select" + number;
+                let disciplinaSelect = document.querySelectorAll(sel);
+                disciplinaSelect.forEach(select => {
+                    select.innerHTML = '';
+                    result.forEach(disciplina => {
+                        let option = document.createElement('option');
+                        option.value = disciplina.id;
+                        option.text = disciplina.nome;
+                        select.appendChild(option);
+                    });
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
-    function deleteSerie(){
-        fetch(`/system/serie/delete`,{
-            method: 'POST',
+    function fetchDisciplinasProfessor() {
+        let professor = document.getElementById('professor-select').value;
+        fetch('/system/fetchDisciplinasProfessor', {
+            method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({id: this.value})
+            body: JSON.stringify({ professor: professor })
         })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.mensagem);
-                location.reload();
+            .then(res => res.json())
+            .then(result => {
+                document.querySelector('#professor-table tbody').innerHTML = '';
+                result.forEach(disciplina => {
+                    var disciplinaTr = document.createElement('tr');
+                    disciplinaTr.innerHTML = `
+                        <th scope="row"> <select class="form-select turma-select" aria-label="Default select example" disabled>
+                        <option value="${disciplina.turmaId}">${disciplina.turmaNome}</option>
+                        </select></th>
+                        <th scope="row"> <select class="form-select disciplina-select" aria-label="Default select example" disabled>
+                        <option value="${disciplina.disciplinaId}">${disciplina.disciplinaNome}</option>
+                        </select></th>
+                        `;
+                    document.querySelector('#professor-table tbody').appendChild(disciplinaTr);
+
+
+                });
             })
             .catch(err => {
                 console.error(err);
-                alert('Erro ao deletar serie');
             });
     }
 
-
-
+    function SerieSelectFetch() {
+        fetch('/system/direcaofetchSerie', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(result => {
+                let sel = "#serie-select";
+                let serieSelect = document.querySelectorAll(sel);
+                serieSelect.forEach(select => {
+                    select.innerHTML = '';
+                    result.forEach(serie => {
+                        let option = document.createElement('option');
+                        option.value = serie.id;
+                        option.text = serie.nome;
+                        select.appendChild(option);
+                    });
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
 
 
     function validateTurmaForm() {
-        const turma = document.getElementById('turma-nome').value.trim();
-        const serie = document.getElementById('turma-serie-select').value.trim();
+        const turma = document.getElementById('inputName5').value.trim();
+        const serie = document.getElementById('Serie').value.trim();
 
         let isValid = true;
 
@@ -465,9 +450,7 @@ document.addEventListener("DOMContentLoaded", function () {
             serie_id: serie
         };
 
-        console.log(dados);
-
-        fetch('/system/turma/cadastrarTurma', {
+        fetch('/system/cadastrarTurma', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -484,12 +467,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById('turma-sucesso').style.display = 'none';
                 }
             })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('turma-erro').innerText = 'Erro na requisição';
-                document.getElementById('turma-erro').style.display = 'block';
-            });
-        window.location.reload();
     }
 
     function editTurma(){
@@ -505,17 +482,16 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.mensagem);
+                alert(data);
                 location.reload();
             })
             .catch(err => {
                 console.error(err);
-                alert('Erro ao deletar turma');
             });
     }
 
-    function validateDisciplinaForm() {
-        const disciplina = document.getElementById('disciplina-nome').value.trim();
+    function ValidateDisciplinaForm() {
+        const disciplina = document.getElementById('inputName5').value.trim();
 
         let isValid = true;
 
@@ -533,7 +509,7 @@ document.addEventListener("DOMContentLoaded", function () {
             disciplina_nome: disciplina
         };
 
-        fetch('/system/disciplina/cadastrarDisciplina', {
+        fetch('/system/cadastrarDisciplina', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -550,20 +526,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById('disciplina-sucesso').style.display = 'none';
                 }
             })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('disciplina-erro').innerText = 'Erro na requisição';
-                document.getElementById('disciplina-erro').style.display = 'block';
-            });
-        window.location.reload();
     }
 
     function editDisciplina(){
-        window.location.href = `/system/disciplina/editar?id=${this.value}`;
+        window.location.href = `/system/turma/editar?id=${this.value}`;
     }
 
     function deleteDisciplina(){
-        fetch(`/system/disciplina/delete`,{
+        fetch(`/system/turma/delete`,{
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -571,12 +541,11 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.mensagem);
+                alert(data);
                 location.reload();
             })
             .catch(err => {
                 console.error(err);
-                alert('Erro ao deletar disciplina');
             });
     }
 
@@ -633,12 +602,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById('produto-sucesso').style.display = 'none';
                 }
             })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('produto-erro').innerText = 'Erro na requisição';
-                document.getElementById('produto-erro').style.display = 'block';
-            });
-        window.location.reload();
     }
 
     function editProduto(){
@@ -654,12 +617,11 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.mensagem);
+                alert(data);
                 location.reload();
             })
             .catch(err => {
                 console.error(err);
-                alert('Erro ao deletar produto');
             });
     }
 
@@ -667,122 +629,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    function TurmaSelectFetch(number) {
-        fetch('/system/direcaoFetchTurma', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include'
-        })
-            .then(res => res.json())
-            .then(result => {
-                console.log(result);
-                let sel = ".turma-select"
-                if (number != null) {
-                    sel += number;
-                }
-                let turmaSelect = document.querySelectorAll(sel);
-                turmaSelect.forEach(select => {
-                    select.innerHTML = '';
-                    result.forEach(turma => {
-                        let option = document.createElement('option');
-                        option.value = turma.id;
-                        option.text = turma.nome;
-                        select.appendChild(option);
-                    });
-                });
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    }
-
-    function DisciplinaSelectFetch(number) {
-        fetch('/system/direcaoFetchDisciplina', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include'
-        })
-            .then(res => res.json())
-            .then(result => {
-                console.log(result);
-                let sel = ".disciplina-select"
-                if (number != null) {
-                    sel += number;
-                }
-                let disciplinaSelect = document.querySelectorAll(sel);
-                disciplinaSelect.forEach(select => {
-                    select.innerHTML = '';
-                    result.forEach(disciplina => {
-                        let option = document.createElement('option');
-                        option.value = disciplina.id;
-                        option.text = disciplina.nome;
-                        select.appendChild(option);
-                    });
-                });
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    }
-
-    function fetchDisciplinasProfessor() {
-        let professor = document.getElementById('professor-select').value;
-        fetch('/system/fetchDisciplinasProfessor', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ professor: professor })
-        })
-            .then(res => res.json())
-            .then(result => {
-                document.querySelector('#professor-table tbody').innerHTML = '';
-                result.forEach(disciplina => {
-                    var disciplinaTr = document.createElement('tr');
-                    disciplinaTr.innerHTML = `
-                        <th scope="row"> <select class="form-select turma-select" aria-label="Default select example" disabled>
-                        <option value="${disciplina.turmaId}">${disciplina.turmaNome}</option>
-                        </select></th>
-                        <th scope="row"> <select class="form-select disciplina-select" aria-label="Default select example" disabled>
-                        <option value="${disciplina.disciplinaId}">${disciplina.disciplinaNome}</option>
-                        </select></th>
-                        `;
-                    document.querySelector('#professor-table tbody').appendChild(disciplinaTr);
-
-
-                });
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    }
-
-    function SerieSelectFetch(number) {
-        fetch('/system/direcaofetchSerie', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include'
-        })
-            .then(res => res.json())
-            .then(result => {
-                let sel = ".serie-select";
-                if (number != null) {
-                    sel += number;
-                }
-                let serieSelect = document.querySelectorAll(sel);
-                serieSelect.forEach(select => {
-                    select.innerHTML = '';
-                    result.forEach(serie => {
-                        let option = document.createElement('option');
-                        option.value = serie.id;
-                        option.text = serie.nome;
-                        select.appendChild(option);
-                    });
-                });
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    }
 
 
     function ProdutoValorTotal() {
@@ -802,21 +648,17 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(tbody);
         let newRow = document.createElement('tr');
         newRow.innerHTML = `
-    <th scope="row"> <select class="form-select serie-select${number}" aria-label="Default select example"></select></th>
     <th scope="row"> <select class="form-select turma-select${number}" aria-label="Default select example"></select></th>
     <th scope="row"> <select class="form-select disciplina-select${number}" aria-label="Default select example"></select></th>
     `;
         table.querySelector('tbody').appendChild(newRow);
-        SerieSelectFetch(number);
         TurmaSelectFetch(number);
         DisciplinaSelectFetch(number);
     }
 
     TurmaIDSelectFetch();
-    SerieSelectFetch(number);
     TurmaSelectFetch(number);
     DisciplinaSelectFetch(number);
-    DisciplinaSelectFetch();
     SerieSelectFetch();
     ProdutoValorTotal();
 

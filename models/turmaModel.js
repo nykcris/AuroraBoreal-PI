@@ -23,7 +23,6 @@ class DB_Turma {
     }
 
     async cadastrar() {
-        console.log(this.#nome, this.#serie_id);
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(
             "INSERT INTO tb_turma (nome, serie_id) VALUES (?, ?)",

@@ -15,11 +15,11 @@ class AuthMiddleware {
                 
                 next();
                 
-            
+              
             }
             else
                 res.redirect("/");
-            
+ 
         }
         else
             res.redirect("/");
