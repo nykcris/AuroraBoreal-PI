@@ -1,4 +1,6 @@
 class fetchDisciplinas {
+    
+    disciplinaSelect;
 
     constructor() {
         this.disciplinaSelect = document.querySelectorAll(".disciplina-select");
@@ -63,3 +65,4 @@ class fetchDisciplinas {
     }
 }
 
+export default fetchDisciplinas;

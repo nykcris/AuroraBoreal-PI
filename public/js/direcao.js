@@ -1,82 +1,27 @@
 
-import { fetchProdutos } from "./Produtos/fetchProdutos.js";
-import { fetchAlunos } from "./Alunos/fetchAlunos.js";
-import { fetchProfessores } from "./Professores/fetchProfessores.js";
-import { fetchTurmas } from "./Turmas/fetchTurmas.js";
-import { fetchSeries } from "./Series/fetchSeries.js";
-import { fetchDisciplinas } from "./Disciplinas/fetchDisciplinas.js";
+require('./Alunos/fetchAlunos.js');
+require('./Professores/fetchProfessores.js');
+require('./Turmas/fetchTurmas.js');
+require('./Series/fetchSeries.js');
+require('./Produtos/fetchProdutos.js');
+require('./Disciplinas/fetchDisciplinas.js');
 
-import { gerenciarProdutos } from "./Produtos/gerenciarProdutos.js";
-import { gerenciarAlunos } from "./Alunos/gerenciarAlunos.js";
-import { gerenciarProfessores } from "./Professores/gerenciarProfessores.js";
-import { gerenciarTurmas } from "./Turmas/gerenciarTurmas.js";
-import { gerenciarSeries } from "./Series/gerenciarSeries.js";
-import { gerenciarDisciplinas } from "./Disciplinas/gerenciarDisciplinas.js";
+require('./Alunos/gerenciarAlunos.js');
+require('./Professores/gerenciarProfessores.js');
+require('./Turmas/gerenciarTurmas.js');
+require('./Series/gerenciarSeries.js');
+require('./Produtos/gerenciarProdutos.js');
+require('./Disciplinas/gerenciarDisciplinas.js');
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    
+    
+    
+
     var number = 0;
-
-    const professorAssociarButton = document.getElementById('professorAssociarButton'); professorAssociarButton.addEventListener('click', cadastrarProfessorTurmaDisciplina);
-    const addDisciplinaButton = document.getElementById('addDisciplina'); addDisciplinaButton.addEventListener('click', addDisciplina);
-    const validadeprofessorButton = document.getElementById('validar-professor-button'); validadeprofessorButton.addEventListener('click', validateProfessorForm);
-    const validateAlunoFormButton = document.getElementById('validar-aluno-button'); validateAlunoFormButton.addEventListener('click', validateAlunoForm);
-    const validateTurmaFormButton = document.getElementById('adicionar-turma-button'); validateTurmaFormButton.addEventListener('click', validateTurmaForm);
-    const validateSerieFormButton = document.getElementById('adicionar-serie-button'); validateSerieFormButton.addEventListener('click', validateSerieForm);
-    const validateDisciplinaFormButton = document.getElementById('adicionar-disciplina-button'); validateDisciplinaFormButton.addEventListener('click', validateDisciplinaForm);
-    
-    
-
-    const editAlunoButton = document.querySelectorAll('.button-edit-aluno');
-    editAlunoButton.forEach(button => {
-        button.addEventListener('click', editAluno);
-    })
-
-    const deleteAlunoButton = document.querySelectorAll('.button-delete-aluno');
-    deleteAlunoButton.forEach(button => {
-        button.addEventListener('click', deleteAluno);
-    })
-
-    const editProfessorButton = document.querySelectorAll('.button-edit-professor');
-    editProfessorButton.forEach(button => {
-        button.addEventListener('click', editProfessor);
-    })
-
-    const deleteProfessorButton = document.querySelectorAll('.button-delete-professor');
-    deleteProfessorButton.forEach(button => {
-        button.addEventListener('click', deleteProfessor);
-    })
-
-    const editTurmaButton = document.querySelectorAll('.button-edit-turma');
-    editTurmaButton.forEach(button => {
-        button.addEventListener('click', editTurma);
-    })
-
-    const deleteTurmaButton = document.querySelectorAll('.button-delete-turma');
-    deleteTurmaButton.forEach(button => {
-        button.addEventListener('click', deleteTurma);
-    })
-
-    const editSerieButton = document.querySelectorAll('.button-edit-serie');
-    editSerieButton.forEach(button => {
-        button.addEventListener('click', editSerie);
-    })
-
-    const deleteSerieButton = document.querySelectorAll('.button-delete-serie');
-    deleteSerieButton.forEach(button => {
-        button.addEventListener('click', deleteSerie);
-    })
-
-    const editDisciplinaButton = document.querySelectorAll('.button-edit-disciplina');
-    editDisciplinaButton.forEach(button => {
-        button.addEventListener('click', editDisciplina);
-    })
-
-    const deleteDisciplinaButton = document.querySelectorAll('.button-delete-disciplina');
-    deleteDisciplinaButton.forEach(button => {
-        button.addEventListener('click', deleteDisciplina);
-    })
 
     const maskCPFInputs = document.querySelectorAll('.mask-cpf');
     maskCPFInputs.forEach(input => {
@@ -181,106 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-
-
-
-    
-
-
-
-
-
-    
-    
-
-    function validateProdutoForm() {
-        const nome = document.getElementById('inputName5').value.trim();
-        const descricao = document.getElementById('descricao').value.trim();
-        const quantidade = document.getElementById('quantidade').value.trim();
-        const valor = document.getElementById('valor-gasto').value.trim();
-        const tipo = document.getElementById('inputState').value.trim();
-
-        let isValid = true;
-
-        isValid = isValid && nome !== '';
-        isValid = isValid && descricao !== '';
-        isValid = isValid && quantidade !== '';
-        isValid = isValid && valor !== '';
-        isValid = isValid && tipo !== '';
-
-        document.getElementById('nameError').style.display = nome ? 'none' : 'inline';
-        document.getElementById('descricaoError').style.display = descricao ? 'none' : 'inline';
-        document.getElementById('quantidadeError').style.display = quantidade ? 'none' : 'inline';
-        document.getElementById('valorError').style.display = valor ? 'none' : 'inline';
-        document.getElementById('tipoError').style.display = tipo ? 'none' : 'inline';
-
-        if (!isValid) {
-            document.getElementById('produto-erro').style.display = 'block';
-            document.getElementById('produto-sucesso').style.display = 'none';
-            return;
-        }
-
-        const dados = {
-            nome: nome,
-            descricao: descricao,
-            quantidade: quantidade,
-            valor: valor,
-            tipo: tipo
-        };
-
-        fetch('/system/cadastrarProduto', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify(dados)
-        })
-            .then(res => res.json())
-            .then(result => {
-                if (result.sucesso) {
-                    document.getElementById('produto-sucesso').style.display = 'block';
-                    document.getElementById('produto-erro').style.display = 'none';
-                    ProdutoValorTotal();
-                } else {
-                    document.getElementById('produto-erro').innerText = result.mensagem || 'Erro no cadastro';
-                    document.getElementById('produto-erro').style.display = 'block';
-                    document.getElementById('produto-sucesso').style.display = 'none';
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('produto-erro').innerText = 'Erro na requisição';
-                document.getElementById('produto-erro').style.display = 'block';
-            });
-        window.location.reload();
-    }
-
-    function editProduto(){
-        window.location.href = `/system/produtos/editar?id=${this.value}`;
-    }
-
-    function deleteProduto(){
-        fetch(`/system/produtos/delete`,{
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({id: this.value})
-        })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.mensagem);
-                location.reload();
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Erro ao deletar produto');
-            });
-    }
-
-
-
-
-
-
     function fetchDisciplinasProfessor() {
         let professor = document.getElementById('professor-select').value;
         fetch('/system/fetchDisciplinasProfessor', {
@@ -368,12 +213,40 @@ document.addEventListener("DOMContentLoaded", function () {
         DisciplinaSelectFetch(number);
     }
 
+
     TurmaIDSelectFetch();
-    SerieSelectFetch(number);
-    TurmaSelectFetch(number);
-    DisciplinaSelectFetch(number);
-    DisciplinaSelectFetch();
-    SerieSelectFetch();
     ProdutoValorTotal();
+
+    let fAlunos = new fetchAlunos();
+    let fProfessores = new fetchProfessores();
+    let fTurmas = new fetchTurmas();
+    let fSeries = new fetchSeries();
+    let fProdutos = new fetchProdutos();
+    let fDisciplinas = new fetchDisciplinas();
+
+    let gAlunos = new gerenciarAlunos();
+    let gProfessores = new gerenciarProfessores();
+    let gTurmas = new gerenciarTurmas();
+    let gSeries = new gerenciarSeries();
+    let gDisciplinas = new gerenciarDisciplinas();
+    let gProdutos = new gerenciarProdutos();
+
+    fAlunos.init();
+    fProfessores.init();
+    fTurmas.init();
+    fSeries.init();
+    fProdutos.init();
+    
+    gAlunos.init();
+    gProfessores.init();
+    gTurmas.init();
+    gSeries.init();
+    gDisciplinas.init();
+    gProdutos.init();
+
+    fSeries.SelectSeriesfetch();
+    fTurmas.SelectTurmasfetch();
+    fDisciplinas.SelectDisciplinasfetch();
+    fProfessores.SelectProfessoresfetch();
 
 });

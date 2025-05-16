@@ -1,5 +1,7 @@
 class fetchSeries {
 
+    serieSelect;
+
     constructor() {
         this.serieSelect = document.querySelectorAll(".serie-select");
     }
@@ -7,6 +9,7 @@ class fetchSeries {
     init() {
         this.fetchSeries();
         this.SelectSeriesfetch();
+        console.log("fetchSeries");
     }
 
     fetchSeries() {
@@ -63,3 +66,4 @@ class fetchSeries {
     }
 }
 
+module.exports = fetchSeries;

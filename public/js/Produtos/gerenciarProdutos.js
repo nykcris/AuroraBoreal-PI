@@ -107,5 +107,4 @@ class gerenciarProdutos {
 
 
 
-
-
+module.exports = gerenciarProdutos;
