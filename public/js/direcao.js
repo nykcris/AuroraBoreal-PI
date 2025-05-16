@@ -1,19 +1,3 @@
-
-import { fetchProdutos } from "./Produtos/fetchProdutos.js";
-import { fetchAlunos } from "./Alunos/fetchAlunos.js";
-import { fetchProfessores } from "./Professores/fetchProfessores.js";
-import { fetchTurmas } from "./Turmas/fetchTurmas.js";
-import { fetchSeries } from "./Series/fetchSeries.js";
-import { fetchDisciplinas } from "./Disciplinas/fetchDisciplinas.js";
-
-import { gerenciarProdutos } from "./Produtos/gerenciarProdutos.js";
-import { gerenciarAlunos } from "./Alunos/gerenciarAlunos.js";
-import { gerenciarProfessores } from "./Professores/gerenciarProfessores.js";
-import { gerenciarTurmas } from "./Turmas/gerenciarTurmas.js";
-import { gerenciarSeries } from "./Series/gerenciarSeries.js";
-import { gerenciarDisciplinas } from "./Disciplinas/gerenciarDisciplinas.js";
-
-
 document.addEventListener("DOMContentLoaded", function () {
 
     var number = 0;
@@ -119,7 +103,113 @@ document.addEventListener("DOMContentLoaded", function () {
         return date >= minDate && date <= now;
     }
 
-    
+    function validateAlunoForm() {
+
+        const aluno = document.getElementById('nome-aluno').value.trim();
+        const responsavel = document.getElementById('nome-responsavel').value.trim();
+        const cpfAluno = document.getElementById('cpf-aluno').value.trim();
+        const cpfResponsavel = document.getElementById('cpf-responsavel').value.trim();
+        const dataNasc = document.getElementById('data_aniversario').value.trim();
+        const email = document.getElementById('email-aluno').value.trim();
+        const telefone = document.getElementById('numero-celular').value.trim();
+        const serie = document.querySelector('select[name="serie"]').value;
+        const turma = document.querySelector('select[name="turma"]').value;
+        const email_aca = document.querySelector('#email-academica-aluno').value.trim();
+        const senha_aca = document.querySelector('#senha-academica-aluno').value.trim();
+
+
+
+
+        let isValid = true;
+
+        isValid = isValid && aluno !== '';
+        isValid = isValid && responsavel !== '';
+        isValid = isValid && isValidCPF(cpfAluno);
+        isValid = isValid && isValidCPF(cpfResponsavel);
+        isValid = isValid && validateDateOfBirth();
+        isValid = isValid && email !== '';
+        isValid = isValid && telefone !== '';
+        isValid = isValid && email_aca !== '';
+        isValid = isValid && senha_aca !== '';
+
+        document.getElementById('nome-aluno-error').style.display = aluno ? 'none' : 'inline';
+        document.getElementById('nome-responsavel-error').style.display = responsavel ? 'none' : 'inline';
+        document.getElementById('cpf-aluno-error').style.display = isValidCPF(cpfAluno) ? 'none' : 'inline';
+        document.getElementById('cpf-responsavel-error').style.display = isValidCPF(cpfResponsavel) ? 'none' : 'inline';
+        document.getElementById('data-aniversario-error').style.display = validateDateOfBirth() ? 'none' : 'inline';
+        document.getElementById('email-aluno-error').style.display = email ? 'none' : 'inline';
+        document.getElementById('celular-error').style.display = telefone ? 'none' : 'inline';
+        document.getElementById('email-academica-aluno-error').style.display = email_aca ? 'none' : 'inline';
+        document.getElementById('senha-academica-aluno-error').style.display = senha_aca ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('matricula-erro').style.display = 'block';
+            document.getElementById('matricula-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            aluno_nome: aluno,
+            aluno_cpf: cpfAluno,
+            serie_id: serie,
+            turma_id: turma,
+            email: email_aca,
+            senha: senha_aca,
+            aluno_nasc: dataNasc,
+            responsavel_nome: responsavel,
+            responsavel_cpf: cpfResponsavel,
+            responsavel_tel: telefone
+        };
+
+        fetch('/system/cadastrarAluno', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.sucesso) {
+                    document.getElementById('matricula-sucesso').style.display = 'block';
+                    document.getElementById('matricula-erro').style.display = 'none';
+                } else {
+                    document.getElementById('matricula-erro').innerText = result.mensagem || 'Erro no cadastro';
+                    document.getElementById('matricula-erro').style.display = 'block';
+                    document.getElementById('matricula-sucesso').style.display = 'none';
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('matricula-erro').innerText = 'Erro na requisição';
+                document.getElementById('matricula-erro').style.display = 'block';
+            });
+        window.location.reload();
+    }
+
+    function editAluno(){
+        console.log(this.value);
+        window.location.href = `/system/alunos/editar?id=${this.value}`;
+    }
+
+    function deleteAluno(){
+        console.log(this.value);
+        fetch(`/system/alunos/delete`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({id: this.value})
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensagem);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Erro ao deletar aluno');
+            });
+
+    }
 
     function TurmaIDSelectFetch() {
         fetch('/system/direcaoFetchTurma', {
@@ -150,6 +240,100 @@ document.addEventListener("DOMContentLoaded", function () {
     function myMenuFunction() {
         const menu = document.getElementById("navMenu");
         menu.className = (menu.className === "nav-menu") ? "nav-menu responsive" : "nav-menu";
+    }
+
+
+    function validateProfessorForm() {
+        const prof = document.getElementById('nome-prof').value.trim();
+        const cpfProf = document.getElementById('cpf-prof').value.trim();
+
+        const salario = document.getElementById('salario').value.trim();
+        const email = document.getElementById('email-prof').value.trim();
+        const telefone = document.getElementById('prof-numero-celular').value.trim();
+        const senha = document.getElementById('senha-academica-professor').value.trim();
+
+        let isValid = true;
+
+        isValid = isValid && prof !== '';
+        console.log(isValid);
+        isValid = isValid && isValidCPF(cpfProf);
+        console.log(isValid);
+        isValid = isValid && salario !== '';
+        console.log(isValid);
+        isValid = isValid && email !== '';
+        console.log(isValid);
+        isValid = isValid && telefone !== '';
+        console.log(telefone);
+        console.log(isValid);
+        isValid = isValid && senha !== '';
+
+        document.getElementById('nome-prof-error').style.display = prof ? 'none' : 'inline';
+        document.getElementById('cpf-prof-error').style.display = isValidCPF(cpfProf) ? 'none' : 'inline';
+        document.getElementById('salario-error').style.display = salario ? 'none' : 'inline';
+        document.getElementById('email-prof-error').style.display = email ? 'none' : 'inline';
+        document.getElementById('celular-error').style.display = telefone ? 'none' : 'inline';
+        document.getElementById('senha-academica-professor-error').style.display = senha ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('registro-erro').style.display = 'block';
+            document.getElementById('registro-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            prof_nome: prof,
+            prof_cpf: cpfProf,
+            prof_salario: salario,
+            email: email,
+            senha: senha,
+            telefone: telefone
+        };
+
+        fetch('/system/cadastrarProfessor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.sucesso) {
+                    document.getElementById('registro-sucesso').style.display = 'block';
+                    document.getElementById('registro-erro').style.display = 'none';
+                } else {
+                    document.getElementById('registro-erro').innerText = result.mensagem || 'Erro no cadastro';
+                    document.getElementById('registro-erro').style.display = 'block';
+                    document.getElementById('registro-sucesso').style.display = 'none';
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('registro-erro').innerText = 'Erro na requisição';
+                document.getElementById('registro-erro').style.display = 'block';
+            });
+        window.location.reload();
+    }
+
+    function editProfessor(){
+        window.location.href = `/system/professores/editar?id=${this.value}`;
+    }
+
+    function deleteProfessor(){
+        fetch(`/system/professores/delete`,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({id: this.value})
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensagem);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Erro ao deletar professor');
+            });
     }
 
 
@@ -184,14 +368,217 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    
+    function validateSerieForm() {
+        const serie = document.getElementById('nome-serie').value.trim();
+        const ano = document.getElementById('ano').value.trim();
+
+        let isValid = true;
+
+        isValid = isValid && serie !== '';
+        isValid = isValid && ano !== '';
+
+        document.getElementById('nameError').style.display = serie ? 'none' : 'inline';
+        document.getElementById('anoError').style.display = ano ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('serie-erro').style.display = 'block';
+            document.getElementById('serie-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            serie_nome: serie,
+            serie_ano: ano
+        };
+
+        fetch('/system/serie/cadastrarSerie', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.sucesso) {
+                    document.getElementById('serie-sucesso').style.display = 'block';
+                    document.getElementById('serie-erro').style.display = 'none';
+                } else {
+                    document.getElementById('serie-erro').innerText = result.mensagem || 'Erro no cadastro';
+                    document.getElementById('serie-erro').style.display = 'block';
+                    document.getElementById('serie-sucesso').style.display = 'none';
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('serie-erro').innerText = 'Erro na requisição';
+                document.getElementById('serie-erro').style.display = 'block';
+            });
+        window.location.reload();
+    }
+
+    function editSerie(){
+        window.location.href = `/system/serie/editar?id=${this.value}`;
+    }
+
+    function deleteSerie(){
+        fetch(`/system/serie/delete`,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({id: this.value})
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensagem);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Erro ao deletar serie');
+            });
+    }
 
 
 
 
 
-    
-    
+    function validateTurmaForm() {
+        const turma = document.getElementById('turma-nome').value.trim();
+        const serie = document.getElementById('turma-serie-select').value.trim();
+
+        let isValid = true;
+
+        isValid = isValid && turma !== '';
+        isValid = isValid && serie !== '';
+
+        document.getElementById('nameError').style.display = turma ? 'none' : 'inline';
+        document.getElementById('serieError').style.display = serie ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('turma-erro').style.display = 'block';
+            document.getElementById('turma-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            turma_nome: turma,
+            serie_id: serie
+        };
+
+        console.log(dados);
+
+        fetch('/system/turma/cadastrarTurma', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.sucesso) {
+                    document.getElementById('turma-sucesso').style.display = 'block';
+                    document.getElementById('turma-erro').style.display = 'none';
+                } else {
+                    document.getElementById('turma-erro').innerText = result.mensagem || 'Erro no cadastro';
+                    document.getElementById('turma-erro').style.display = 'block';
+                    document.getElementById('turma-sucesso').style.display = 'none';
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('turma-erro').innerText = 'Erro na requisição';
+                document.getElementById('turma-erro').style.display = 'block';
+            });
+        window.location.reload();
+    }
+
+    function editTurma(){
+        window.location.href = `/system/turma/editar?id=${this.value}`;
+    }
+
+    function deleteTurma(){
+        fetch(`/system/turma/delete`,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({id: this.value})
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensagem);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Erro ao deletar turma');
+            });
+    }
+
+    function validateDisciplinaForm() {
+        const disciplina = document.getElementById('disciplina-nome').value.trim();
+
+        let isValid = true;
+
+        isValid = isValid && disciplina !== '';
+
+        document.getElementById('nameError').style.display = disciplina ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('disciplina-erro').style.display = 'block';
+            document.getElementById('disciplina-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            disciplina_nome: disciplina
+        };
+
+        fetch('/system/disciplina/cadastrarDisciplina', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.sucesso) {
+                    document.getElementById('disciplina-sucesso').style.display = 'block';
+                    document.getElementById('disciplina-erro').style.display = 'none';
+                } else {
+                    document.getElementById('disciplina-erro').innerText = result.mensagem || 'Erro no cadastro';
+                    document.getElementById('disciplina-erro').style.display = 'block';
+                    document.getElementById('disciplina-sucesso').style.display = 'none';
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('disciplina-erro').innerText = 'Erro na requisição';
+                document.getElementById('disciplina-erro').style.display = 'block';
+            });
+        window.location.reload();
+    }
+
+    function editDisciplina(){
+        window.location.href = `/system/disciplina/editar?id=${this.value}`;
+    }
+
+    function deleteDisciplina(){
+        fetch(`/system/disciplina/delete`,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({id: this.value})
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensagem);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Erro ao deletar disciplina');
+            });
+    }
 
     function validateProdutoForm() {
         const nome = document.getElementById('inputName5').value.trim();
@@ -280,6 +667,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+    function TurmaSelectFetch(number) {
+        fetch('/system/direcaoFetchTurma', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                let sel = ".turma-select"
+                if (number != null) {
+                    sel += number;
+                }
+                let turmaSelect = document.querySelectorAll(sel);
+                turmaSelect.forEach(select => {
+                    select.innerHTML = '';
+                    result.forEach(turma => {
+                        let option = document.createElement('option');
+                        option.value = turma.id;
+                        option.text = turma.nome;
+                        select.appendChild(option);
+                    });
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    function DisciplinaSelectFetch(number) {
+        fetch('/system/direcaoFetchDisciplina', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                let sel = ".disciplina-select"
+                if (number != null) {
+                    sel += number;
+                }
+                let disciplinaSelect = document.querySelectorAll(sel);
+                disciplinaSelect.forEach(select => {
+                    select.innerHTML = '';
+                    result.forEach(disciplina => {
+                        let option = document.createElement('option');
+                        option.value = disciplina.id;
+                        option.text = disciplina.nome;
+                        select.appendChild(option);
+                    });
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
 
     function fetchDisciplinasProfessor() {
         let professor = document.getElementById('professor-select').value;
