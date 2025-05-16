@@ -1,5 +1,5 @@
 class fetchDisciplinas {
-    
+
     disciplinaSelect;
 
     constructor() {
@@ -66,3 +66,5 @@ class fetchDisciplinas {
 }
 
 export default fetchDisciplinas;
+
+

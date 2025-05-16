@@ -66,4 +66,4 @@ class fetchAlunos {
 }
 
 
-module.exports = fetchAlunos;
+export default fetchAlunos;

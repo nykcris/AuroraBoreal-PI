@@ -68,4 +68,5 @@ class fetchTurmas {
             });
     }
 }
-module.exports = fetchTurmas;
+
+export default fetchTurmas;

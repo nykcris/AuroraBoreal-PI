@@ -87,4 +87,8 @@ class gerenciarDisciplinas {
     }
 }
 
+
+
+
+
 export default gerenciarDisciplinas;

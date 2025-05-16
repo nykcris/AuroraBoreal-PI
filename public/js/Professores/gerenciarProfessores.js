@@ -111,4 +111,4 @@ class gerenciarProfessores {
 
 
 
-module.exports = gerenciarProfessores;
+export default gerenciarProfessores;
