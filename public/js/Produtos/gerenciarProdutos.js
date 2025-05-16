@@ -106,5 +106,4 @@ class gerenciarProdutos {
 
 
 
-
-module.exports = gerenciarProdutos;
+export default gerenciarProdutos;

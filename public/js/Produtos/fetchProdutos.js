@@ -65,4 +65,5 @@ class fetchProdutos {
             });
     }
 }
-module.exports = fetchProdutos;
+
+export default fetchProdutos;

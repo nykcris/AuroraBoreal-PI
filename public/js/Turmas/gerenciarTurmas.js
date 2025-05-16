@@ -100,5 +100,4 @@ class gerenciarTurmas {
 
 
 
-
-module.exports = gerenciarTurmas;
+export default gerenciarTurmas;

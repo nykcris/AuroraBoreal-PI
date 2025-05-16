@@ -66,4 +66,6 @@ class fetchProfessores {
 }
 
 
-module.exports = fetchProfessores;
+
+
+export default fetchProfessores;

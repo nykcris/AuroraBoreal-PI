@@ -66,4 +66,4 @@ class fetchSeries {
     }
 }
 
-module.exports = fetchSeries;
+export default fetchSeries;
