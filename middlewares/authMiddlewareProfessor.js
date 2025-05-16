@@ -8,12 +8,11 @@ class AuthMiddlewareProfessor {
         if(req.cookies.usuarioLogado) {
             let email = req.cookies.usuarioLogadoEmail;
             let senha = req.cookies.usuarioLogadoSenha;
-            let usuId = req.cookies.usuarioLogado;
             let usuario = new DB_Professor();
-            let arrUsuario = await usuario.validar(email, senha, usuId);
+            let arrUsuario = await usuario.validar(email, senha);
             //valida se o usuario existe no banco
 
-            if(typeof arrUsuario != 'undefined' && arrUsuario != null) {
+            if(typeof arrUsuario != 'undefined') {
                 
                 next();
                 

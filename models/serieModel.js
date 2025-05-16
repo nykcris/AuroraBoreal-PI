@@ -1,19 +1,16 @@
 const db = require('../utils/database');
 
 class DB_Serie {
-    #id; #nome; #ano;
+    #id; #nome;
 
     get id() { return this.#id; }
     set id(value) { this.#id = value; }
     get nome() { return this.#nome; }
     set nome(value) { this.#nome = value; }
-    get ano() { return this.#ano; }
-    set ano(value) { this.#ano = value; }
 
-    constructor(id, nome, ano) {
+    constructor(id, nome) {
         this.#id = id;
         this.#nome = nome;
-        this.#ano = ano;
     }
 
     async listar() {
@@ -25,8 +22,8 @@ class DB_Serie {
     async cadastrar() {
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(
-            "INSERT INTO tb_serie (nome, ano) VALUES (?, ?)",
-            [this.#nome, this.#ano]
+            "INSERT INTO tb_serie (nome) VALUES (?)",
+            [this.#nome]
         );
     }
 
@@ -39,8 +36,8 @@ class DB_Serie {
     async atualizar() {
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(
-            "UPDATE tb_serie SET nome = ?, ano = ? WHERE id = ?",
-            [this.#nome, this.#ano, this.#id]
+            "UPDATE tb_serie SET nome = ? WHERE id = ?",
+            [this.#nome, this.#id]
         );
     }
 

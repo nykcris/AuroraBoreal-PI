@@ -30,8 +30,6 @@ router.get("/direcaoFetchTurma", AMD.validar, SC.direcaoFetchTurma);
 router.get("/direcaoFetchDisciplina", AMD.validar, SC.direcaoFetchDisciplina);
 router.get("/direcaoFetchSerie", AMD.validar, SC.direcaoFetchSerie);
 
-router.post("/fetchDisciplinasProfessor", AMD.validar, PC.fetchDisciplinasProfessor);
-
 router.post("/cadastrarProfessorTurmaDisciplina", AMD.validar, PC.cadastrarProfessorTurmaDisciplina);
 
 router.post("/turma/cadastrarTurma", AMD.validar, TC.cadastrarTurma);
