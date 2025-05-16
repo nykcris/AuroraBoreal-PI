@@ -35,7 +35,7 @@ class DB_Professor {
     }
 
 
-    static async listar() {
+    async listar() {
         const DB = new db();
         const rows = await DB.ExecutaComando("SELECT * FROM tb_professor", []);
         return rows;
