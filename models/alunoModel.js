@@ -96,7 +96,7 @@ class DB_Aluno {
         return await DB.ExecutaComandoNonQuery(sql, valores); // retorna true ou false
     }
 
-    async validar(email, senha) {
+    async validar(email, senha, usuId) {
         const DB = new db();
         let sql = "SELECT * FROM tb_aluno WHERE email = ? AND senha = ?";
         if(usuId != null){

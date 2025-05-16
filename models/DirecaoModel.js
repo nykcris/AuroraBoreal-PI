@@ -45,7 +45,7 @@ class DB_Direcao {
         return result;
     }
 
-    async validar(email, senha) {
+    async validar(email, senha , usuId) {
         const DB = new db();
         let sql = "SELECT * FROM tb_direcao WHERE email = ? AND senha = ?";
         if(usuId != null){

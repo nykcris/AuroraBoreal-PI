@@ -1,35 +1,6 @@
-import fetchAlunos from '/js/Alunos/fetchAlunos.js';
-import fetchProfessores from '/js/Professores/fetchProfessores.js';
-import fetchTurmas from '/js/Turmas/fetchTurmas.js';
-import fetchSeries from '/js/Series/fetchSeries.js';
-import fetchProdutos from '/js/Produtos/fetchProdutos.js';
-import fetchDisciplinas from '/js/Disciplinas/fetchDisicplinas.js';
-import gerenciarAlunos from '/js/Alunos/gerenciarAlunos.js';
-import gerenciarProfessores from '/js/Professores/gerenciarProfessores.js';
-import gerenciarTurmas from '/js/Turmas/gerenciarTurmas.js';
-import gerenciarSeries from '/js/Series/gerenciarSeries.js';
-import gerenciarDisciplinas from '/js/Disciplinas/gerenciarDisciplinas.js';
-import gerenciarProdutos from '/js/Produtos/gerenciarProdutos.js';
-
-
-
-
-window.fetchAlunos = fetchAlunos;
-window.fetchProfessores = fetchProfessores;
-window.fetchTurmas = fetchTurmas;
-window.fetchSeries = fetchSeries;
-window.fetchProdutos = fetchProdutos;
-window.fetchDisciplinas = fetchDisciplinas;
-window.gerenciarAlunos = gerenciarAlunos;
-window.gerenciarProfessores = gerenciarProfessores;
-window.gerenciarTurmas = gerenciarTurmas;
-window.gerenciarSeries = gerenciarSeries;
-window.gerenciarDisciplinas = gerenciarDisciplinas;
-window.gerenciarProdutos = gerenciarProdutos;
-
 document.addEventListener("DOMContentLoaded", function () {
 
-    var number = 0;
+    var numberAddMateria = 0;
 
     const professorAssociarButton = document.getElementById('professorAssociarButton'); professorAssociarButton.addEventListener('click', cadastrarProfessorTurmaDisciplina);
     const addDisciplinaButton = document.getElementById('addDisciplina'); addDisciplinaButton.addEventListener('click', addDisciplina);
@@ -430,7 +401,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    function SerieSelectFetch() {
+    function SerieSelectFetch(number) {
         fetch('/system/direcaofetchSerie', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -438,7 +409,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(res => res.json())
             .then(result => {
-                let sel = "#serie-select";
+                let sel = ".serie-select";
+                if (number != 0) {
+                    sel = ".serie-select" + number;
+                }
                 let serieSelect = document.querySelectorAll(sel);
                 serieSelect.forEach(select => {
                     select.innerHTML = '';
@@ -671,7 +645,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function addDisciplina() {
-        number++;
+        numberAddMateria++;
+        let number = numberAddMateria;
         let table = document.querySelector('#professor-table');
         let tbody = table.querySelector('tbody');
         console.log(tbody);
@@ -687,14 +662,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     TurmaIDSelectFetch();
+    SerieSelectFetch();
+    SerieSelectFetch(number)
     TurmaSelectFetch(number);
     DisciplinaSelectFetch(number);
     SerieSelectFetch();
     ProdutoValorTotal();
-
-    fSeries.SelectSeriesfetch();
-    fTurmas.SelectTurmasfetch();
-    fDisciplinas.SelectDisciplinasfetch();
-    fProfessores.SelectProfessoresfetch();
 
 });
