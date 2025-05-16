@@ -95,4 +95,4 @@ class gerenciarSeries {
 
 
 
-
+module.exports = gerenciarSeries;

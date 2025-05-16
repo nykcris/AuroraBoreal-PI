@@ -1,5 +1,7 @@
 class fetchProdutos {
 
+    produtoSelect;
+
     constructor() {
         this.produtoSelect = document.querySelectorAll(".produto-select");
     }
@@ -7,6 +9,7 @@ class fetchProdutos {
     init() {
         this.fetchProdutos();
         this.SelectProdutosfetch();
+        console.log("fetchProdutos");
     }
 
     fetchProdutos() {
@@ -62,4 +65,4 @@ class fetchProdutos {
             });
     }
 }
-
+module.exports = fetchProdutos;

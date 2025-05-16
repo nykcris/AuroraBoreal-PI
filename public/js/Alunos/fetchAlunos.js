@@ -1,5 +1,7 @@
 class fetchAlunos {
 
+    alunoSelect;
+
     constructor() {
         this.alunoSelect = document.querySelectorAll(".aluno-select");
     }
@@ -64,3 +66,4 @@ class fetchAlunos {
 }
 
 
+module.exports = fetchAlunos;

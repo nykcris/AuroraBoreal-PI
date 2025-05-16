@@ -1,4 +1,6 @@
 class fetchProfessores {
+    
+    professorSelect;
 
     constructor() {
         this.professorSelect = document.querySelectorAll(".professor-select");
@@ -64,3 +66,4 @@ class fetchProfessores {
 }
 
 
+module.exports = fetchProfessores;

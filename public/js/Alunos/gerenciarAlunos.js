@@ -122,11 +122,4 @@ class gerenciarAlunos {
 }
 
 
-
-
-
-
-
-
-
-
+export default gerenciarAlunos;

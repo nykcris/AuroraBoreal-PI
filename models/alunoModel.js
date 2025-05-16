@@ -98,9 +98,11 @@ class DB_Aluno {
 
     async validar(email, senha, usuId) {
         const DB = new db();
-        const sql = `SELECT * FROM tb_aluno WHERE email = ? AND senha = ? AND id = ?`;
+        let sql = "SELECT * FROM tb_aluno WHERE email = ? AND senha = ?";
+        if(usuId != null){
+            sql += " AND id = ?";
+        }
         const valores = [email, senha, usuId];
-
         const rows = await DB.ExecutaComando(sql, valores);
         return rows.length > 0 ? rows[0] : null;
     }

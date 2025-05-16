@@ -8,7 +8,7 @@ class LoginController{
 
         res.render("Sistema/form_login",{ layout: false });
     }
-    
+
     async postlogin(req, res) {
         const { email, senha , type} = req.body;
         let typeName = ''
@@ -36,9 +36,9 @@ class LoginController{
                 typeName = 'Invalid';
                 break;
         }
-        
+
         if (validUser) {
-            
+
             res.cookie("usuarioLogado", validUser.id, {
                 httpOnly: true,
                 sameSite: 'lax',
@@ -64,7 +64,7 @@ class LoginController{
                 sameSite: 'lax',
                 path: '/'
             });
-            
+
             let paginaDestino = '';
             switch (type) {
                 case '1':

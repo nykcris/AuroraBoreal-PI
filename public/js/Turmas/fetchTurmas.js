@@ -1,5 +1,7 @@
 class fetchTurmas {
 
+    turmaSelect;
+
     constructor() {
         this.turmaSelect = document.querySelectorAll(".turma-select");
     }
@@ -7,6 +9,7 @@ class fetchTurmas {
     init() {
         this.fetchTurmas();
         this.SelectTurmasfetch();
+        console.log("fetchTurmas");
     }
 
     fetchTurmas() {
@@ -47,6 +50,9 @@ class fetchTurmas {
                     sel += "-" + number;
                 }
                 let turmaSelect = document.querySelectorAll(sel);
+                console.log("==========================");
+                console.log(turmaSelect);
+                console.log("==========================");
                 turmaSelect.forEach(select => {
                     select.innerHTML = '';
                     result.forEach(turma => {
@@ -62,3 +68,4 @@ class fetchTurmas {
             });
     }
 }
+module.exports = fetchTurmas;
