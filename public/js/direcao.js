@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const validateTurmaFormButton = document.getElementById('validar-turma-button'); if(validateTurmaFormButton) validateTurmaFormButton.addEventListener('click', validateTurmaForm); else console.log('validateTurmaFormButton not found');
     const validateSerieFormButton = document.getElementById('validar-serie-button'); if(validateSerieFormButton) validateSerieFormButton.addEventListener('click', validateSerieForm); else console.log('validateSerieFormButton not found');
     const validateProdutoFormButton = document.getElementById('validar-produto-button'); if(validateProdutoFormButton) validateProdutoFormButton.addEventListener('click', validateProdutoForm); else console.log('validateProdutoFormButton not found');
+
     
 
     const editAlunoButton = document.querySelectorAll('.button-edit-aluno');
@@ -649,9 +650,36 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    function fetchDisciplinasProfessor() {
+        let professor = document.getElementById('professor-select').value;
+        fetch('/system/fetchDisciplinasProfessor', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ professor: professor })
+        })
+            .then(res => res.json())
+            .then(result => {
+                document.querySelector('#professor-table tbody').innerHTML = '';
+                result.forEach(disciplina => {
+                    var disciplinaTr = document.createElement('tr');
+                    disciplinaTr.innerHTML = `
+                        <th scope="row"> <select class="form-select turma-select" aria-label="Default select example" disabled>
+                        <option value="${disciplina.turmaId}">${disciplina.turmaNome}</option>
+                        </select></th>
+                        <th scope="row"> <select class="form-select disciplina-select" aria-label="Default select example" disabled>
+                        <option value="${disciplina.disciplinaId}">${disciplina.disciplinaNome}</option>
+                        </select></th>
+                        `;
+                    document.querySelector('#professor-table tbody').appendChild(disciplinaTr);
 
 
-
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
 
     function validateProdutoForm() {
         const nome = document.getElementById('inputName5').value.trim();
@@ -757,7 +785,6 @@ document.addEventListener("DOMContentLoaded", function () {
     <th scope="row"> <select class="form-select disciplina-select${number}" aria-label="Default select example"></select></th>
     `;
         table.querySelector('tbody').appendChild(newRow);
-        SerieSelectFetch(number);
         TurmaSelectFetch(number);
         DisciplinaSelectFetch(number);
     }

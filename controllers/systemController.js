@@ -38,15 +38,11 @@ class SystemController {
         const listaAlunos = await db_aluno.listar();
         const turmas = await db_turma.listar();
         const series = await db_serie.listar();
-
     
         res.render("Direcao/direcao_index", {
             layout: 'layouts/layout',
             alunos: listaAlunos,
-            professores,
-            turmas,
-            series,
-            disciplinas
+            professores
         });
     }
 
