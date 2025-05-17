@@ -1,11 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    var number = 0;
+    var numberAddMateria = 0;
 
-    const professorAssociarButton = document.getElementById('professorAssociarButton'); professorAssociarButton.addEventListener('click', cadastrarProfessorTurmaDisciplina);
-    const addDisciplinaButton = document.getElementById('addDisciplina'); addDisciplinaButton.addEventListener('click', addDisciplina);
-    const validadeprofessorButton = document.getElementById('validar-professor-button'); validadeprofessorButton.addEventListener('click', validateProfessorForm);
-    const validateAlunoFormButton = document.getElementById('validar-aluno-button'); validateAlunoFormButton.addEventListener('click', validateAlunoForm);
+    const professorAssociarButton = document.getElementById('professorAssociarButton'); if(professorAssociarButton) professorAssociarButton.addEventListener('click', cadastrarProfessorTurmaDisciplina); else console.log('professorAssociarButton not found');
+    const addDisciplinaButton = document.getElementById('addDisciplina'); if(addDisciplinaButton) addDisciplinaButton.addEventListener('click', addDisciplina); else console.log('addDisciplinaButton not found');
+    const validadeprofessorButton = document.getElementById('validar-professor-button'); if(validadeprofessorButton) validadeprofessorButton.addEventListener('click', validateProfessorForm); else console.log('validadeprofessorButton not found');
+    const validateAlunoFormButton = document.getElementById('validar-aluno-button'); if(validateAlunoFormButton) validateAlunoFormButton.addEventListener('click', validateAlunoForm); else console.log('validateAlunoFormButton not found');
+    const validateDisciplinaFormButton = document.getElementById('validar-disciplina-button'); if(validateDisciplinaFormButton) validateDisciplinaFormButton.addEventListener('click', validateDisciplinaForm); else console.log('validateDisciplinaFormButton not found');
+    const validateTurmaFormButton = document.getElementById('validar-turma-button'); if(validateTurmaFormButton) validateTurmaFormButton.addEventListener('click', validateTurmaForm); else console.log('validateTurmaFormButton not found');
+    const validateSerieFormButton = document.getElementById('validar-serie-button'); if(validateSerieFormButton) validateSerieFormButton.addEventListener('click', validateSerieForm); else console.log('validateSerieFormButton not found');
+    const validateProdutoFormButton = document.getElementById('validar-produto-button'); if(validateProdutoFormButton) validateProdutoFormButton.addEventListener('click', validateProdutoForm); else console.log('validateProdutoFormButton not found');
+
     
 
     const editAlunoButton = document.querySelectorAll('.button-edit-aluno');
@@ -326,8 +331,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(res => res.json())
             .then(result => {
-                console.log(result);
-                let sel = ".turma-select" + number;
+                let sel = ".turma-select";
+                if (number != null) {
+                    sel += number;
+                }
                 let turmaSelect = document.querySelectorAll(sel);
                 turmaSelect.forEach(select => {
                     select.innerHTML = '';
@@ -352,8 +359,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(res => res.json())
             .then(result => {
-                console.log(result);
-                let sel = ".disciplina-select" + number;
+                let sel = ".disciplina-select";
+                if (number != null) {
+                    sel += number;
+                }
                 let disciplinaSelect = document.querySelectorAll(sel);
                 disciplinaSelect.forEach(select => {
                     select.innerHTML = '';
@@ -401,7 +410,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    function SerieSelectFetch() {
+    function SerieSelectFetch(number) {
         fetch('/system/direcaofetchSerie', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -409,7 +418,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(res => res.json())
             .then(result => {
-                let sel = "#serie-select";
+                let sel = ".serie-select";
+                if (number != null) {
+                    sel += number;
+                }
                 let serieSelect = document.querySelectorAll(sel);
                 serieSelect.forEach(select => {
                     select.innerHTML = '';
@@ -425,6 +437,72 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error(err);
             });
     }
+
+    function validateSerieForm() {
+        const serie = document.getElementById('inputName5').value.trim();
+        const ano = document.getElementById('ano').value.trim();
+
+        let isValid = true;
+
+        isValid = isValid && serie !== '';
+        isValid = isValid && ano !== '';
+
+        document.getElementById('nameError').style.display = serie ? 'none' : 'inline';
+        document.getElementById('anoError').style.display = ano ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('serie-erro').style.display = 'block';
+            document.getElementById('serie-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            serie_nome: serie,
+            ano: ano
+        };
+
+        fetch('/system/cadastrarSerie', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.sucesso) {
+                    document.getElementById('serie-sucesso').style.display = 'block';
+                    document.getElementById('serie-erro').style.display = 'none';
+                } else {
+                    document.getElementById('serie-erro').innerText = result.mensagem || 'Erro no cadastro';
+                    document.getElementById('serie-erro').style.display = 'block';
+                    document.getElementById('serie-sucesso').style.display = 'none';
+                }
+            })
+    }
+
+    function editSerie(){
+        window.location.href = `/system/serie/editar?id=${this.value}`;
+    }
+
+    function deleteSerie(){
+        fetch(`/system/serie/delete`,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({id: this.value})
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+
+
 
 
     function validateTurmaForm() {
@@ -490,7 +568,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    function ValidateDisciplinaForm() {
+    function validateDisciplinaForm() {
         const disciplina = document.getElementById('inputName5').value.trim();
 
         let isValid = true;
@@ -529,11 +607,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function editDisciplina(){
-        window.location.href = `/system/turma/editar?id=${this.value}`;
+        window.location.href = `/system/disciplina/editar?id=${this.value}`;
     }
 
     function deleteDisciplina(){
-        fetch(`/system/turma/delete`,{
+        fetch(`/system/disciplina/delete`,{
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -543,6 +621,60 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 alert(data);
                 location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    function DisciplinaSelectOnTurmaID() {
+        let turma_id = document.querySelector('.turma-select').value;
+        fetch(`/system/direcao/FetchDisciplinaOnTurmaID/${turma_id}`,{
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(result => {
+                let disciplinaSelect = document.querySelector('.disciplina-OnTurmaID-select');
+                disciplinaSelect.innerHTML = '';
+                result.forEach(disciplina => {
+                    let option = document.createElement('option');
+                    option.value = disciplina.id;
+                    option.text = disciplina.nome;
+                    disciplinaSelect.appendChild(option);
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    function fetchDisciplinasProfessor() {
+        let professor = document.getElementById('professor-select').value;
+        fetch('/system/fetchDisciplinasProfessor', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ professor: professor })
+        })
+            .then(res => res.json())
+            .then(result => {
+                document.querySelector('#professor-table tbody').innerHTML = '';
+                result.forEach(disciplina => {
+                    var disciplinaTr = document.createElement('tr');
+                    disciplinaTr.innerHTML = `
+                        <th scope="row"> <select class="form-select turma-select" aria-label="Default select example" disabled>
+                        <option value="${disciplina.turmaId}">${disciplina.turmaNome}</option>
+                        </select></th>
+                        <th scope="row"> <select class="form-select disciplina-select" aria-label="Default select example" disabled>
+                        <option value="${disciplina.disciplinaId}">${disciplina.disciplinaNome}</option>
+                        </select></th>
+                        `;
+                    document.querySelector('#professor-table tbody').appendChild(disciplinaTr);
+
+
+                });
             })
             .catch(err => {
                 console.error(err);
@@ -642,12 +774,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function addDisciplina() {
-        number++;
+        numberAddMateria++;
+        let number = numberAddMateria;
         let table = document.querySelector('#professor-table');
         let tbody = table.querySelector('tbody');
-        console.log(tbody);
         let newRow = document.createElement('tr');
         newRow.innerHTML = `
+    <th scope="row"> <select class="form-select serie-select${number}" aria-label="Default select example"></select></th>    
     <th scope="row"> <select class="form-select turma-select${number}" aria-label="Default select example"></select></th>
     <th scope="row"> <select class="form-select disciplina-select${number}" aria-label="Default select example"></select></th>
     `;
@@ -656,10 +789,13 @@ document.addEventListener("DOMContentLoaded", function () {
         DisciplinaSelectFetch(number);
     }
 
+
     TurmaIDSelectFetch();
-    TurmaSelectFetch(number);
-    DisciplinaSelectFetch(number);
     SerieSelectFetch();
+    TurmaSelectFetch();
+    SerieSelectFetch(numberAddMateria);
+    TurmaSelectFetch(numberAddMateria);
+    DisciplinaSelectFetch(numberAddMateria);
     ProdutoValorTotal();
 
 });

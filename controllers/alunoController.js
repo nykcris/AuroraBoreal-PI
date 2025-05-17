@@ -39,7 +39,7 @@ class AlunoController {
     }
     
     
-    res.render("Aluno/alunos_index",{ layout: 'layouts/layout', rows, atividades_cadastradas:atividades, atividadesFeitas });
+    res.render("Aluno/alunos_index",{ layout: 'layouts/layout_aluno', rows, atividades_cadastradas:atividades, atividadesFeitas });
   }
 
   async postCadastrarAluno(req, res) {
@@ -111,7 +111,7 @@ class AlunoController {
     let atividade = await DBA.listar(req.query.id);
     console.log(atividade);
 
-    res.render("Aluno/respostas", { layout: 'layouts/layout', atividade });
+    res.render("Aluno/respostas", { layout: 'layouts/layout_aluno', atividade });
 
   }
 
@@ -172,18 +172,18 @@ class AlunoController {
     let turma_disciplinas = await DBPTD.listarDisciplinas(turma[0].id);
     let disciplinas = [];
     for (let i = 0; i < turma_disciplinas.length; i++) {
-        disciplinas.push(await DBD.obter(turma_disciplinas[i].id_disciplina));
+        disciplinas.push(await DBD.obter(turma_disciplinas[i].disciplina_id));
     }
     let data = [];
     for (let i = 0; i < disciplinas.length; i++) {
-        let notas = await DBN.obter(req.cookies.usuarioLogado, turma_disciplinas[i].id);
+        let notas = await DBN.obterNotasAluno(req.cookies.usuarioLogado, turma_disciplinas[i].turma_id, turma_disciplinas[i].disciplina_id);
         data.push({
             "disciplina_nome":disciplinas[i][0].nome,
-            "nota1":notas[0] ? notas[0].nota : 0,
-            "nota2":notas[1] ? notas[1].nota : 0,
-            "nota3":notas[2] ? notas[2].nota : 0,
-            "nota4":notas[3] ? notas[3].nota : 0,
-            "media":(notas[0] ? notas[0].nota : 0 + notas[1] ? notas[1].nota : 0 + notas[2] ? notas[2].nota : 0 + notas[3] ? notas[3].nota : 0)/4
+            "nota1":notas[0] ? notas[0].valor_nota : 0,
+            "nota2":notas[1] ? notas[1].valor_nota : 0,
+            "nota3":notas[2] ? notas[2].valor_nota : 0,
+            "nota4":notas[3] ? notas[3].valor_nota : 0,
+            "media":(notas[0] ? notas[0].valor_nota : 0 + notas[1] ? notas[1].valor_nota : 0 + notas[2] ? notas[2].valor_nota : 0 + notas[3] ? notas[3].valor_nota : 0)/4
         })
     }
 
@@ -195,8 +195,8 @@ class AlunoController {
 
   }
 
-  async quadroNotas(req, res){
-    res.render("Aluno/quadroNotas",{ layout: 'layouts/layout'});
+  async tabelaNotas(req, res){
+    res.render("Aluno/alunos_tabelaNotas",{ layout: 'layouts/layout_aluno'});
   }
 
   async editarAluno(req, res){
@@ -206,7 +206,7 @@ class AlunoController {
     let aluno = await DBA.obter(req.query.id);
     console.log(aluno);
     console.log(turmas);
-    res.render("Aluno/editar_aluno",{ layout: 'layouts/layout', aluno , turmas });
+    res.render("Aluno/editar_aluno",{ layout: 'layouts/layout_aluno', aluno , turmas });
 
   }
 
@@ -228,6 +228,27 @@ class AlunoController {
     }
   }
 
+  async materias(req, res){
+    let DBD = new DB_Disciplina();
+    let disciplina = await DBD.obter(req.query.materia_id);
+    let DBA = new DB_Atividade();
+    let atividades = await DBA.listar(req.query.materia_id);
+    let DBN = new DB_Notas();
+    let notas = await DBN.obterNotasAluno(req.query.aluno_id, req.query.materia_id);
+    let DBR = new DB_Resposta();
+    let respostas = await DBR.listar(req.query.aluno_id, req.query.materia_id);
+    res.send({
+      materia_nome: disciplina[0].nome,
+      conteudo: disciplina[0].conteudo,
+      atividades,
+      notas,
+      respostas
+    });
+  }
+
+  async materiasView(req, res){
+    res.render("Aluno/aluno_materia",{ layout: 'layouts/layout_aluno'});
+  }
 
 
 

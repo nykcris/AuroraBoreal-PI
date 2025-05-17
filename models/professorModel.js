@@ -35,7 +35,7 @@ class DB_Professor {
     }
 
 
-    static async listar() {
+    async listar() {
         const DB = new db();
         const rows = await DB.ExecutaComando("SELECT * FROM tb_professor", []);
         return rows;
@@ -49,7 +49,11 @@ class DB_Professor {
 
     async validar(email, senha) {
         const DB = new db();
-        const rows = await DB.ExecutaComando("SELECT * FROM tb_professor WHERE email = ? AND senha = ?", [email, senha]);
+        let sql = "SELECT * FROM tb_professor WHERE email = ? AND senha = ?";
+        if(usuId != null){
+            sql += " AND id = ?";
+        }
+        const rows = await DB.ExecutaComando(sql, [email, senha, usuId]);
         return rows.length > 0 ? rows[0] : null;
     }
 

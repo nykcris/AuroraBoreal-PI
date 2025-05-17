@@ -38,6 +38,7 @@
         background: linear-gradient(90deg, rgba(4,196,0,1) 0%, rgba(9,17,121,1) 79%, rgba(154,0,255,1) 100%); 
       }
     </style>
+
     <!-- =======================================================
     * Template Name: NiceAdmin
     * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -47,13 +48,30 @@
     ======================================================== -->
   </head>
 
- <!-- =======  <body>
-     Sidebar  -->
+<body>
+     <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/" class="logo d-flex align-items-center">
+        <img src="img/AURORALOGOSFUNDO.ico" alt="">
+        <span class="d-none d-lg-block">Aurora Boreal</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+
+
+    </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
     <aside id="sidebar" class="sidebar">
 
       <div class="profile">
         <div class="profile-img">
-          <img src="img/AURORALOGOSFUNDO.ico" onerror="this.src='/img/AURORALOGOSFUNDO.ico'">
+          <img src='/img/AURORALOGOSFUNDO.ico' onerror="this.src='/img/AURORALOGOSFUNDO.ico'">
         </div>
         <h3 id="NomeUsu"></h3>
         <p id="PerfilUsu"></p>
@@ -76,7 +94,7 @@
               </a>
             </li>
             <li>
-              <a href="alunos/notas">
+              <a href="alunos/tabelaNotas">
                 <i class="bi bi-circle"></i><span>Notas</span>
               </a>
             </li>
@@ -89,51 +107,19 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#manageUsers" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-people"></i><span>Gerenciar Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+          <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-cash-stack"></i><span>Materias</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="manageUsers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-              <a href="users/cadastrar">
-                <i class="bi bi-circle"></i><span>Criar Usuario</span>
-              </a>
-            </li>
-            <li>
-              <a href="users/listar">
-                <i class="bi bi-circle"></i><span>Listar Usuarios</span>
-              </a>
-            </li>
-          </ul>
-        </li>
+          <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-              <i class="bi bi-cash-stack"></i><span>Gerenciamento Financeiro</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-              <li>
-                <a href="professores">
-                  <i class="bi bi-circle"></i><span>Acadêmicos</span>
-                </a>
-              </li>
-              <li>
-                <a href="alunos">
-                  <i class="bi bi-circle"></i><span>Alunos</span>
-                </a>
-              </li>
-              <li>
-                <a href="direcao">
-                  <i class="bi bi-circle"></i><span>Painéis e gerenciamentos</span>
-                </a>
-              </li>
-            </ul>
-        </li>
 
       </ul>
 
   </aside>
   <!-- End Sidebar-->
-   <!--<%- body %> --> 
+  <%- body %>
+</body>
     <!-- Bootstrap JS Files -->
     <script src="/static/js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="/static/js/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -155,4 +141,8 @@
       });
 
     </script>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <script src="assets/js/main.js"></script>
+  <script src="/js/layout_aluno.js"></script>
   </body>

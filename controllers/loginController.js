@@ -1,6 +1,6 @@
 const AlunoModel = require("../models/alunoModel");
 const ProfessorModel = require("../models/professorModel"); 
-const DirecaoModel = require("../models/DirecaoModel");
+const DirecaoModel = require("../models/direcaoModel");
 
 
 class LoginController{
@@ -8,7 +8,7 @@ class LoginController{
 
         res.render("Sistema/form_login",{ layout: false });
     }
-    
+
     async postlogin(req, res) {
         const { email, senha , type} = req.body;
         let typeName = ''
@@ -36,11 +36,10 @@ class LoginController{
                 typeName = 'Invalid';
                 break;
         }
-        
+
         if (validUser) {
-            
+
             res.cookie("usuarioLogado", validUser.id, {
-                httpOnly: true,
                 sameSite: 'lax',
                 path: '/'
             });
@@ -57,14 +56,16 @@ class LoginController{
                 path: '/'
             });
             res.cookie("usuarioLogadoEmail", email, {
+                httpOnly: true,
                 sameSite: 'lax',
                 path: '/'
             });
             res.cookie("usuarioLogadoSenha", senha, {
+                httpOnly: true,
                 sameSite: 'lax',
                 path: '/'
             });
-            
+
             let paginaDestino = '';
             switch (type) {
                 case '1':

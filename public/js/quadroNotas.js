@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const quadroNotas = document.querySelector(".table tbody");
   
-    fetch("/system/alunos/quadroNotasFetch", {
+    fetch("/system/alunos/tabelaNotasFetch", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", function() {
           `;
         });
         quadroNotas.innerHTML = html;
+        if(data.length == 0){
+            quadroNotas.innerHTML = "<tr><td colspan='6'>Nenhuma disciplina encontrada</td></tr>";
+        }
       })
       .catch(err => alert(err.message));
   });

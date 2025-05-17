@@ -5,9 +5,11 @@ const router = express.Router();
 const authMiddlewareDirecao = require("../middlewares/authMiddlewareDirecao");
 const authMiddlewareAluno = require("../middlewares/authMiddlewareAluno");
 const alunoController = require("../controllers/alunoController");
+const systemController = require("../controllers/systemController");
 
 let AMD = new authMiddlewareDirecao();
 let AMA = new authMiddlewareAluno();
+let SC = new systemController();
 let AC = new alunoController();
 
 
@@ -46,7 +48,13 @@ router.post("/delete", AMD.validar, AC.deleteAluno);
 // router.get("/atividades", AM.validar, AC.atividades);
 router.get("/resposta", AMA.validar, AC.responderAtividades);
 router.post("/resposta", AMA.validar, upload.single('anexo_resposta'), AC.responderAtividadesPost);
-router.get("/quadroNotas",AMA.validar, AC.quadroNotas);
-router.post("/quadroNotasFetch",AMA.validar, AC.tabelaNotasFetch);
+router.get("/tabelaNotas",AMA.validar, AC.tabelaNotas);
+router.post("/tabelaNotasFetch",AMA.validar, AC.tabelaNotasFetch);
+router.get("/materias",AMA.validar, AC.materiasView);
+router.post("/materias",AMA.validar, AC.materias);
+
+
+// ----- Fetchs -----
+router.get("/fetchDisciplinas",AMA.validar, SC.direcaoFetchDisciplina);
 
 module.exports = router;

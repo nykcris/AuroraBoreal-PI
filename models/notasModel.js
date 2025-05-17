@@ -51,11 +51,20 @@ class DB_Notas {
         return a;
     }
 
-    async obter(id_aluno, id_turma_disciplina) {
-        let sql = "SELECT * FROM tb_notas JOIN tb_turma_disciplina ON tb_notas.turma_disciplina_id = tb_turma_disciplina.id WHERE id_aluno = ? AND id_turma_disciplina = ?";
-        let valores = [id_aluno, id_turma_disciplina];
+    async obterNotasAluno(id_aluno, id_turma, id_disciplina) {
+
+        let sql = "SELECT * FROM tb_turma_disciplina_professor WHERE turma_id = ? AND disciplina_id = ?";
+        let valores = [id_turma, id_disciplina];
         let DB = new db();
         let rows = await DB.ExecutaComando(sql, valores);
+        if(rows.length == 0){
+            return [];
+        }
+        let id_turma_disciplina = rows[0].id;
+
+        sql = "SELECT * FROM tb_notas JOIN tb_turma_disciplina ON tb_notas.turma_disciplina_id = tb_turma_disciplina.id WHERE id_aluno = ? AND id_turma_disciplina = ?";
+        valores = [id_aluno, id_turma_disciplina];
+        rows = await DB.ExecutaComando(sql, valores);
         return rows;
     }
 

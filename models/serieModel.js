@@ -19,6 +19,12 @@ class DB_Serie {
         return rows
     }
 
+    static async listar(){
+        const DB = new db();
+        const rows = await DB.ExecutaComando("SELECT * FROM tb_serie", []);
+        return rows;
+    }
+
     async cadastrar() {
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(
