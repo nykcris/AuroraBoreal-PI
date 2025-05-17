@@ -1,4 +1,4 @@
-// models/professorDisciplinaModel.js
+
 const db = require('../utils/database');
 
 class DB_ProfessorTurmaDisciplina {
@@ -29,9 +29,9 @@ class DB_ProfessorTurmaDisciplina {
         const DB = new db();
         const rows = await DB.ExecutaComando(`
             SELECT pd.id AS contrato_id, p.nome AS professor, d.nome AS disciplina
-            FROM tb_professor_disciplina pd
-            JOIN tb_professor p ON pd.id_professor = p.id
-            JOIN tb_disciplina d ON pd.id_disciplina = d.id
+            FROM tb_turma_disciplina_professor pd
+            JOIN tb_professor p ON pd.professor_id = p.id
+            JOIN tb_disciplina d ON pd.disciplina_id = d.id
         `, []);
         return rows;
     }
@@ -39,7 +39,7 @@ class DB_ProfessorTurmaDisciplina {
     async cadastrar() {
         const DB = new db();
         return await DB.ExecutaComandoNonQuery(`
-            INSERT INTO tb_professor_turma_disciplina (id_professor, id_turma, id_disciplina) VALUES (?, ?, ?)
+            INSERT INTO tb_turma_disciplina_professor (professor_id, turma_id, disciplina_id) VALUES (?, ?, ?)
         `, [this.#id_professor, this.#id_turma, this.#id_disciplina]);
     }
 

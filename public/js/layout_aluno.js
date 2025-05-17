@@ -1,0 +1,30 @@
+document.addEventListener("DOMContentLoaded", function() {
+    
+
+    function fetchDisciplinasLinks() {
+        fetch('/system/alunos/fetchDisciplinas', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(result => {
+                let ul = document.querySelector('#components-nav');
+                result.forEach(materia => {
+                    let li = document.createElement('li');
+                    let a = document.createElement('a');
+                    a.href = `/alunos/materias?materia_id=${materia.id}`;
+                    a.innerHTML = `<i class="bi bi-circle"></i><span>${materia.nome}</span>`;
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    fetchDisciplinasLinks();
+});
+
+

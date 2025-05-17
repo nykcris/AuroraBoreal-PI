@@ -1,6 +1,6 @@
 const AlunoModel = require("../models/alunoModel");
 const ProfessorModel = require("../models/professorModel"); 
-const DirecaoModel = require("../models/DirecaoModel");
+const DirecaoModel = require("../models/direcaoModel");
 
 
 class LoginController{
@@ -40,7 +40,6 @@ class LoginController{
         if (validUser) {
 
             res.cookie("usuarioLogado", validUser.id, {
-                httpOnly: true,
                 sameSite: 'lax',
                 path: '/'
             });
@@ -57,10 +56,12 @@ class LoginController{
                 path: '/'
             });
             res.cookie("usuarioLogadoEmail", email, {
+                httpOnly: true,
                 sameSite: 'lax',
                 path: '/'
             });
             res.cookie("usuarioLogadoSenha", senha, {
+                httpOnly: true,
                 sameSite: 'lax',
                 path: '/'
             });
