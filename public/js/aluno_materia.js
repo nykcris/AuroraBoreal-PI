@@ -21,8 +21,18 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
     console.log(usuarioLogado);
+    console.log(materiaId);
     
-    fetch(`/alunos/materias?materia_id=${materiaId}&aluno_id=${usuarioLogado}`)
+    fetch(`/system/alunos/materias`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        materia_id: materiaId,
+        aluno_id: usuarioLogado
+      })
+    })
       .then(res => res.json())
       .then(data => {
         materiaNome.innerText = data.materia_nome;
@@ -50,12 +60,12 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p>${nota.atividade.data_entrega}</p>
                 </div>
             </td>
-            <td>${nota.nota}</td>
+            <td>${nota.atividade.nota}</td>
           `;
           tabelaBimestre1.appendChild(tr);
         });
       })
-      .catch(err => alert(err.message));
+      .catch(err => console.log(err.message));
   });
 
 
