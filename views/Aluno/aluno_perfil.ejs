@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dados do Aluno</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00ff88;
+      margin-bottom: 40px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .box {
+      background-color: #1e1e1e;
+      border: 2px solid #00ff88;
+      border-radius: 10px;
+      padding: 20px;
+      width: 45%;
+      min-width: 300px;
+    }
+
+    .box h2 {
+      color: #00ff88;
+      margin-bottom: 10px;
+    }
+
+    .box p {
+      margin: 5px 0;
+    }
+
+    .edit-box {
+      width: 100%;
+      background-color: #252525;
+      margin-top: 20px;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .edit-box h2 {
+      margin-bottom: 10px;
+      color: #ffdd00;
+    }
+
+    .edit-box label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    .edit-box input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .edit-box button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #00ff88;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .box {
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Informações do Aluno e Responsável</h1>
+
+  <div class="container">
+    <div class="box">
+      <h2>Dados do Aluno</h2>
+      <p><strong>Nome:</strong> João da Silva</p>
+      <p><strong>CPF:</strong> 123.456.789-00</p>
+      <p><strong>Data de Nascimento:</strong> 15/03/2005</p>
+      <p><strong>Email:</strong> joao@email.com</p>
+      <p><strong>Turma ID:</strong> 2</p>
+    </div>
+
+    <div class="box">
+      <h2>Dados do Responsável</h2>
+      <p><strong>Nome:</strong> Maria da Silva</p>
+      <p><strong>CPF:</strong> 987.654.321-00</p>
+      <p><strong>Telefone:</strong> (18) 99999-8888</p>
+    </div>
+  </div>
+
+  <div class="edit-box">
+    <h2>Editar Dados</h2>
+    <form onsubmit="handleSubmit(event)">
+      <label for="nome">Nome do Aluno:</label>
+      <input type="text" id="nome" name="nome" placeholder="João da Silva"/>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="joao@email.com"/>
+
+      <label for="responsavel">Nome do Responsável:</label>
+      <input type="text" id="responsavel" name="responsavel" placeholder="Maria da Silva"/>
+
+      <button type="submit">Salvar Alterações</button>
+    </form>
+  </div>
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      alert("Dados salvos com sucesso!");
+    }
+  </script>
+
+</body>
+</html>
