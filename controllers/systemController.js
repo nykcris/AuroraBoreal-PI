@@ -84,7 +84,9 @@ class SystemController {
 
     async fetchNomeAluno(req, res) {
         let DBA = new DB_Aluno();
+        console.log(req.query.id);
         let alunos = await DBA.obter(req.query.id);
+        console.log(alunos);
         res.send(alunos);
     }
     

@@ -35,6 +35,7 @@ let upload = multer({storage});
 router.get("/", AMA.validar, AC.alunos);
 
 // ----- Gerenciar Aluno -----
+router.get("/perfil",AMA.validar, AC.perfilAluno);
 router.get("/editar", AMD.validar, AC.editarAluno);
 router.post("/atualizar", AMD.validar, AC.atualizarAluno);
 router.post("/delete", AMD.validar, AC.deleteAluno);
@@ -56,5 +57,6 @@ router.post("/materias",AMA.validar, AC.materias);
 
 // ----- Fetchs -----
 router.get("/fetchDisciplinas",AMA.validar, SC.direcaoFetchDisciplina);
+router.get("/fetchAluno",AMA.validar, SC.fetchNomeAluno);
 
 module.exports = router;

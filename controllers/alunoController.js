@@ -42,6 +42,10 @@ class AlunoController {
     res.render("Aluno/alunos_index",{ layout: 'layouts/layout_aluno', rows, atividades_cadastradas:atividades, atividadesFeitas });
   }
 
+  async perfilAluno(req, res){
+    res.render("Aluno/aluno_perfil",{ layout: 'layouts/layout_aluno'});
+  }
+
   async postCadastrarAluno(req, res) {
     console.log("DADOS RECEBIDOS:", req.body);
 
