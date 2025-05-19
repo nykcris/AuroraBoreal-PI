@@ -47,7 +47,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="/" class="logo d-flex align-items-center">
-        <img src="img/AURORALOGOSFUNDO.ico" onerror="this.src='/img/AURORALOGOSFUNDO.ico'" alt="">
+        <img src="img/AURORALOGOSFUNDO.ico" alt="">
         <span class="d-none d-lg-block">Aurora Boreal</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -367,6 +367,9 @@
 
             <div id="matricula-sucesso" style="display:none;color:green;">Matrícula efetuada com sucesso!</div>
             <div id="matricula-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+          </div>
+        </div>
+        <!-- fim cadastro alunos -->
 
             <a href="#" data-bs-toggle="collapse" data-bs-target="#alunos-cadastrados"><h5 class="card-title mt-4">Alunos Cadastrados <i class="bi bi-arrow-down-short"></i></h5></a>
 
@@ -433,8 +436,8 @@
         <!--  table alunos -->
         <!--fim do formulário-->
         <!-- fim Table alunos  -->
-        <!--Adicionar turmas-->
-        <div class="card">
+<!--Adicionar turmas-->
+            <div class="card">
           <div class="card-body">
             <h5 class="card-title">Adicionar Série</h5>
             <form class="row g-3" id="formRegistro">
@@ -589,19 +592,12 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Adicionar Disciplina</h5>
-            <div class="row g-3" id="formRegistro">
+            <form class="row g-3" id="formRegistro">
               <div class="col-md-12">
                 <label for="inputName5" class="form-label">Nome da disciplina:</label>
                 <input type="text" class="form-control" id="inputName5" required>
                 <span id="nameError" style="color:red; display:none;">Nome da disciplina é obrigatório.</span>
               </div>
-
-
-
-
-
-
-
               <div class="text-center">
                 <button type="submit" class="btn btn-primary" id="validar-disciplina-button">Adicionar
                   disciplina</button>
@@ -653,26 +649,78 @@
 
           </div>
         </div>
+        <div class="card">
+          <div class="card-body">
+
+
+            <h5 class="card-title mt-4">Disciplinas</h5>
+
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+
+                  <th scope="col">Nome</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (typeof disciplinas != 'undefined') { %>
+                 <% disciplinas.forEach(disciplina => { %>
+                  <tr>
+                    <th scope="row">
+                      <%= disciplina.id %>
+                    </th>
+                    <td>
+                      <%= disciplina.nome %>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-sm button-edit-disciplina"
+                        value="<%= disciplina.id %>">Editar</button>
+                      <button type="button" class="btn btn-danger btn-sm button-delete-disciplina"
+                        value="<%= disciplina.id %>">Excluir</button>
+
+                    </td>
+                  </tr>
+                <% }) %>
+                <% } %>
+
+              </tbody>
+
+            </table>
+
+          </div>
+        </div>
+
+
 
         
-
-
-        <div class="card">
+     <div class="card">
           <div class="card-body">
             <h5 class="card-title">
               <label for="turma-select" class="form-label"> Selecione a Turma:</label>
-              <select class="form-select turma-select" id="Turma-select" name="Turma">
+              <select class="form-select" id="Turma-select" name="Turma">
+
+                <option value="Matematica">1°A</option>
+                <option value="Portugues">1°B</option>
+                <option value="Ciencia"> 2°A</option>
+
               </select>
             </h5>
             <h5 class="card-title">
               <label for="turma-select" class="form-label"> Selecione a Disciplina:</label>
-              <select class="form-select disciplina-select" id="Disciplina-select" name="disciplinas">
+              <select class="form-select" id="Disciplina-select" name="disciplinas">
+
+                <option value="Matematica"> Matematica</option>
+                <option value="Portugues">Portugues</option>
+                <option value="Ciencia"> Ciencias</option>
+
               </select>
             </h5>
 
             <!-- horários table  -->
             <h5 class="card-title mt-4">Horários</h5>
-
             <div class="mb-3">
               <table class="table table-bordered">
                 <thead>
@@ -742,6 +790,8 @@
               </table>
             </div>
           </div>
+
+
         </div>
 
         <!-- Cadastro Professores -->
@@ -863,11 +913,9 @@
             <h5 class="card-title">Associar professor a disciplina</h5>
             <h3>escolha o professor</h3>
             <select class="form-select " id="professor-select" name="professor" onchange="fetchDisciplinasProfessor()">
-              <% for( let i=0; i < professores.length; i++ ) { %>
-                <option value="<%= professores[i].id %>">
-                  <%= professores[i].nome %>
-                </option>
-                <% } %>
+              <% for( let i = 0; i < professores.length; i++ ) { %>
+                <option value="<%= professores[i].id %>"><%= professores[i].nome %></option>
+              <% } %>
             </select>
             <!-- Disciplinas table  -->
             <h5 class="card-title mt-4">Disciplinas</h5>
@@ -876,7 +924,6 @@
               <table id="professor-table" class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">Serie</th>
                     <th scope="col">Turma</th>
                     <th scope="col">Disciplina</th>
 
@@ -884,9 +931,6 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row"> <select class="form-select serie-select0" aria-label="Default select example">
-                      </select>
-                    </th>
                     <th scope="row"> <select class="form-select turma-select0" aria-label="Default select example">
                       </select>
                     </th>

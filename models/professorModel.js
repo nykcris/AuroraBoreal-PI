@@ -47,7 +47,7 @@ class DB_Professor {
         return rows;
     }
 
-    async validar(email, senha, usuId) {
+    async validar(email, senha) {
         const DB = new db();
         let sql = "SELECT * FROM tb_professor WHERE email = ? AND senha = ?";
         if(usuId != null){
