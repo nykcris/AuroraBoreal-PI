@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 result.forEach(materia => {
                     let li = document.createElement('li');
                     let a = document.createElement('a');
-                    a.href = `/alunos/materias?materia_id=${materia.id}`;
+                    a.href = `/system/alunos/materias?materia_id=${materia.id}`;
                     a.innerHTML = `<i class="bi bi-circle"></i><span>${materia.nome}</span>`;
                     li.appendChild(a);
                     ul.appendChild(li);
