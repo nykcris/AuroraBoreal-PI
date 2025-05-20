@@ -73,6 +73,13 @@ class SystemController {
     async direcaoFetchDisciplina(req, res) {
         let DBD = new DB_Disciplina();
         let disciplinas = await DBD.listar();
+        if (req.query.id) {
+            let DBA = new DB_Aluno();
+            let aluno = await DBA.obter(req.query.id);
+            if(aluno.length > 0){
+                disciplinas = disciplinas.filter(disciplina => disciplina.turma_id == aluno[0].turma_id);
+            }
+        }
         res.send(disciplinas);
     }
 
