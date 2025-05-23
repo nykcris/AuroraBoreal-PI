@@ -37,21 +37,64 @@ class DB_ProfessorTurmaDisciplina {
     }
 
     async cadastrar() {
-        const DB = new db();
-        return await DB.ExecutaComandoNonQuery(`
-            INSERT INTO tb_turma_disciplina_professor (professor_id, turma_id, disciplina_id) VALUES (?, ?, ?)
-        `, [this.#id_professor, this.#id_turma, this.#id_disciplina]);
+        try {
+            const DB = new db();
+            let comp = await this.listarDisciplinas(this.#id_turma);
+            console.log(comp);
+            if(comp.length > 0){
+                for(let i = 0; i < comp.length; i++){
+                    if(comp[i].disciplina_id == this.#id_disciplina && comp[i].professor_id == this.#id_professor && comp[i].turma_id == this.#id_turma){
+                        return { success: false, message: "Esta combinação de professor, turma e disciplina já existe" };
+                    }
+                }
+            }
+            const sql = `INSERT INTO tb_turma_disciplina_professor (professor_id, turma_id, disciplina_id) VALUES (?, ?, ?)`;
+            const params = [this.#id_professor, this.#id_turma, this.#id_disciplina];
+            
+            try {
+                const result = await DB.ExecutaComandoNonQuery(sql, params);
+                this.#id = result.insertId;
+                return { success: true, data: result };
+            } catch (dbError) {
+                // Check for duplicate entry error
+                if (dbError.code === 'ER_DUP_ENTRY') {
+                    console.log("Tentativa de inserção duplicada detectada:", dbError.sqlMessage);
+                    return { 
+                        success: false, 
+                        message: "Esta combinação de professor, turma e disciplina já existe",
+                        error: dbError.sqlMessage
+                    };
+                }
+                // Re-throw other database errors
+                throw dbError;
+            }
+        } catch (error) {
+            console.error("Erro ao cadastrar:", error);
+            return { 
+                success: false, 
+                message: "Erro ao cadastrar professor-turma-disciplina", 
+                error: error.message 
+            };
+        }
     }
 
     async listarDisciplinas(id_turma) {
         const DB = new db();
         const rows = await DB.ExecutaComando(`
-            SELECT pd.id, d.nome
+            SELECT pd.id, pd.turma_id, pd.disciplina_id, pd.professor_id, d.nome
             FROM tb_turma_disciplina_professor pd
             JOIN tb_disciplina d ON pd.disciplina_id = d.id
             WHERE pd.turma_id = ?
         `, [id_turma]);
         return rows;
+    }
+
+    async excluir(turma_id, disciplina_id) {
+        const DB = new db();
+        const sql = `DELETE FROM tb_turma_disciplina_professor WHERE turma_id = ? AND disciplina_id = ?`;
+        const params = [id];
+        const result = await DB.ExecutaComandoNonQuery(sql, params);
+        return result;
     }
 
     toJSON() {

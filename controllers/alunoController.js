@@ -125,9 +125,9 @@ class AlunoController {
     filtro.push(req.body.id_atividade);
     filtro.push(req.cookies.usuarioLogado);
     let update = await DBA.listar(filtro, 1);
-    let filepath = "uploads/"+req.file.mimetype.split("/").pop()+"/"+req.file.filename;
     let file;
     if(req.file != null){
+        let filepath = "uploads/"+req.file.mimetype.split("/").pop()+"/"+req.file.filename;
         file = filepath;
     }else{
         file = "null";
@@ -175,11 +175,18 @@ class AlunoController {
     let turma = await DBT.obter(aluno[0].turma_id);
     let turma_disciplinas = await DBPTD.listarDisciplinas(turma[0].id);
     let disciplinas = [];
+    console.log(turma_disciplinas);
     for (let i = 0; i < turma_disciplinas.length; i++) {
-        disciplinas.push(await DBD.obter(turma_disciplinas[i].disciplina_id));
+        disciplinas.push(await DBD.obter(turma_disciplinas[i].id));
+        if(disciplinas[i] == []){
+            disciplinas.pop();
+        }
     }
     let data = [];
+    console.log(disciplinas);
     for (let i = 0; i < disciplinas.length; i++) {
+      console.log(i);
+      console.log(disciplinas[i][0].nome);
         let notas = await DBN.obterNotasAluno(req.cookies.usuarioLogado, turma_disciplinas[i].turma_id, turma_disciplinas[i].disciplina_id);
         data.push({
             "disciplina_nome":disciplinas[i][0].nome,

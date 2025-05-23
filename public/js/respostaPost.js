@@ -36,8 +36,7 @@ function gravarResposta() {
                 alert("Erro ao enviar resposta!");
             }
         })
-        //.then(() => window.location.href = "/system/alunos")
-        .catch(err => alert(err.message));
+        .then(() => window.location.href = "/system/alunos")
         
     }else{
         alert("Preencha todos os campos!");

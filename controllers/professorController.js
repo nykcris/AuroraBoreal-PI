@@ -148,25 +148,43 @@ class ProfessorController {
     }
 
     async cadastrarProfessorTurmaDisciplina(req, res) {
-        console.log("Entrou na rota /system/cadastrarProfessorTurmaDisciplina");
-        console.log(req.body);
-        res.send("Funcionando");
+        try {
+            console.log("Entrou na rota /system/cadastrarProfessorTurmaDisciplina");
+            console.log(req.body);
 
-        let DBT = new DB_Turma();
-        let turma = await DBT.obter(req.body.turma);
-        let DBD = new DB_Disciplina();
-        let disciplina = await DBD.obter(req.body.disciplina);
-        let DBP = new DB_Professor();
-        let professor = await DBP.obter(req.body.professor);
-        let DBPD = new DB_ProfessorTurmaDisciplina(0, professor[0].id, turma[0].id, disciplina[0].id);
-        if (sucesso) {
-            console.log("Sucesso ao cadastrar professor disciplina");
-            res.send("Sucesso ao cadastrar professor disciplina");
-        } else {
-            console.log("Erro ao cadastrar professor disciplina");
-            res.send("Erro ao cadastrar professor disciplina");
+            let DBT = new DB_Turma();
+            let turma = await DBT.obter(req.body.turma);
+            let DBD = new DB_Disciplina();
+            let disciplina = await DBD.obter(req.body.disciplina);
+            let DBP = new DB_Professor();
+            let professor = await DBP.obter(req.body.professor);
+            
+            if (!turma.length || !disciplina.length || !professor.length) {
+                return res.json({ 
+                    sucesso: false, 
+                    mensagem: "Professor, turma ou disciplina não encontrados" 
+                });
+            }
+            
+            let DBPD = new DB_ProfessorTurmaDisciplina(0, professor[0].id, turma[0].id, disciplina[0].id);
+            let resultado = await DBPD.cadastrar();
+            
+            if (resultado.success) {
+                res.json({ sucesso: true, mensagem: "Associação realizada com sucesso" });
+            } else {
+                res.json({ 
+                    sucesso: false, 
+                    mensagem: resultado.message || "Erro ao realizar associação" 
+                });
+            }
+        } catch (error) {
+            console.error("Erro no controller:", error);
+            res.status(500).json({ 
+                sucesso: false, 
+                mensagem: "Erro interno do servidor", 
+                erro: error.message 
+            });
         }
-
     }
 
     async cadastrarProfessor(req,res){
@@ -195,6 +213,13 @@ class ProfessorController {
         let professores = await DBP.listar();
         res.send(professores);
     }
+
+    async fetchDisciplinasProfessor(req, res) {
+        let DBPD = new DB_ProfessorTurmaDisciplina();
+        let disciplinas = await DBPD.listarDisciplinas(req.query.professor);
+        res.send(disciplinas);
+    }
+
     //========== Fim Fetchs ==========
 }
 
