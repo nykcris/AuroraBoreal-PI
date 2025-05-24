@@ -13,68 +13,26 @@ class DB_Resposta {
     #comentario_professor
     #nome_aluno
 
-    get res_id() {
-        return this.#res_id;
-    }
-    set res_id(value) {
-        this.#res_id = value;
-    }
+    get res_id() { return this.#res_id; }
+    set res_id(value) { this.#res_id = value; }
+    get id_atividade() { return this.#id_atividade; }
+    set id_atividade(value) { this.#id_atividade = value; }
+    get id_aluno() { return this.#id_aluno; }
+    set id_aluno(value) { this.#id_aluno = value; }
+    get resposta() { return this.#resposta; }
+    set resposta(value) { this.#resposta = value; }
+    get anexo_resposta() { return this.#anexo_resposta; }
+    set anexo_resposta(value) { this.#anexo_resposta = value; }
+    get data_envio() { return this.#data_envio; }
+    set data_envio(value) { this.#data_envio = value; }
+    get nota() { return this.#nota; }
+    set nota(value) { this.#nota = value; }
+    get comentario_professor() { return this.#comentario_professor; }
+    set comentario_professor(value) { this.#comentario_professor = value; }
+    get nome_aluno() { return this.#nome_aluno; }
+    set nome_aluno(value) { this.#nome_aluno = value; }
 
-    get id_atividade() {
-        return this.#id_atividade;
-    }
-    set id_atividade(value) {
-        this.#id_atividade = value;
-    }
 
-    get id_aluno() {
-        return this.#id_aluno;
-    }
-    set id_aluno(value) {
-        this.#id_aluno = value;
-    }
-
-    get resposta() {
-        return this.#resposta;
-    }
-    set resposta(value) {
-        this.#resposta = value;
-    }
-
-    get data_envio() {
-        return this.#data_envio;
-    }
-    set data_envio(value) {
-        this.#data_envio = value;
-    }
-
-    get nota() {
-        return this.#nota;
-    }
-    set nota(value) {
-        this.#nota = value;
-    }
-
-    get comentario_professor() {
-        return this.#comentario_professor;
-    }
-    set comentario_professor(value) {
-        this.#comentario_professor = value;
-    }
-
-    get anexo_resposta() {
-        return this.#anexo_resposta;
-    }
-    set anexo_resposta(value) {
-        this.#anexo_resposta = value;
-    }
-
-    get nome_aluno() {
-        return this.#nome_aluno;
-    }
-    set nome_aluno(value) {
-        this.#nome_aluno = value;
-    }
 
     constructor(res_id, id_atividade, id_aluno, resposta, anexo_resposta, data_envio, nota, comentario_professor, nome_aluno) {
         this.#res_id = res_id;
@@ -126,6 +84,22 @@ class DB_Resposta {
         });
 
         return lista;
+    }
+
+    async obter(id) {
+        let sql = "SELECT * FROM tb_resposta WHERE res_id = ?";
+        let valores = [id];
+        let DB = new db();
+        let rows = await DB.ExecutaComando(sql, valores);
+        return rows;
+    }
+
+    async obterResposta(id_atividade, id_aluno) {
+        let sql = "SELECT * FROM tb_resposta WHERE id_atividade = ? AND id_aluno = ?";
+        let valores = [id_atividade, id_aluno];
+        let DB = new db();
+        let rows = await DB.ExecutaComando(sql, valores);
+        return rows;
     }
 
     async gravar() {

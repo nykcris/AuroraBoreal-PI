@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const usuarioLogado = document.cookie.split('; ').find(row => row.startsWith('usuarioLogado=')).split('=')[1];
 
     function fetchDisciplinasLinks() {
-        fetch('/system/alunos/fetchDisciplinas?id=${usuarioLogado}', {
+        fetch('/system/alunos/fetchDisciplinas?id='+usuarioLogado, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'

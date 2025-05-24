@@ -57,8 +57,11 @@ class DB_Notas {
 
         let DBPTD = new DB_ProfessorTurmaDisciplina();
         let DBA = new DB_Aluno();
-        let turma = await DBA.obter(id_aluno);
-        let turma_disciplina = await DBPTD.listarDisciplinas(turma[0].turma_id);
+        let aluno = await DBA.obter(id_aluno);
+        console.log(id_aluno);
+        console.log(aluno);
+        let turma_disciplina = await DBPTD.listarDisciplinas(aluno[0].turma_id);
+        console.log(turma_disciplina);
         let id_turma_disciplina = turma_disciplina[0].id;
 
         if(turma_disciplina[0].disciplina_id == id_disciplina){

@@ -56,7 +56,7 @@ router.post("/materias",AMA.validar, AC.materias);
 
 
 // ----- Fetchs -----
-router.get("/fetchDisciplinas",AMA.validar, SC.direcaoFetchDisciplina);
-router.get("/fetchAluno",AMA.validar, SC.fetchNomeAluno);
+router.get("/fetchDisciplinas",AMA.validar, AC.fetchDisciplinas);
+router.get("/fetchAluno",AMA.validar, AC.fetchNomeAluno);
 
 module.exports = router;
