@@ -28,16 +28,14 @@ function gravarResposta() {
             method: "POST",
             body: form
         })
-        .then(res => res.json())
-        .then(data => {
-            if(data.sucesso){
+        .then(res => {
+            if(res.status == 200){
                 alert("Resposta enviada com sucesso!");
+                window.location.href = "/system/alunos";
             }else{
                 alert("Erro ao enviar resposta!");
             }
         })
-        //.then(() => window.location.href = "/system/alunos")
-        .catch(err => alert(err.message));
         
     }else{
         alert("Preencha todos os campos!");

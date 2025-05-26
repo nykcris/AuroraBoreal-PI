@@ -32,12 +32,15 @@ class Database {
         var cnn = this.#conexao;
         return new Promise(function(res, rej) {
             cnn.query(sql, valores, function (error, results, fields) {
-                if (error) 
+                if (error) {
+                    // Pass the full error object to the rejection handler
                     rej(error);
-                else 
-                    res(results.affectedRows > 0);
+                }
+                else {
+                    res(results);
+                }
             });
-        })
+        });
     }
 
     ExecutaComandoLastInserted(sql, valores) {

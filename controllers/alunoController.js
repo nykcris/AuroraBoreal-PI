@@ -124,41 +124,49 @@ class AlunoController {
     let filtro = [];
     filtro.push(req.body.id_atividade);
     filtro.push(req.cookies.usuarioLogado);
-    let update = await DBA.listar(filtro, 1);
-    let filepath = "uploads/"+req.file.mimetype.split("/").pop()+"/"+req.file.filename;
+    let update = await DBA.obterResposta(req.body.id_atividade, req.cookies.usuarioLogado);
     let file;
+    let sucesso;
     if(req.file != null){
+        let filepath = "uploads/"+req.file.mimetype.split("/").pop()+"/"+req.file.filename;
         file = filepath;
     }else{
         file = "null";
     }
-    if (update.length > 0) {
-      DBA = new DB_Resposta(
-        update[0].res_id,
-        req.body.id_atividade,
-        req.cookies.usuarioLogado,
-        req.body.resposta,
-        file,
-        new Date(),
-        0,
-        0
-      );
-      let sucesso = await DBA.atualizar();
-    } else {
-      DBA = new DB_Resposta(
-        0,
-        req.body.id_atividade,
-        req.cookies.usuarioLogado,
-        req.body.resposta,
-        file,
-        new Date(),
-        0,
-        0
-      );
-      let sucesso = await DBA.gravar();
+    try {
+      if (update.length > 0) {
+        DBA = new DB_Resposta(
+          update[0].res_id,
+          req.body.id_atividade,
+          req.cookies.usuarioLogado,
+          req.body.resposta,
+          file,
+          new Date(),
+          0,
+          0
+        );
+        let sucesso = await DBA.atualizar();
+      } else {
+        DBA = new DB_Resposta(
+          0,
+          req.body.id_atividade,
+          req.cookies.usuarioLogado,
+          req.body.resposta,
+          file,
+          new Date(),
+          0,
+          0
+        );
+        let sucesso = await DBA.gravar();
+      }
+      res.redirect("/system/alunos");
+    } catch (error) {
+        console.error("Erro ao responder atividade:", error);
+        return res.status(500).json({
+            sucesso: false,
+            mensagem: "Erro ao responder atividade."
+        });
     }
-
-    res.redirect("/system/alunos");
   }
 
   async tabelaNotasFetch(req, res){
@@ -176,7 +184,10 @@ class AlunoController {
     let turma_disciplinas = await DBPTD.listarDisciplinas(turma[0].id);
     let disciplinas = [];
     for (let i = 0; i < turma_disciplinas.length; i++) {
-        disciplinas.push(await DBD.obter(turma_disciplinas[i].disciplina_id));
+        let disc = await DBD.obter(turma_disciplinas[i].disciplina_id);
+        if(disc.length > 0){
+            disciplinas.push(disc);
+        }
     }
     let data = [];
     for (let i = 0; i < disciplinas.length; i++) {
@@ -238,7 +249,7 @@ class AlunoController {
     let DBA = new DB_Atividade();
     let atividades = await DBA.listar(req.query.materia_id);
     let DBN = new DB_Notas();
-    let notas = await DBN.obterNotasAluno(req.query.aluno_id, req.query.materia_id);
+    let notas = await DBN.obterNotasAluno(req.cookies.usuarioLogado, req.query.materia_id);
     let DBR = new DB_Resposta();
     let respostas = await DBR.listar(req.query.aluno_id, req.query.materia_id);
     res.send({
@@ -256,7 +267,22 @@ class AlunoController {
 
 
 
+  //============ Fetchs =============
+
+  async fetchDisciplinas(req, res){
+    let DBA = new DB_Aluno();
+    let aluno = await DBA.obter(req.query.id);
+    let DBPTD = new DB_ProfessorTurmaDisciplina();
+    let disciplinas = await DBPTD.listarDisciplinas(aluno[0].turma_id);
+    console.log(disciplinas);
+    res.send(disciplinas);
+  }
   
+  async fetchNomeAluno(req, res) {
+    let DBA = new DB_Aluno();
+    let alunos = await DBA.obter(req.query.id);
+    res.send(alunos);
+  }
 
 }
 

@@ -912,7 +912,7 @@
           <div class="card-body">
             <h5 class="card-title">Associar professor a disciplina</h5>
             <h3>escolha o professor</h3>
-            <select class="form-select " id="professor-select" name="professor" onchange="fetchDisciplinasProfessor()">
+            <select class="form-select " id="professor-select" name="professor">
               <% for( let i = 0; i < professores.length; i++ ) { %>
                 <option value="<%= professores[i].id %>"><%= professores[i].nome %></option>
               <% } %>
@@ -926,22 +926,15 @@
                   <tr>
                     <th scope="col">Turma</th>
                     <th scope="col">Disciplina</th>
-
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row"> <select class="form-select turma-select0" aria-label="Default select example">
-                      </select>
-                    </th>
-                    <th scope="row"> <select class="form-select disciplina-select0" aria-label="Default select example">
-                      </select>
-                    </th>
+                    <th>Não há disciplinas cadastradas</th>
                   </tr>
-
                 </tbody>
               </table>
-              <a type="button" class="btn btn-primary" id="professorAssociarButton">Associar</a>
+              <a type="button" class="btn btn-primary" id="validar-professor-turma-disciplina-button">Associar</a>
             </div>
           </div>
         </div>

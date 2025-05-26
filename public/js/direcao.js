@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var numberAddMateria = 0;
 
-    const professorAssociarButton = document.getElementById('professorAssociarButton'); if(professorAssociarButton) professorAssociarButton.addEventListener('click', cadastrarProfessorTurmaDisciplina); else console.log('professorAssociarButton not found');
     const addDisciplinaButton = document.getElementById('addDisciplina'); if(addDisciplinaButton) addDisciplinaButton.addEventListener('click', addDisciplina); else console.log('addDisciplinaButton not found');
     const validadeprofessorButton = document.getElementById('validar-professor-button'); if(validadeprofessorButton) validadeprofessorButton.addEventListener('click', validateProfessorForm); else console.log('validadeprofessorButton not found');
     const validateAlunoFormButton = document.getElementById('validar-aluno-button'); if(validateAlunoFormButton) validateAlunoFormButton.addEventListener('click', validateAlunoForm); else console.log('validateAlunoFormButton not found');
@@ -10,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const validateTurmaFormButton = document.getElementById('validar-turma-button'); if(validateTurmaFormButton) validateTurmaFormButton.addEventListener('click', validateTurmaForm); else console.log('validateTurmaFormButton not found');
     const validateSerieFormButton = document.getElementById('validar-serie-button'); if(validateSerieFormButton) validateSerieFormButton.addEventListener('click', validateSerieForm); else console.log('validateSerieFormButton not found');
     const validateProdutoFormButton = document.getElementById('validar-produto-button'); if(validateProdutoFormButton) validateProdutoFormButton.addEventListener('click', validateProdutoForm); else console.log('validateProdutoFormButton not found');
-
+    const validadeProfessorTurmaDisciplinaButton = document.getElementById('validar-professor-turma-disciplina-button'); if(validadeProfessorTurmaDisciplinaButton) validadeProfessorTurmaDisciplinaButton.addEventListener('click', validateProfessorTurmaDisciplinaForm); else console.log('validadeProfessorTurmaDisciplinaButton not found');
+    const professorSelect = document.getElementById('professor-select'); if(professorSelect) professorSelect.addEventListener('change', fetchDisciplinasProfessor); else console.log('professorSelect not found');
     
 
     const editAlunoButton = document.querySelectorAll('.button-edit-aluno');
@@ -36,6 +36,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const maskCPFInputs = document.querySelectorAll('.mask-cpf');
     maskCPFInputs.forEach(input => {
         input.addEventListener('input', maskCPF);
+    })
+
+    const serieSelect = document.querySelectorAll('.serie-select');
+    serieSelect.forEach(select => {
+        select.addEventListener('change', function() {
+            TurmaSelectFetch(null, this.value);
+        });
     })
 
 
@@ -292,38 +299,99 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    function cadastrarProfessorTurmaDisciplina() {
+    function validateProfessorTurmaDisciplinaForm() {
+        console.log("Associando professor a disciplinas...");
+        
+        // Get professor from select dropdown
         let prof = document.getElementById('professor-select').value;
-        for (let i = 0; i < number; i++) {
-            let dis = ".disciplina-select" + i;
-            let tur = ".turma-select" + i;
-            let disciplina = document.querySelector(dis);
-            let turma = document.querySelector(tur);
-
-            let dadosDT = {
-                professor: prof,
-                disciplina: disciplina.value,
-                turma: turma.value
+        
+        if (!prof) {
+            alert('Por favor, selecione um professor.');
+            return;
+        }
+        
+        // Check if we have any added disciplines
+        if (numberAddMateria <= 0) {
+            // Get values from the main selects if no disciplines were added
+            let turma = document.getElementById('Turma-select').value;
+            let disciplina = document.getElementById('Disciplina-select').value;
+            
+            if (!turma || !disciplina) {
+                alert('Por favor, selecione turma e disciplina.');
+                return;
             }
-
-
+            
+            // Process single association
+            processAssociation(prof, turma, disciplina);
+        } else {
+            // Process all added disciplines
+            let successCount = 0;
+            
+            // Loop through all added disciplines (0 to numberAddMateria)
+            for (let i = 0; i <= numberAddMateria; i++) {
+                // For i=0, use the default selectors without number
+                let turmaSelector = i === 0 ? '.turma-select' : `.turma-select-${i}`;
+                let disciplinaSelector = i === 0 ? '.disciplina-select' : `.disciplina-select-${i}`;
+                
+                let turmaElement = document.querySelector(turmaSelector);
+                let disciplinaElement = document.querySelector(disciplinaSelector);
+                
+                if (turmaElement && disciplinaElement) {
+                    let turma = turmaElement.value;
+                    let disciplina = disciplinaElement.value;
+                    
+                    if (turma && disciplina) {
+                        // Process this association
+                        processAssociation(prof, turma, disciplina, () => {
+                            successCount++;
+                            // If this is the last one, refresh the display
+                            if (i === numberAddMateria) {
+                                alert(`${successCount} associações realizadas com sucesso!`);
+                                fetchDisciplinasProfessor();
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        
+        // Helper function to process a single association
+        function processAssociation(professor, turma, disciplina, callback) {
+            let dadosDT = {
+                professor: professor,
+                disciplina: disciplina,
+                turma: turma
+            };
+            
+            console.log('Enviando dados:', dadosDT);
+            
             fetch('/system/cadastrarProfessorTurmaDisciplina', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify(dadosDT)
             })
-
+            .then(response => response.json())
+            .then(data => {
+                if (data.sucesso) {
+                    console.log('Associação realizada com sucesso!');
+                    if (callback) callback();
+                    window.location.reload();
+                } else {
+                    console.error('Erro na associação:', data.mensagem || 'Erro desconhecido');
+                }
+            })
+            .catch(err => {
+                console.error('Erro na requisição:', err);
+            });
         }
-
-
     }
+    
 
 
 
 
-
-    function TurmaSelectFetch(number) {
+    function TurmaSelectFetch(number, serie) {
         fetch('/system/direcaoFetchTurma', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -333,16 +401,18 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(result => {
                 let sel = ".turma-select";
                 if (number != null) {
-                    sel += number;
+                    sel += '-' + number;
                 }
                 let turmaSelect = document.querySelectorAll(sel);
                 turmaSelect.forEach(select => {
                     select.innerHTML = '';
                     result.forEach(turma => {
-                        let option = document.createElement('option');
-                        option.value = turma.id;
-                        option.text = turma.nome;
-                        select.appendChild(option);
+                        if (turma.serie_id == serie || serie == null) {
+                            let option = document.createElement('option');
+                            option.value = turma.id;
+                            option.text = turma.nome;
+                            select.appendChild(option);
+                        }
                     });
                 });
             })
@@ -361,7 +431,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(result => {
                 let sel = ".disciplina-select";
                 if (number != null) {
-                    sel += number;
+                    sel += '-' + number;
                 }
                 let disciplinaSelect = document.querySelectorAll(sel);
                 disciplinaSelect.forEach(select => {
@@ -420,7 +490,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(result => {
                 let sel = ".serie-select";
                 if (number != null) {
-                    sel += number;
+                    sel += '-' + number;
                 }
                 let serieSelect = document.querySelectorAll(sel);
                 serieSelect.forEach(select => {
@@ -773,16 +843,59 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('totalGasto').innerText = total.toFixed(2);
     }
 
+    function fetchDisciplinasProfessor() {
+        console.log('fetchDisciplinasProfessor');
+        let professor = document.getElementById('professor-select').value;
+        fetch('/system/professor/fetchDisciplinasProfessor?professor='+professor, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(result => {
+                document.querySelector('#professor-table tbody').innerHTML = '';
+                result.forEach(disciplina => {
+                    var disciplinaTr = document.createElement('tr');
+                    disciplinaTr.innerHTML = `
+                        <th scope="row"> <select class="form-select turma-select" aria-label="Default select example" disabled>
+                        <option value="${disciplina.turmaId}">${disciplina.turmaNome}</option>
+                        </select></th>
+                        <th scope="row"> <select class="form-select disciplina-select" aria-label="Default select example" disabled>
+                        <option value="${disciplina.disciplinaId}">${disciplina.disciplinaNome}</option>
+                        </select></th>
+                        `;
+                    document.querySelector('#professor-table tbody').appendChild(disciplinaTr);
+
+
+                });
+            })
+            .then(() => {
+                numberAddMateria = -1;
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+
+
+
     function addDisciplina() {
         numberAddMateria++;
         let number = numberAddMateria;
         let table = document.querySelector('#professor-table');
         let tbody = table.querySelector('tbody');
+        try {
+            if (tbody.querySelector('tr').querySelector('th').innerText == 'Não há disciplinas cadastradas') {
+                tbody.querySelector('tr').remove();    
+            }
+        } catch (error) {
+            console.log('Não há disciplinas cadastradas');
+        }
         let newRow = document.createElement('tr');
-        newRow.innerHTML = `
-    <th scope="row"> <select class="form-select serie-select${number}" aria-label="Default select example"></select></th>    
-    <th scope="row"> <select class="form-select turma-select${number}" aria-label="Default select example"></select></th>
-    <th scope="row"> <select class="form-select disciplina-select${number}" aria-label="Default select example"></select></th>
+        newRow.innerHTML = ` 
+    <th scope="row"> <select class="form-select turma-select-${number}" aria-label="Default select example"></select></th>
+    <th scope="row"> <select class="form-select disciplina-select-${number}" aria-label="Default select example"></select></th>
     `;
         table.querySelector('tbody').appendChild(newRow);
         TurmaSelectFetch(number);
