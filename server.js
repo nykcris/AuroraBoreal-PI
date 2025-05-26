@@ -8,7 +8,7 @@ const RSystem = require("./routes/systemRoute");
 const RProfessor = require("./routes/professorRoute");
 const RAluno = require("./routes/alunoRoute");
 const app = express();
-const porta = 3001;
+const porta = 3003;
 
 app.set("view engine", "ejs")
 
