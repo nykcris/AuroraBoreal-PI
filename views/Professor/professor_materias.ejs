@@ -1,7 +1,5 @@
 <body>
-
     <main id="main" class="main">
-
         <div class="pagetitle">
             <h1 class="materia-nome"></h1>
             <nav>
@@ -11,7 +9,6 @@
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -23,7 +20,7 @@
                                     <div class="card-body">
                                         <div class="mb-3"></div>
                                         <h6>Conteúdo</h6>
-                                        <button class="btn btn-primary" data-bs-toggle="modal"
+                                        <button id="novoConteudoButton" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#novoConteudo">Novo Conteúdo</button>
                                         <div class="mb-3"></div>
                                         <ul class="list-group" id="conteudo-lista">
@@ -37,8 +34,9 @@
                                         <div class="mb-3"></div>
                                         <div>
                                             <h6>Atividades</h6>
-                                            <button class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#novoAtividade">Nova Atividade</button>
+                                            <button id="novaAtividadeButton" class="btn btn-primary"
+                                                data-bs-toggle="modal" data-bs-target="#novoAtividade">Nova
+                                                Atividade</button>
                                         </div>
                                         <div class="mb-3"></div>
                                         <ul class="list-group" id="atividades-lista">
@@ -48,96 +46,21 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3"></div>
-                                <h6>Notas</h6>
+                                <h6>Alunos</h6>
                                 <div class="card">
                                     <div class="card-body">
-                                        <div id="bimestre1">
-                                            <div class="mb-3"></div>
-                                            <a style="display: flex; justify-content: space-between; align-items: center;"
-                                                class="btn" data-bs-toggle="collapse"
-                                                data-bs-target="#tabela-bimestre1">
-                                                <h5>1° Bimestre</h5><i class="bi bi-chevron-down"></i>
-                                            </a>
-                                            <div class="collapse" id="tabela-bimestre1">
-                                                <table class="table table-hover table-striped" id="tabela-bimestre1">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Atividade</th>
-                                                            <th>Nota</th>
-                                                            <th>Peso</th>
-                                                            <th>Nota com Peso</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div id="bimestre2">
-                                            <div class="mb-3"></div>
-                                            <a style="display: flex; justify-content: space-between; align-items: center;"
-                                                class="btn" data-bs-toggle="collapse"
-                                                data-bs-target="#tabela-bimestre2">
-                                                <h5>2° Bimestre</h5><i class="bi bi-chevron-down"></i>
-                                            </a>
-                                            <div class="collapse" id="tabela-bimestre2">
-                                                <table class="table table-hover table-striped" id="tabela-bimestre2">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Atividade</th>
-                                                            <th>Nota</th>
-                                                            <th>Peso</th>
-                                                            <th>Nota com Peso</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div id="bimestre3">
-                                            <div class="mb-3"></div>
-                                            <a style="display: flex; justify-content: space-between; align-items: center;"
-                                                class="btn" data-bs-toggle="collapse"
-                                                data-bs-target="#tabela-bimestre3">
-                                                <h5>3° Bimestre</h5><i class="bi bi-chevron-down"></i>
-                                            </a>
-                                            <div class="collapse" id="tabela-bimestre3">
-                                                <table class="table table-hover table-striped" id="tabela-bimestre3">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Atividade</th>
-                                                            <th>Nota</th>
-                                                            <th>Peso</th>
-                                                            <th>Nota com Peso</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div id="bimestre4">
-                                            <div class="mb-3"></div>
-                                            <a style="display: flex; justify-content: space-between; align-items: center;"
-                                                class="btn" data-bs-toggle="collapse"
-                                                data-bs-target="#tabela-bimestre4">
-                                                <h5>4° Bimestre</h5><i class="bi bi-chevron-down"></i>
-                                            </a>
-                                            <div class="collapse" id="tabela-bimestre4">
-                                                <table class="table table-hover table-striped" id="tabela-bimestre4">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Atividade</th>
-                                                            <th>Nota</th>
-                                                            <th>Peso</th>
-                                                            <th>Nota com Peso</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                        <div id="alunos">
+                                            <table class="table table-hover table-striped" id="tabela-alunos">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Aluno</th>
+                                                        <th scope="col">Ações</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -146,12 +69,173 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
-
-
 </body>
+
+<!-- Modals -->
+
+<!-- Modal para novo conteúdo -->
+<div class="modal fade" id="novoConteudo" tabindex="-1" aria-labelledby="novoConteudoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="novoConteudoLabel">Novo Conteúdo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="titulo-conteudo" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="titulo-conteudo" name="titulo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="descricao-conteudo" class="form-label">Descrição</label>
+                    <textarea class="tinymce-editor" id="descricao-conteudo" name="descricao"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para nova atividade -->
+<div class="modal fade" id="novoAtividade" tabindex="-1" aria-labelledby="novoAtividadeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="novoAtividadeLabel">Nova Atividade</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="titulo-atividade" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="titulo-atividade" name="titulo" required>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="tipo-atividade" class="form-label">Tipo de Atividade</label>
+                            <select class="form-select" id="tipo-atividade" name="tipo">
+                                <option value="0" selected>Questionário</option>
+                                <option value="1">Envio de Arquivo</option>
+                                <option value="2">Texto Online</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="data-entrega" class="form-label">Data de Entrega</label>
+                            <input type="datetime-local" class="form-control" id="data-entrega" name="data_entrega">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="bimestre" class="form-label">Bimestre</label>
+                            <select class="form-select" id="bimestre" name="bimestre" required>
+                                <option value="1">1º Bimestre</option>
+                                <option value="2">2º Bimestre</option>
+                                <option value="3">3º Bimestre</option>
+                                <option value="4">4º Bimestre</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="peso" class="form-label">Peso da Atividade</label>
+                            <input type="number" class="form-control" id="peso" name="peso" min="0" max="100" required>
+                            <small class="text-muted peso-maximo">O peso total das atividades não pode exceder 100</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="anexo-atividade" class="form-label">Anexo (opcional)</label>
+                    <input type="file" class="form-control" id="anexo-atividade" name="anexo_atividade">
+                </div>
+                <div class="mb-3">
+                    <label for="descricao-atividade" class="form-label">Pergunta</label>
+                    <textarea class="tinymce-editor" id="descricao-atividade" name="descricao"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para visualizar conteúdo -->
+<div class="modal fade" id="verConteudo" tabindex="-1" aria-labelledby="verConteudoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verConteudoLabel">Conteúdo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="titulo-conteudo" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="titulo-conteudo" name="titulo" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="descricao-conteudo" class="form-label">Descrição</label>
+                    <textarea class="tinymce-editor" id="descricao-conteudo" name="descricao" disabled></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para visualizar atividade -->
+<div class="modal fade" id="verAtividade" tabindex="-1" aria-labelledby="verAtividadeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verAtividadeLabel">Atividade</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="titulo-atividade" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="titulo-atividade" name="titulo" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="tipo-atividade" class="form-label">Tipo de Atividade</label>
+                    <select class="form-select" id="tipo-atividade" name="tipo" disabled>
+                        <option value="0">Questionário</option>
+                        <option value="1">Envio de Arquivo</option>
+                        <option value="2">Texto Online</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="descricao-atividade" class="form-label">Pergunta</label>
+                    <textarea class="tinymce-editor" id="descricao-atividade" name="descricao" disabled></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="data-entrega" class="form-label">Data de Entrega</label>
+                    <input type="datetime-local" class="form-control" id="data-entrega" name="data_entrega" disabled>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
 <script src="/js/professor_materia.js"></script>

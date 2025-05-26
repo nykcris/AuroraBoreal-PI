@@ -9,6 +9,7 @@ const DB_Disciplina = require("../models/disciplinaModel");
 const DB_Turma = require("../models/turmaModel");
 const DB_ProfessorTurmaDisciplina = require("../models/professorTurmaDisciplinaModel");
 const DB_Notas = require("../models/notasModel");
+const DB_Conteudo = require("../models/conteudoModel");
 
 var DB = new db();
 
@@ -134,7 +135,10 @@ class ProfessorController {
           new Date(), // data_criacao
           req.body.data_entrega,
           req.cookies.usuarioLogado,
-          req.body.anexo_atividade // ou `req.file.filename` se estiver usando upload
+          req.body.anexo_atividade, // ou `req.file.filename` se estiver usando upload
+          req.body.id_materia,
+          req.body.tipo,
+          req.body.peso
         );
         let sucesso = await atividade.gravar(); // chama o método da própria instância
     
@@ -261,6 +265,25 @@ class ProfessorController {
         }
         res.send(turmas);
     }
+
+    async fetchDisciplinaTurmaId(req, res) {
+        let DBPD = new DB_ProfessorTurmaDisciplina();
+        let disciplina = await DBPD.obter(req.query.turma, req.query.disciplina);
+        res.send(disciplina);
+    }
+
+    async fetchAtividades(req, res) {
+        let DBA = new DB_Atividade();
+        let atividades = await DBA.fetchAtividades(req.query.materia);
+        res.send(atividades);
+    }
+
+    async fetchConteudos(req, res) {
+        let DBC = new DB_Conteudo();
+        let conteudos = await DBC.fetchConteudos(req.query.materia);
+        res.send(conteudos);
+    }
+
 
     //========== Fim Fetchs ==========
 }
