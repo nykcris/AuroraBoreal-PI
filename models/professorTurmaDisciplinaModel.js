@@ -89,6 +89,45 @@ class DB_ProfessorTurmaDisciplina {
         return rows;
     }
 
+    async listarTurmasDisciplina(id_disciplina) {
+        const DB = new db();
+        const rows = await DB.ExecutaComando(`
+            SELECT pd.id, pd.turma_id, pd.disciplina_id, pd.professor_id, t.nome, d.nome AS disciplina_nome
+            FROM tb_turma_disciplina_professor pd
+            JOIN tb_turma t ON pd.turma_id = t.id
+            JOIN tb_disciplina d ON pd.disciplina_id = d.id            
+            WHERE pd.disciplina_id = ?
+        `, [id_disciplina]);
+        return rows;
+    }
+
+    async listarDisciplinasProfessor(id_professor) {
+        const DB = new db();
+        const rows = await DB.ExecutaComando(`
+            SELECT pd.id, pd.turma_id, pd.disciplina_id, pd.professor_id, t.nome, d.nome AS disciplina_nome
+            FROM tb_turma_disciplina_professor pd
+            JOIN tb_turma t ON pd.turma_id = t.id
+            JOIN tb_disciplina d ON pd.disciplina_id = d.id
+            WHERE pd.professor_id = ?
+        `, [id_professor]);
+        return rows;
+    }
+
+    async listarTurmasProfessor(id_professor) {
+        const DB = new db();
+        const rows = await DB.ExecutaComando(`
+            SELECT pd.id, pd.turma_id, pd.disciplina_id, pd.professor_id, t.nome, d.nome AS disciplina_nome
+            FROM tb_turma_disciplina_professor pd
+            JOIN tb_turma t ON pd.turma_id = t.id
+            JOIN tb_disciplina d ON pd.disciplina_id = d.id            
+            WHERE pd.professor_id = ?
+        `, [id_professor]);
+        return rows;
+    }
+
+
+
+
     async excluir(turma_id, disciplina_id) {
         const DB = new db();
         const sql = `DELETE FROM tb_turma_disciplina_professor WHERE turma_id = ? AND disciplina_id = ?`;

@@ -8,6 +8,7 @@ const DB_Professor = require('../models/professorModel');
 const DB_Disciplina = require("../models/disciplinaModel");
 const DB_Turma = require("../models/turmaModel");
 const DB_ProfessorTurmaDisciplina = require("../models/professorTurmaDisciplinaModel");
+const DB_Notas = require("../models/notasModel");
 
 var DB = new db();
 
@@ -56,7 +57,7 @@ class ProfessorController {
             console.log(atividades[i].data_entrega);
         }
 
-        res.render("Professor/professores_index",{ layout: 'layouts/layout',rows, 'atividades_cadastradas':atividades_lista, atividades_row});
+        res.render("Professor/professores_index",{ layout: 'layouts/layout_professor',rows, 'atividades_cadastradas':atividades_lista, atividades_row});
     }
 
     async deletarAtividades(req, res) {
@@ -153,12 +154,12 @@ class ProfessorController {
             console.log(req.body);
 
             let DBT = new DB_Turma();
-            let turma = await DBT.obter(req.body.turma);
-            let DBD = new DB_Disciplina();
-            let disciplina = await DBD.obter(req.body.disciplina);
             let DBP = new DB_Professor();
+            let DBD = new DB_Disciplina();
+            let turma = await DBT.obter(req.body.turma);
+            let disciplina = await DBD.obter(req.body.disciplina);
             let professor = await DBP.obter(req.body.professor);
-            
+
             if (!turma.length || !disciplina.length || !professor.length) {
                 return res.json({ 
                     sucesso: false, 
@@ -201,6 +202,31 @@ class ProfessorController {
 
     }
 
+    async materias(req, res){
+        let DBD = new DB_Disciplina();
+        let disciplina = await DBD.obter(req.query.materia_id);
+        let DBA = new DB_Atividade();
+        let atividades = await DBA.listar(req.query.materia_id);
+        let DBR = new DB_Resposta();
+        let respostas = await DBR.listar(req.query.aluno_id, req.query.materia_id);
+        try{
+            res.send({
+              materia_nome: disciplina[0].nome,
+              conteudo: disciplina[0].conteudo,
+              atividades,
+              respostas
+            });
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    async materiasView(req, res){
+        res.render("Professor/professor_materias",{ layout: 'layouts/layout_professor'});
+    }
+
+
+
     //========== Fetchs ==========
     async fetchNomeProfessor(req, res) {
         let DBP = new DB_Professor();
@@ -216,8 +242,24 @@ class ProfessorController {
 
     async fetchDisciplinasProfessor(req, res) {
         let DBPD = new DB_ProfessorTurmaDisciplina();
-        let disciplinas = await DBPD.listarDisciplinas(req.query.professor);
+        let disciplinas;
+        if(req.query.turma){
+            disciplinas = await DBPD.listarDisciplinas(req.query.turma);
+        }else{
+            disciplinas = await DBPD.listarDisciplinasProfessor(req.query.professor);
+        }
         res.send(disciplinas);
+    }
+
+    async fetchTurmasProfessor(req, res) {
+        let DBPD = new DB_ProfessorTurmaDisciplina();
+        let turmas;
+        if(req.query.disciplina){
+            turmas = await DBPD.listarTurmasDisciplina(req.query.disciplina);
+        }else{
+            turmas = await DBPD.listarTurmasProfessor(req.query.professor);
+        }
+        res.send(turmas);
     }
 
     //========== Fim Fetchs ==========
