@@ -22,7 +22,12 @@ router.post("/editarAtividade", AMP.validar, PC.editarAtividadesPost);
 router.get("/editarAtividade", AMP.validar, PC.editarAtividades);
 router.post("/corrigirResposta",AMP.validar, PC.CorrigirAtividadesPost);
 
+router.get("/materias",AMP.validar, PC.materiasView);
+router.post("/materias",AMP.validar, PC.materias);
+
 // ----- Fetchs -----
 router.get("/fetchDisciplinasProfessor",AMP.validar, PC.fetchDisciplinasProfessor);
+router.get("/fetchTurmasProfessor",AMP.validar, PC.fetchTurmasProfessor);
+
 
 module.exports = router;

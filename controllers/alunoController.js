@@ -252,13 +252,17 @@ class AlunoController {
     let notas = await DBN.obterNotasAluno(req.cookies.usuarioLogado, req.query.materia_id);
     let DBR = new DB_Resposta();
     let respostas = await DBR.listar(req.query.aluno_id, req.query.materia_id);
-    res.send({
-      materia_nome: disciplina[0].nome,
-      conteudo: disciplina[0].conteudo,
-      atividades,
-      notas,
-      respostas
-    });
+    try{
+        res.send({
+          materia_nome: disciplina[0].nome,
+          conteudo: disciplina[0].conteudo,
+          atividades,
+          notas,
+          respostas
+        });
+    }catch(error){
+        console.log(error);
+    }
   }
 
   async materiasView(req, res){
@@ -273,7 +277,11 @@ class AlunoController {
     let DBA = new DB_Aluno();
     let aluno = await DBA.obter(req.query.id);
     let DBPTD = new DB_ProfessorTurmaDisciplina();
-    let disciplinas = await DBPTD.listarDisciplinas(aluno[0].turma_id);
+    if(!aluno === undefined){
+      let disciplinas = await DBPTD.listarDisciplinas(aluno[0].turma_id);
+    }else{
+      res.send([]);
+    }
     console.log(disciplinas);
     res.send(disciplinas);
   }
