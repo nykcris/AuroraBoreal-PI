@@ -8,6 +8,9 @@ class DB_Atividade {
     #data_entrega;
     #id_professor;
     #anexo_atividade;
+    #id_turma_disciplina_professor;
+    #tipo;
+    #peso;
     
     get ati_id() { return this.#ati_id; }
     set ati_id(value) { this.#ati_id = value; }
@@ -23,8 +26,14 @@ class DB_Atividade {
     set id_professor(value) { this.#id_professor = value; }
     get anexo_atividade() { return this.#anexo_atividade; }
     set anexo_atividade(value) { this.#anexo_atividade = value; }
+    get id_turma_disciplina_professor() { return this.#id_turma_disciplina_professor; }
+    set id_turma_disciplina_professor(value) { this.#id_turma_disciplina_professor = value; }
+    get tipo() { return this.#tipo; }
+    set tipo(value) { this.#tipo = value; }
+    get peso() { return this.#peso; }
+    set peso(value) { this.#peso = value; }
 
-    constructor(ati_id, titulo, descricao, data_criacao, data_entrega, id_professor, anexo_atividade) {
+    constructor(ati_id, titulo, descricao, data_criacao, data_entrega, id_professor, anexo_atividade, id_turma_disciplina_professor, tipo, peso) {
         this.#ati_id = ati_id;
         this.#titulo = titulo;
         this.#descricao = descricao;
@@ -32,6 +41,9 @@ class DB_Atividade {
         this.#data_entrega = data_entrega;
         this.#id_professor = id_professor;
         this.#anexo_atividade = anexo_atividade;
+        this.#id_turma_disciplina_professor = id_turma_disciplina_professor;
+        this.#tipo = tipo;
+        this.#peso = peso;
     }
 
     async listar(filtro) {
@@ -53,6 +65,9 @@ class DB_Atividade {
                 ati["data_entrega"],
                 ati["id_professor"],
                 ati["anexo_atividade"],
+                ati["id_turma_disciplina_professor"],
+                ati["tipo"],
+                ati["peso"]
             ));
         });
 
@@ -60,8 +75,8 @@ class DB_Atividade {
     }
 
     async gravar() {
-        let sql = "INSERT INTO tb_atividade (titulo, descricao, data_criacao, data_entrega, id_professor, anexo_atividade) VALUES (?, ?, ?, ?, ?, ?)";
-        let valores = [ this.#titulo, this.#descricao, this.#data_criacao, this.#data_entrega, this.#id_professor, this.#anexo_atividade ];
+        let sql = "INSERT INTO tb_atividade (titulo, descricao, data_criacao, data_entrega, anexo_atividade, id_turma_disciplina_professor, tipo, peso) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        let valores = [ this.#titulo, this.#descricao, this.#data_criacao, this.#data_entrega, this.#anexo_atividade, this.#id_turma_disciplina_professor, this.#tipo, this.#peso ];
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(sql, valores);
     }
@@ -75,10 +90,16 @@ class DB_Atividade {
     }
     
     async atualizar() {
-        let sql = "UPDATE tb_atividade SET titulo = ?, descricao = ?, data_criacao = ?, data_entrega = ?, id_professor = ?, anexo_atividade = ? WHERE ati_id = ?";
-        let valores = [ this.#titulo, this.#descricao, this.#data_criacao, this.#data_entrega, this.#id_professor, this.#anexo_atividade, this.#ati_id ];
+        let sql = "UPDATE tb_atividade SET titulo = ?, descricao = ?, data_criacao = ?, data_entrega = ?, id_professor = ?, anexo_atividade = ?, id_turma_disciplina_professor = ?, tipo = ?, peso = ? WHERE ati_id = ?";
+        let valores = [ this.#titulo, this.#descricao, this.#data_criacao, this.#data_entrega, this.#id_professor, this.#anexo_atividade, this.#id_turma_disciplina_professor, this.#tipo, this.#peso, this.#ati_id ];
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(sql, valores);
+    }
+
+    async fetchAtividades(id_materia) {
+        let DB = new db();
+        let rows = await DB.ExecutaComando("SELECT * FROM tb_atividade WHERE id_turma_disciplina_professor = ? ORDER BY data_entrega ASC", [id_materia]);
+        return rows;
     }
 
     toJSON() {
@@ -90,6 +111,9 @@ class DB_Atividade {
             data_entrega: this.#data_entrega,
             id_professor: this.#id_professor,
             anexo_atividade: this.#anexo_atividade,
+            id_turma_disciplina_professor: this.#id_turma_disciplina_professor,
+            tipo: this.#tipo,
+            peso: this.#peso,
         };
     }
 }
