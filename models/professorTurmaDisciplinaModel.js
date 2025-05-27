@@ -125,7 +125,17 @@ class DB_ProfessorTurmaDisciplina {
         return rows;
     }
 
-
+    async fetchDisciplinaTurmaId(turma, disciplina) {
+        const DB = new db();
+        const rows = await DB.ExecutaComando(`
+            SELECT pd.id, pd.turma_id, pd.disciplina_id, pd.professor_id, t.nome, d.nome AS disciplina_nome
+            FROM tb_turma_disciplina_professor pd
+            JOIN tb_turma t ON pd.turma_id = t.id
+            JOIN tb_disciplina d ON pd.disciplina_id = d.id
+            WHERE pd.turma_id = ? AND pd.disciplina_id = ?
+        `, [turma, disciplina]);
+        return rows;
+    }
 
 
     async excluir(turma_id, disciplina_id) {

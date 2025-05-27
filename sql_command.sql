@@ -1,1 +1,0 @@
-ALTER TABLE tb_atividades ADD COLUMN tipo INT DEFAULT 0;

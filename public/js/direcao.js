@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const validateProdutoFormButton = document.getElementById('validar-produto-button'); if(validateProdutoFormButton) validateProdutoFormButton.addEventListener('click', validateProdutoForm); else console.log('validateProdutoFormButton not found');
     const validadeProfessorTurmaDisciplinaButton = document.getElementById('validar-professor-turma-disciplina-button'); if(validadeProfessorTurmaDisciplinaButton) validadeProfessorTurmaDisciplinaButton.addEventListener('click', validateProfessorTurmaDisciplinaForm); else console.log('validadeProfessorTurmaDisciplinaButton not found');
     const professorSelect = document.getElementById('professor-select'); if(professorSelect) professorSelect.addEventListener('change', fetchDisciplinasProfessor); else console.log('professorSelect not found');
-    
+    const validateTurmaSalaButton = document.getElementById('validar-turma-sala-button'); if(validateTurmaSalaButton) validateTurmaSalaButton.addEventListener('click', validateTurmaSalaForm); else console.log('validateTurmaSalaButton not found');
+    const validateSalaFormButton = document.getElementById('validar-sala-button'); if(validateSalaFormButton) validateSalaFormButton.addEventListener('click', validateSalaForm); else console.log('validateSalaFormButton not found');
 
     const editAlunoButton = document.querySelectorAll('.button-edit-aluno');
     editAlunoButton.forEach(button => {
@@ -31,6 +32,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const deleteProfessorButton = document.querySelectorAll('.button-delete-professor');
     deleteProfessorButton.forEach(button => {
         button.addEventListener('click', deleteProfessor);
+    })
+
+    const editDisciplinaButton = document.querySelectorAll('.button-edit-disciplina');
+    editDisciplinaButton.forEach(button => {
+        button.addEventListener('click', editDisciplina);
+    })
+
+    const deleteDisciplinaButton = document.querySelectorAll('.button-delete-disciplina');
+    deleteDisciplinaButton.forEach(button => {
+        button.addEventListener('click', deleteDisciplina);
+    })
+
+    const editSalaButton = document.querySelectorAll('.button-edit-sala');
+    editSalaButton.forEach(button => {
+        button.addEventListener('click', editSala);
+    })
+
+    const deleteSalaButton = document.querySelectorAll('.button-delete-sala');
+    deleteSalaButton.forEach(button => {
+        button.addEventListener('click', deleteSala);
     })
 
     const maskCPFInputs = document.querySelectorAll('.mask-cpf');
@@ -394,6 +415,46 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
+
+    function validateTurmaSalaForm() {
+        const id = document.getElementById('sala-select').value;
+        const turma = document.getElementById('turma-sala-select').value;
+        const sala = document.getElementById('sala-select').value;
+    
+        if (!turma || !sala) {
+            alert('Por favor, selecione uma turma e uma sala.');
+            return;
+        }
+    
+        const dados = {
+            id: id,
+            turma: turma,
+            sala: sala
+        };
+    
+        fetch('/system/cadastrarTurmaSala', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                if (result.sucesso) {
+                    alert('Associação realizada com sucesso!');
+                    window.location.reload();
+                } else {
+                    alert('Erro na associação: ' + result.mensagem);
+                }
+            })
+            .catch(err => {
+                alert('Erro na requisição: ' + err);
+                console.error('Erro na requisição:', err);
+            });
+    }
+
+
     
 
 
@@ -614,6 +675,70 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error(err);
             });
     }
+
+    function validateSalaForm() {
+        const sala = document.getElementById('nome-sala').value.trim();
+
+        let isValid = true;
+
+        isValid = isValid && sala !== '';
+
+        document.getElementById('nameError').style.display = sala ? 'none' : 'inline';
+
+        if (!isValid) {
+            document.getElementById('sala-erro').style.display = 'block';
+            document.getElementById('sala-sucesso').style.display = 'none';
+            return;
+        }
+
+        const dados = {
+            sala_nome: sala
+        };
+
+        fetch('/system/cadastrarSala', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(dados)
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                if (result.sucesso) {
+                    document.getElementById('sala-sucesso').style.display = 'block';
+                    document.getElementById('sala-erro').style.display = 'none';
+                    location.reload();
+                } else {
+                    document.getElementById('sala-erro').innerText = result.mensagem || 'Erro no cadastro';
+                    document.getElementById('sala-erro').style.display = 'block';
+                    document.getElementById('sala-sucesso').style.display = 'none';
+                }
+            })
+    }
+
+    function editSala(){
+        window.location.href = `/system/sala/editar?id=${this.value}`;
+    }
+
+    function deleteSala(){
+        fetch(`/system/sala/delete`,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({id: this.value})
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+
+
 
     function validateDisciplinaForm() {
         const disciplina = document.getElementById('inputName5').value.trim();

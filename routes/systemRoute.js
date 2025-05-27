@@ -38,6 +38,12 @@ router.post("/turma/delete", AMD.validar, TC.deleteTurma);
 router.get("/turma/editar", AMD.validar, TC.editarTurma);
 router.post("/turma/atualizar", AMD.validar, TC.atualizarTurma);
 
+router.post("/cadastrarSala", AMD.validar, SC.cadastrarSala);
+router.post("/sala/delete", AMD.validar, SC.deleteSala);
+router.get("/sala/editar", AMD.validar, SC.editarSala);
+router.post("/sala/atualizar", AMD.validar, SC.atualizarSala);
+router.post("/cadastrarTurmaSala", AMD.validar, SC.cadastrarTurmaSala);
+
 router.post("/serie/cadastrarSerie", AMD.validar, SRC.cadastrarSerie);
 router.post("/serie/delete", AMD.validar, SRC.deleteSerie);
 router.get("/serie/editar", AMD.validar, SRC.editarSerie);
