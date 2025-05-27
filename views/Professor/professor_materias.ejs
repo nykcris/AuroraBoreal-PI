@@ -216,7 +216,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="descricao-atividade" class="form-label">Pergunta</label>
-                    <textarea class="tinymce-editor" id="descricao-atividade" name="descricao" disabled></textarea>
+                    <textarea class="tinymce-editor" id="descricao-ver-atividade" name="descricao" disabled></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="data-entrega" class="form-label">Data de Entrega</label>
@@ -230,7 +230,51 @@
     </div>
 </div>
 
+<div>
+    <div class="modal fade" id="editarAtividade" tabindex="-1" aria-labelledby="editarAtividadeLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarAtividadeLabel">Editar Atividade</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="titulo-atividade" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="titulo-atividade" name="titulo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipo-atividade" class="form-label">Tipo de Atividade</label>
+                        <select class="form-select" id="tipo-atividade" name="tipo">
+                            <option value="0">Questionário</option>
+                            <option value="1">Envio de Arquivo</option>
+                            <option value="2">Texto Online</option>
+                        </select>
+                        <input type="hidden" name="id" id="id-atividade">
+                    </div>
+                    <div class="mb-3">
+                        <label for="descricao-atividade" class="form-label">Pergunta</label>
+                        <textarea class="tinymce-editor" id="descricao-editar-atividade" name="descricao"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="data-entrega" class="form-label">Data de Entrega</label>
+                        <input type="datetime-local" class="form-control" id="data-entrega" name="data_entrega">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+
+
+
+</div>
 
 
 

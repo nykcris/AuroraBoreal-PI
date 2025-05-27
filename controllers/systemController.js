@@ -4,6 +4,7 @@ const DB_Professor = require('../models/professorModel');
 const DB_Disciplina = require("../models/disciplinaModel");
 const DB_Turma = require("../models/turmaModel");
 const DB_Serie = require("../models/serieModel");
+const DB_Sala = require("../models/salaModel");
 
 
 class SystemController {
@@ -30,19 +31,21 @@ class SystemController {
         const db_aluno = new DB_Aluno();
         const db_disciplina = new DB_Disciplina();
         const db_prof = new DB_Professor();
+        const db_sala = new DB_Sala();
 
 
         
         const professores = await db_prof.listar();
-        const disciplinas = await db_disciplina.listar();
         const listaAlunos = await db_aluno.listar();
-        const turmas = await db_turma.listar();
-        const series = await db_serie.listar();
+        const salas = await db_sala.listar();
+        const turmas_salas = await db_sala.listarAssociacao();
     
         res.render("Direcao/direcao_index", {
             layout: 'layouts/layout',
             alunos: listaAlunos,
-            professores
+            professores,
+            salas,
+            turmas_salas
         });
     }
 
@@ -59,6 +62,73 @@ class SystemController {
         ))
         res.render("Sistema/form_register",{ layout: 'imports_layout',rows});
     }
+
+    async cadastrarSala(req, res) {
+        let DBS = new DB_Sala();
+        let sala = new DB_Sala(0, req.body.sala_nome);
+        let sucesso = await sala.cadastrar();
+        if (sucesso) {
+            console.log("Sucesso ao cadastrar sala");
+            res.json({ sucesso: true, mensagem: "Sala cadastrada com sucesso!" });
+        } else {
+            console.log("Erro ao cadastrar sala");
+            res.json({ sucesso: false, mensagem: "Erro ao cadastrar sala" });
+        }
+    }
+
+    async deleteSala(req, res) {
+        let DBS = new DB_Sala();
+        let sucesso = await DBS.excluir(req.body.id);
+        if (sucesso) {
+            console.log("Sucesso ao deletar sala");
+            res.send("Sucesso ao deletar sala");
+        } else {
+            console.log("Erro ao deletar sala");
+            res.send("Erro ao deletar sala");
+        }
+    }
+
+    async editarSala(req, res) {
+        let DBS = new DB_Sala();
+        let sala = await DBS.obter(req.query.id);
+        res.render("Sala/editar_sala", { layout: 'layouts/layout', sala });
+    }
+
+    async atualizarSala(req, res) {
+        let DBS = new DB_Sala();
+        let sala = new DB_Sala(req.body.id, req.body.sala_nome);
+        let sucesso = await sala.atualizar();
+        if (sucesso) {
+            console.log("Sucesso ao atualizar sala");
+            res.redirect("/system/direcao");
+        } else {
+            console.log("Erro ao atualizar sala");
+            res.send("Erro ao atualizar sala");
+        }
+    }
+
+    async cadastrarTurmaSala(req, res) {
+
+        let DBS = new DB_Sala();
+        let nome = await DBS.obter(req.body.id);
+        let sala = new DB_Sala(req.body.id, nome[0].nome, req.body.turma);
+        let sucesso = await sala.atualizar();
+        console.log(req.body);
+        console.log(sucesso);
+
+        if (sucesso) {
+            console.log("Sucesso ao cadastrar turma sala");
+            res.json({ sucesso: true, mensagem: "Associação realizada com sucesso!" });
+        } else {
+            console.log("Erro ao cadastrar turma sala");
+            res.json({ sucesso: false, mensagem: "Erro ao cadastrar turma sala" });
+        }
+    }
+
+
+
+
+
 
     
 
@@ -104,6 +174,18 @@ class SystemController {
         let DBT = new DB_Turma();
         let turmas = await DBT.obter(req.query.id);
         res.send(turmas);
+    }
+
+    async fetchNomeSala(req, res) {
+        let DBS = new DB_Sala();
+        let salas = await DBS.obter(req.query.id);
+        res.send(salas);
+    }
+
+    async fetchTurmaSala(req, res) {
+        let DBS = new DB_Sala();
+        let turma_sala = await DBS.listarAssociacao();
+        res.send(turma_sala);
     }
 
     //======== Fim da Area de Fetch para Nome e Outros =========

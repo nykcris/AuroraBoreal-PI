@@ -138,14 +138,15 @@ class ProfessorController {
           req.body.anexo_atividade, // ou `req.file.filename` se estiver usando upload
           req.body.id_materia,
           req.body.tipo,
-          req.body.peso
+          req.body.peso,
+          req.body.bimestre
         );
         let sucesso = await atividade.gravar(); // chama o método da própria instância
     
         console.log(sucesso);
         if (sucesso) {
           console.log("Sucesso ao gravar a atividade");
-          res.redirect("/system/professores");
+          res.send({ sucesso: true, mensagem: "Atividade cadastrada com sucesso!" });
         } else {
           console.log("Erro ao gravar atividade");
           res.send("Erro ao gravar atividade");
@@ -268,13 +269,20 @@ class ProfessorController {
 
     async fetchDisciplinaTurmaId(req, res) {
         let DBPD = new DB_ProfessorTurmaDisciplina();
-        let disciplina = await DBPD.obter(req.query.turma, req.query.disciplina);
+        let disciplina = await DBPD.fetchDisciplinaTurmaId(req.query.turma, req.query.disciplina);
         res.send(disciplina);
     }
 
     async fetchAtividades(req, res) {
         let DBA = new DB_Atividade();
-        let atividades = await DBA.fetchAtividades(req.query.materia);
+        let atividades;
+        if(req.query.materia){
+            atividades = await DBA.fetchAtividades(req.query.materia);
+        }else if(req.query.id){
+            atividades = await DBA.listar(req.query.id);
+        }else{
+            atividades = await DBA.listar();
+        }
         res.send(atividades);
     }
 

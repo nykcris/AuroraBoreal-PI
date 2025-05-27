@@ -591,6 +591,144 @@
 
         <div class="card">
           <div class="card-body">
+            <h5 class="card-title">Adicionar Sala</h5>
+            <div class="row g-3" id="formRegistro">
+              <div class="col-md-12">
+                <label for="nome-sala" class="form-label">Nome da sala:</label>
+                <input type="text" class="form-control" id="nome-sala" required>
+                <span id="nameError" style="color:red; display:none;">Nome da sala é obrigatório.</span>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary" id="validar-sala-button">Adicionar Sala</button>
+              </div>
+            </div>
+            <div id="sala-sucesso" style="display:none;color:green;">Sala adicionada com sucesso!</div>
+            <div id="sala-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+
+            <a href="#" data-bs-toggle="collapse" data-bs-target="#salas-cadastradas"><h5 class="card-title mt-4">Salas Cadastradas <i class="bi bi-arrow-down-short"></i></h5></a>
+
+            <div class="collapse" id="salas-cadastradas">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+
+                    <th scope="col">Nome</th>
+                    <th scope="col">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (typeof salas !='undefined' ) { %>
+                    <% salas.forEach(sala=> { %>
+                      <tr>
+                        <th scope="row">
+                          <%= sala.id %>
+                        </th>
+                        <td>
+                          <%= sala.nome %>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-warning btn-sm button-edit-sala"
+                            value="<%= sala.id %>">Editar</button>
+                          <button type="button" class="btn btn-danger btn-sm button-delete-sala"
+                            value="<%= sala.id %>">Excluir</button>
+
+                        </td>
+                      </tr>
+                      <% }) %>
+                        <% } %>
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+        </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Associar turma a sala</h5>
+            <h5>escolha a turma</h5>
+            <select class="form-select turma-select" id="turma-sala-select" name="turma">
+              <% if (typeof turmas !='undefined' ) { %>
+                <% turmas.forEach(turma=> { %>
+                  <option value="<%= turma.id %>"><%= turma.nome %></option>
+                <% }) %>
+              <% } %>
+            </select>
+            <h5>escolha a sala</h5>
+            <select class="form-select " id="sala-select" name="sala">
+              <% if (typeof salas !='undefined' ) { %>
+                <% salas.forEach(sala=> { %>
+                  <option value="<%= sala.id %>"><%= sala.nome %></option>
+                <% }) %>
+              <% } %>
+            </select>
+            <div class="m-3"></div>
+            <div class="text-center">
+              <button type="button" class="btn btn-primary" id="validar-turma-sala-button">Associar</button>
+            </div>
+
+            <div id="turma-sala-sucesso" style="display:none;color:green;">Associação realizada com sucesso!</div>
+            <div id="turma-sala-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+
+            <a href="#" data-bs-toggle="collapse" data-bs-target="#turmas-salas-cadastradas"> <h5 class="card-title mt-4">Turmas e Salas Cadastradas <i class="bi bi-arrow-down-short"></i></h5></a>
+
+            <div class="collapse" id="turmas-salas-cadastradas">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+
+                    <th scope="col">Turma</th>
+                    <th scope="col">Sala</th>
+                    <th scope="col">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (typeof turmas_salas !='undefined' ) { %>
+                    <% turmas_salas.forEach(sala => { %>
+                      <tr>
+                        <th scope="row">
+                          <%= sala.id %>
+                        </th>
+                        <td>
+                          <%= sala.turma_nome %>
+                        </td>
+                        <td>
+                          <%= sala.nome %>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-warning btn-sm button-edit-turma-sala"
+                            value="<%= sala.id %>">Editar</button>
+                          <button type="button" class="btn btn-danger btn-sm button-delete-turma-sala"
+                            value="<%= sala.id %>">Excluir</button>
+
+                        </td>
+                      </tr>
+                      <% }) %>
+                        <% } %>
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+
+
+          </div>
+        </div>
+
+
+
+        </div>
+
+        <div class="card">
+          <div class="card-body">
             <h5 class="card-title">Adicionar Disciplina</h5>
             <form class="row g-3" id="formRegistro">
               <div class="col-md-12">
