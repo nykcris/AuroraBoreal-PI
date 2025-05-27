@@ -107,60 +107,7 @@
 
 <!-- End Perfil Card -->
                            
-                        <!-- Pagamentos Card -->
-                        <div class="col-xxl-4 col-xl-12">
-
-                            <div class="card info-card customers-card">
-
-
-                                <div class="card-body">
-                                    <h5 class="card-title">Salário Atual <span>| Pagamento dia 05</span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-cash" style="color: red;"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>R$ 2.800,00</h6>
-
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div><!-- End Customers Card -->
-
-                        
-                           
-                        <!-- Disciplinas Card -->
-                        <div class="col-xxl-4 col-xl-12">
-
-                            <div class="card info-card customers-card">
-
-
-                                <div class="card-body">
-                                    <h5 class="card-title"> Turmas <span>| Disciplinas</span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-people"></i> 
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>1 A- Química</h6>
-                                            <h6>1 B- Física</h6>
-                                            <h6>1 B- Química</h6>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div><!-- End Disciplinas Card -->
+ 
 
                       
 
@@ -201,90 +148,7 @@
                 <!-- Table with stripped rows -->
 
                 
-                          <!--  chamada ainda nao envia pra BD -->
-                          <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <label for="turma-select" class="form-label">Chamada - selecione uma turma</label>
-                                    
-                                    <select class="form-select" id="turma-select" name="turma">
-                                        <option value="" selected disabled>Selecione a turma</option>
-                                        <option value="1A">1° A- Química</option>
-                                        <option value="1B">1° B-Física</option>
-                                        <option value="1C">1° B- Química</option>
-                                    </select>
-                                </h5>
-                        
-                                <h5 class="card-title mt-4">Data da chamada</h5>
-                                <form id="chamada-form">
-                                    <div class="mb-3">
-                                        <input type="date" class="form-control" id="data-chamada" name="data-chamada" required>
-                                    </div>
-                                    
-                                </form>
-                        
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Nome</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Presença</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if (typeof rows != 'undefined') { %>
-                                            <% for (let index = 0; index < rows.length; index++) { %>
-                                                <% if (rows[index].per_id == 1) { %>
-                                                    <tr>
-                                                        <th scope="row">#<%= rows[index].usu_id %></th>
-                                                        <td><%= rows[index].usu_nome %></td>
-                                                        <td><%= rows[index].usu_email %></td>
-                                                        <td><input type="checkbox"> </td>
-                                                    </tr>
-                                                <% } %>
-                                            <% } %>
-                                        <% } %>
-                                        
-                                    </tbody>
-
-                                </table>
-                                <button type="button" id="fazer-chamada" class="btn btn-primary">Fazer chamada</button>
-                            </div>
-                        </div>
-                        <!--fim do formulário-->
-                <!-- Formulário disciplinas-diário de classe  -->
-
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <label for="turma-select" class="form-label">Diário de classe - Selecione a Turma:-não funciona</label>
-                            <select class="form-select" id="turma-select" name="turma">
-                                <option value="" selected disabled>Selecione a turma</option>
-                                <option value="1A">1° A -Química</option>
-                                <option value="1B">1° B - Física </option>
-                                <option value="1C">1° B- Química</option>
-                               
-                            </select>
-                        </h5>
-                        <form action="/system/professores/registro" method="post">
-                           
-                            <div class="mb-3">
-                                <label for="data-aula" class="form-label">Data da aula:</label>
-                                <input type="date" class="form-control" id="data-aula" name="data-aula" required>
-                            </div>
-                           
-                            <div class="col-md-6">
-                                <label for="descricao" class="form-label">Descrição da aula: </label>
-                                <input type="text" class="form-control" id="descricao" name="descricao">
-                            </div>
-                            <br>
-                            <button type="submit" class="btn btn-primary">Adicionar Registro de Aula</button>
-                        </form>
-                        <!-- Fim do formulário -->
-                    </div>
-                </div>
-                  <!--  chamada ainda nao envia pra BD -->
+  
                   <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">
