@@ -18,13 +18,13 @@ let storage = multer.diskStorage({
         if(!fs.existsSync('uploads')){
             fs.mkdirSync('uploads');
         }
-        if(!fs.existsSync('uploads/'+file.mimetype.split("/").pop())){
-            fs.mkdirSync('uploads/'+file.mimetype.split("/").pop());
+        if(!fs.existsSync('uploads/'+file.filename.split(".").pop())){
+            fs.mkdirSync('uploads/'+file.filename.split(".").pop());
         }
-        cb(null, 'uploads/'+file.mimetype.split("/").pop());
+        cb(null, 'uploads/'+file.filename.split(".").pop());
     },
     filename(req, file, cb) {
-        let nomeArquivo = file.originalname.split(".")[0]+ "_" + Date.now()+ "." + file.mimetype.split("/").pop();
+        let nomeArquivo = file.originalname.split(".")[0]+ "_" + Date.now()+ "." + file.filename.split(".").pop();
         cb(null, nomeArquivo);
     }
 });

@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializa variáveis
     let materiaId = null;
     materiaId = new URLSearchParams(window.location.search).get('disciplina');
+    let turmaId = null;
+    turmaId = new URLSearchParams(window.location.search).get('turma');
     
     // ===== LISTENERS DE EVENTOS =====
     
@@ -17,6 +19,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	const pesoInput = document.getElementById('peso');
 	if(pesoInput) pesoInput.addEventListener('input', validatePeso);
     
+    // Botão de baixar anexo
+    const downloadAnexoButton = document.getElementById('anexo-resposta-link');
+    if(downloadAnexoButton) downloadAnexoButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        downloadAnexo(this.href);
+    });
+
+    // Botão de enviar resposta
+    const btnSendResposta = document.querySelector('#verResposta .modal-footer .btn-primary');
+    if(btnSendResposta) btnSendResposta.addEventListener('click', validateSendResposta);
+
     // Delegação de eventos para botões de atividades
     const atividadesLista = document.getElementById('atividades-lista');
     if(atividadesLista) {
@@ -42,11 +55,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // Inicializa dados da página
-    carregarAtividades();
-    carregarConteudos();
 
+
+    const notaInput = document.getElementById('nota');
+    if(notaInput) notaInput.addEventListener('input', validateNota);
+    
+    
 	// ===== FUNÇÕES DE INICIALIZAÇÃO =====
     
     // ===== FUNÇÕES DE VALIDAÇÃO DE FORMULÁRIO =====
@@ -224,6 +238,112 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Ops! Tivemos um problema ao tentar carregar a atividade');
         });
     }
+
+    function verListaRespostas(alunoId) {
+        fetch(`/system/fetchRespostas?aluno=${alunoId}&materia=${materiaId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const modal = new bootstrap.Modal(document.getElementById('verTodasRespostas'));
+            modal.show();
+            const respostas = data;
+            const tabelaRespostasBody = document.querySelector('#respostas-body');
+            tabelaRespostasBody.innerHTML = '';
+            if(respostas.length == 0){
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="4">Nenhuma resposta encontrada</td>
+                `;
+                tabelaRespostasBody.appendChild(row);
+                return;
+            }
+            respostas.forEach(resposta => {
+                if(resposta.corrigida == 0){
+                    resposta.corrigida = 'Não';
+                }else{
+                    resposta.corrigida = 'Sim';
+                }
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${resposta.titulo}</td>
+                    <td>${new Date(resposta.data_envio).toLocaleDateString()}</td>
+                    <td>
+                    Nota: ${resposta.nota}
+                    Corrigido: ${resposta.corrigida}
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-info ver-resposta" data-id="${resposta.res_id}">Ver</button>
+                    </td>
+                `;
+                tabelaRespostasBody.appendChild(row);
+            });
+
+
+
+        })
+        .then(() => {
+            const verRespostaButtons = document.querySelectorAll('.ver-resposta');
+            verRespostaButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = new bootstrap.Modal(document.getElementById('verTodasRespostas'));
+                    modal.hide();
+                    verResposta(button.dataset.id);
+                });
+            });
+
+            const closeListaRespostasButton = document.querySelector('#verTodasRespostas .btn-close');
+            closeListaRespostasButton.addEventListener('click', () => {
+                const modal = new bootstrap.Modal(document.getElementById('verTodasRespostas'));
+                modal.hide();
+            });
+        })
+        .catch(err => {
+            console.error('Erro ao carregar respostas:', err);
+            const tabelaRespostasBody = document.querySelector('#respostas-body');
+            if(tabelaRespostasBody) {
+                tabelaRespostasBody.innerHTML = '<tr><td colspan="4">Ops! Não conseguimos carregar as respostas</td></tr>';
+            }
+        });
+    }
+
+
+
+
+
+    function verResposta(id) {
+        fetch(`/system/fetchRespostas?id=${id}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.length > 0) {
+                const modal = new bootstrap.Modal(document.getElementById('verResposta'));
+                modal.show();
+                document.querySelector('#verResposta #atividade-titulo').value = data[0].titulo;
+                tinymce.get('resposta').setContent(data[0].resposta);
+                if(data[0].anexo_resposta){
+                    document.querySelector('#verResposta #anexo-resposta-link').href = "/"+ data[0].anexo_resposta;
+                    document.querySelector('#verResposta #anexo-resposta-link').style.display = 'block';
+                }
+                document.querySelector('#verResposta #nota').value = data[0].nota;
+                document.querySelector('#verResposta #comentario-professor').value = data[0].comentario_professor;
+                document.querySelector('#verResposta #resposta-id').value = data[0].res_id;
+            } else {
+                alert('Não foi possível carregar a resposta: ' + (data.mensagem || 'Erro desconhecido'));
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Ops! Tivemos um problema ao tentar carregar a resposta');
+        });
+    }
+
+
 
     function editarAtividade(id) {
         fetch(`/system/professores/fetchAtividades?id=${id}`, {
@@ -437,4 +557,222 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+
+    function fetchAlunos(){
+        fetch(`/system/fetchAlunos?turma=${turmaId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const alunos = data;
+            const tabelaAlunosBody = document.querySelector('#tabela-alunos tbody');
+            tabelaAlunosBody.innerHTML = '';
+            alunos.forEach(aluno => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <th scope="row">${aluno.id}</th>
+                    <td>${aluno.aluno_nome}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info ver-aluno" data-id="${aluno.id}">Ver Respostas</button>
+                    </td>
+                `;
+                tabelaAlunosBody.appendChild(row);
+            });
+
+        })
+        .then(() => {
+            const verAlunoButtons = document.querySelectorAll('.ver-aluno');
+            verAlunoButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    verListaRespostas(button.dataset.id);
+                });
+            });
+        })
+        .catch(err => {
+            console.error('Erro ao carregar alunos:', err);
+            const alunosSelect = document.getElementById('aluno-select');
+            if(alunosSelect) {
+                alunosSelect.innerHTML = '<option value="">Ops! Não conseguimos carregar os alunos</option>';
+            }
+        });
+
+    }
+
+    function fetchRespostas(alunoId){
+        fetch(`/system/fetchRespostas?aluno=${alunoId}&materia=${materiaId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const respostas = data;
+            const tabelaRespostasBody = document.querySelector('#respostas-body');
+            tabelaRespostasBody.innerHTML = '';
+            if(respostas.length == 0){
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="4">Nenhuma resposta encontrada</td>
+                `;
+                tabelaRespostasBody.appendChild(row);
+                return;
+            }
+            respostas.forEach(resposta => {
+                if(resposta.corrigida == 0){
+                    resposta.corrigida = 'Não';
+                }else{
+                    resposta.corrigida = 'Sim';
+                }
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${resposta.titulo}</td>
+                    <td>${new Date(resposta.data_envio).toLocaleDateString()}</td>
+                    <td>
+                    Nota: ${resposta.nota}
+                    Corrigido: ${resposta.corrigida}
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-info ver-resposta" data-id="${resposta.res_id}">Ver</button>
+                    </td>
+                `;
+                tabelaRespostasBody.appendChild(row);
+            });
+
+        })
+        .then(() => {
+        })
+        .catch(err => {
+            console.error('Erro ao carregar respostas:', err);
+            const tabelaRespostasBody = document.querySelector('#respostas-body');
+            if(tabelaRespostasBody) {
+                tabelaRespostasBody.innerHTML = '<tr><td colspan="4">Ops! Não conseguimos carregar as respostas</td></tr>';
+            }
+        });
+
+    }
+
+    //-------- Validacoes --------
+
+    function validateNota() {
+        const nota = document.getElementById('nota').value;
+        try{
+            if(nota < 0 || nota > 10){
+                alert('Nota inválida');
+                document.getElementById('nota').value = '';
+            }
+        }catch(err){
+            console.error(err);
+        }
+    }
+
+    function validatePeso() {
+        const peso = document.getElementById('peso').value;
+        try{
+            if(peso < 0 || peso > 10){
+                alert('Peso inválido');
+                document.getElementById('peso').value = '';
+            }
+        }catch(err){
+            console.error(err);
+        }
+    }
+
+    function validateDataEntrega() {
+        const dataEntrega = document.getElementById('data-entrega').value;
+        try{
+            if(dataEntrega < new Date().toLocaleDateString()){
+                alert('Data de entrega inválida');
+                document.getElementById('data-entrega').value = '';
+            }
+        }catch(err){
+            console.error(err);
+        }
+    }
+
+    function validateAnexo() {
+        const anexo = document.getElementById('anexo-atividade').files[0];
+        try{
+            if(anexo.size > 10000000){
+                alert('Arquivo muito grande');
+                document.getElementById('anexo-atividade').value = '';
+            }
+        }catch(err){
+            console.error(err);
+        }
+    }
+
+    function validateSendResposta() {
+        const nota = document.getElementById('nota').value;
+        const comentario = tinymce.get('comentario-professor').getContent();
+        const idResposta = document.querySelector('#verResposta #resposta-id').value;
+        if(nota == ''){
+            alert('Preencha a nota');
+            return;
+        }
+
+        if(idResposta == ''){
+            alert('Erro interno');
+            return;
+        }
+
+        fetch('/system/professores/corrigirResposta', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+                nota: nota,
+                comentario_professor: comentario,
+                res_id: idResposta
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.sucesso) {
+                alert('Resposta enviada com sucesso!');
+                const modal = bootstrap.Modal.getInstance(document.getElementById('verResposta'));
+                modal.hide();
+            } else {
+                alert('Não foi possível enviar a resposta: ' + (data.mensagem || 'Erro desconhecido'));
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Ops! Tivemos um problema ao tentar enviar a resposta');
+        });
+    }
+
+    //-------- Download --------
+
+    function downloadAnexo(path) {
+        fetch(`/system/download?path=${path}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = path.split('/').pop();
+            a.click();
+        })
+        .catch(err => {
+            console.error('Erro ao baixar anexo:', err);
+            alert('Ops! Tivemos um problema ao tentar baixar o anexo');
+        });
+
+    }
+
+
+
+
+    // Inicializa dados da página
+    carregarAtividades();
+    carregarConteudos();
+    fetchAlunos();
+
 });

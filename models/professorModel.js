@@ -66,6 +66,28 @@ class DB_Professor {
         return result;
     }
 
+    async atualizar() {
+        const DB = new db();
+        const sql = `UPDATE tb_professor SET nome = ?, email = ?, cpf = ?, senha = ?, salario = ?, telefone = ? WHERE id = ?`;
+        const params = [this.#nome, this.#email, this.#cpf, this.#senha, this.#salario, this.#telefone, this.#id];
+        const result = await DB.ExecutaComandoNonQuery(sql, params);
+        return result;
+    }
+
+    async excluir(id) {
+        const DB = new db();
+        const sql = `DELETE FROM tb_professor WHERE id = ?`;
+        const params = [id];
+        try {
+            const result = await DB.ExecutaComandoNonQuery(sql, params);
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+
     toJSON() {
         return {
             id: this.#id,

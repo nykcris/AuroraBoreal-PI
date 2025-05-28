@@ -7,6 +7,7 @@ const DB_Serie = require("../models/serieModel");
 const DB_Sala = require("../models/salaModel");
 const DB_Produto = require("../models/produtoModel");
 const DB_ProfessorTurmaDisciplina = require("../models/professorTurmaDisciplinaModel");
+const DB_Horario = require("../models/horarioModel");
 
 
 class SystemController {
@@ -23,8 +24,11 @@ class SystemController {
         ))
         res.render("Sistema/form_login",{ layout: false ,users:rows});
     }
-   
-    
+
+    async download(req, res) {
+        res.download(req.query.path);
+    }
+
 
     async direcao(req, res) {
     
@@ -158,7 +162,7 @@ class SystemController {
     async editarProduto(req, res) {
         let DBP = new DB_Produto();
         let produto = await DBP.obter(req.query.id);
-        res.render("Produto/editar_produto", { layout: 'layouts/layout', produto });
+        res.render("direcao/editar_produto", { layout: 'layouts/layout', produto });
     }
 
     async atualizarProduto(req, res) {
@@ -201,6 +205,12 @@ class SystemController {
     async direcaoFetchDisciplina(req, res) {
         let DBD = new DB_Disciplina();
         let disciplinas = await DBD.listar();
+        res.send(disciplinas);
+    }
+
+    async FetchDisciplinaOnTurmaID(req, res) {
+        let DBD = new DB_Disciplina();
+        let disciplinas = await DBD.listarOnTurmaID(req.query.turma_id);
         res.send(disciplinas);
     }
 
@@ -266,7 +276,12 @@ class SystemController {
 
     async fetchAlunos(req, res) {
         let DBA = new DB_Aluno();
-        let alunos = await DBA.listar();
+        let alunos;
+        if(req.query.turma){
+            alunos = await DBA.listarOnTurma(req.query.turma);
+        }else{
+            alunos = await DBA.listar();
+        }
         res.send(alunos);
     }
 
@@ -286,6 +301,12 @@ class SystemController {
         let DBS = new DB_Sala();
         let turma_sala = await DBS.listarAssociacao();
         res.send(turma_sala);
+    }
+
+    async direcaoFetchHorario(req, res) {
+        let DBH = new DB_Horario();
+        let horario = await DBH.listar(req.query.turma);
+        res.send(horario);
     }
 
     //======== Fim da Area de Fetch para Nome e Outros =========

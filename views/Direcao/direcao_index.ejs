@@ -672,19 +672,19 @@
         <div class="card-body">
           <h5 class="card-title">
             <label for="turma-select" class="form-label"> Selecione a Turma:</label>
-            <select class="form-select" class="turma-select" id="Turma-select" name="Turma">
+            <select class="form-select turma-select" id="horario-turma-select" name="Turma">
             </select>
           </h5>
           <h5 class="card-title">
-            <label for="turma-select" class="form-label"> Selecione a Disciplina:</label>
-            <select class="form-select" class="disciplina-select" id="Disciplina-select" name="disciplinas">
+            <label for="diciplina-select" class="form-label"> Selecione a Disciplina:</label>
+            <select class="form-select disciplina-select disciplina-OnTurmaID-select" id="horario-disciplina-select" name="disciplinas">
 
             </select>
           </h5>
 
           <!-- horários table  -->
           <h5 class="card-title mt-4">Horários</h5>
-          <div class="mb-3">
+          <div class="mb-3" id="horario-cadastrados">
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -751,6 +751,9 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-primary" id="save-horario-button">Salvar Horário</button>
           </div>
         </div>
 
@@ -870,7 +873,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr data-number="0">
                   <th>Não há disciplinas cadastradas</th>
                 </tr>
               </tbody>
@@ -902,6 +905,14 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="/js/direcao.js"></script>
+  <script src="/js/direcao_horario.js"></script>
+
+  <script>
+    function cancelarAddDisciplina(button) {
+      let tr = button.parentNode.parentNode;
+      tr.remove();    // remove the row from the table
+    }
+  </script>
 
 </body>
 

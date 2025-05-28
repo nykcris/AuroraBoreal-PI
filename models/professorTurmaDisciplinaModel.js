@@ -113,6 +113,19 @@ class DB_ProfessorTurmaDisciplina {
         return rows;
     }
 
+    async listarDisciplinasTurmaProfessor(id_turma, id_professor) {
+        const DB = new db();
+        const rows = await DB.ExecutaComando(`
+            SELECT pd.id, pd.turma_id, pd.disciplina_id, pd.professor_id, t.nome, d.nome AS disciplina_nome
+            FROM tb_turma_disciplina_professor pd
+            JOIN tb_turma t ON pd.turma_id = t.id
+            JOIN tb_disciplina d ON pd.disciplina_id = d.id
+            WHERE pd.turma_id = ? AND pd.professor_id = ?
+        `, [id_turma, id_professor]);
+        return rows;
+    }
+
+
     async listarTurmasProfessor(id_professor) {
         const DB = new db();
         const rows = await DB.ExecutaComando(`
@@ -142,8 +155,13 @@ class DB_ProfessorTurmaDisciplina {
         const DB = new db();
         const sql = `DELETE FROM tb_turma_disciplina_professor WHERE id = ?`;
         const params = [id];
-        const result = await DB.ExecutaComandoNonQuery(sql, params);
-        return result;
+        try {
+            const result = await DB.ExecutaComandoNonQuery(sql, params);
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 
     toJSON() {

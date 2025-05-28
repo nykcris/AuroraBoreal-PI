@@ -22,6 +22,7 @@ router.get("/", LC.getlogin);
 router.post("/postlogin", LC.postlogin);
 router.get("/direcao", AMD.validar, SC.direcao);
 router.get("/register", AMD.validar, SC.register);
+router.get("/download", AMD.validar, SC.download);
 
 router.post("/professores/cadastrarProfessor", AMD.validar, PC.cadastrarProfessor);
 router.post("/professores/delete", AMD.validar, PC.deleteProfessor);
@@ -36,6 +37,8 @@ router.post("/alunos/atualizar", AMD.validar, AC.atualizarAluno);
 router.get("/direcaoFetchTurma", AMD.validar, SC.direcaoFetchTurma);
 router.get("/direcaoFetchDisciplina", AMD.validar, SC.direcaoFetchDisciplina);
 router.get("/direcaoFetchSerie", AMD.validar, SC.direcaoFetchSerie);
+router.get("/direcaoFetchHorario", AMD.validar, SC.direcaoFetchHorario);
+router.get("/direcao/FetchDisciplinaOnTurmaID", AMD.validar, SC.FetchDisciplinaOnTurmaID);
 
 router.post("/cadastrarProfessorTurmaDisciplina", AMD.validar, PC.cadastrarProfessorTurmaDisciplina);
 router.post("/professores/deleteProfessorTurmaDisciplina", AMD.validar, SC.deleteProfessorTurmaDisciplina);
@@ -83,6 +86,7 @@ router.get("/fetchSerie", AMD.validar, SC.fetchSerie);
 router.get("/fetchAlunos", AMD.validar, SC.fetchAlunos);
 router.get("/fetchProfessores", AMD.validar, SC.fetchProfessores);
 router.get("/fetchSalas", AMD.validar, SC.fetchSalas);
+router.get("/fetchRespostas", AMD.validar, PC.fetchRespostas);
 
 
 

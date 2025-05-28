@@ -107,22 +107,22 @@ class ProfessorController {
 
     async CorrigirAtividadesPost(req, res) {
         let DBA = new DB_Resposta();
-        let filtro = [];
-        filtro.push(req.body.res_id);
-        let update = await DBA.listar(filtro);
+        let update = await DBA.obter(req.body.res_id);
         if (update.length > 0) {
             DBA = new DB_Resposta(
                 update[0].res_id,
                 update[0].id_atividade,
                 update[0].id_aluno,
                 update[0].resposta,
+                update[0].anexo_resposta,
                 update[0].data_envio,
                 req.body.nota,
-                req.body.comentario_professor
+                req.body.comentario_professor,
+                1
             );
             let sucesso = await DBA.atualizar();
         }
-        res.redirect("/system/professores");
+        res.json({ sucesso: true, mensagem: "Resposta enviada com sucesso!" });
     }
 
     async atividades(req, res) {
@@ -235,10 +235,10 @@ class ProfessorController {
         let sucesso = await DBP.excluir(req.body.id);
         if (sucesso) {
             console.log("Sucesso ao deletar professor");
-            res.send("Sucesso ao deletar professor");
+            res.json({ sucesso: true, mensagem: "Professor deletado com sucesso!" });
         } else {
             console.log("Erro ao deletar professor");
-            res.send("Erro ao deletar professor");
+            res.json({ sucesso: false, mensagem: "Erro ao deletar professor" });
         }
     }
 
@@ -265,6 +265,8 @@ class ProfessorController {
 
 
 
+
+
     //========== Fetchs ==========
     async fetchNomeProfessor(req, res) {
         let DBP = new DB_Professor();
@@ -282,9 +284,11 @@ class ProfessorController {
         let DBPD = new DB_ProfessorTurmaDisciplina();
         let disciplinas;
         if(req.query.turma){
-            disciplinas = await DBPD.listarDisciplinas(req.query.turma);
+            disciplinas = await DBPD.listarDisciplinasTurmaProfessor(req.query.turma, req.query.professor);
+            console.log(disciplinas);
         }else{
             disciplinas = await DBPD.listarDisciplinasProfessor(req.query.professor);
+            console.log(disciplinas);
         }
         res.send(disciplinas);
     }
@@ -323,6 +327,19 @@ class ProfessorController {
         let DBC = new DB_Conteudo();
         let conteudos = await DBC.fetchConteudos(req.query.materia);
         res.send(conteudos);
+    }
+
+    async fetchRespostas(req, res) {
+        let DBR = new DB_Resposta();
+        let respostas;
+        if(req.query.id){
+            respostas = await DBR.obter(req.query.id);
+        }else if(req.query.aluno && req.query.materia){
+            respostas = await DBR.fetchRespostas(req.query.aluno, req.query.materia);
+        }else{
+            respostas = await DBR.listar();
+        }
+        res.send(respostas);
     }
 
 

@@ -221,7 +221,7 @@ class AlunoController {
     let aluno = await DBA.obter(req.query.id);
     console.log(aluno);
     console.log(turmas);
-    res.render("Aluno/editar_aluno",{ layout: 'layouts/layout_aluno', aluno , turmas });
+    res.render("Direcao/editar_aluno",{ layout: 'layouts/layout', aluno , turmas });
 
   }
 
@@ -277,13 +277,12 @@ class AlunoController {
     let DBA = new DB_Aluno();
     let aluno = await DBA.obter(req.query.id);
     let DBPTD = new DB_ProfessorTurmaDisciplina();
+    let disciplinas;
     if(!aluno === undefined){
-      let disciplinas = await DBPTD.listarDisciplinas(aluno[0].turma_id);
+      disciplinas = await DBPTD.listarDisciplinas(aluno[0].turma_id);
     }else{
       res.send([]);
     }
-    console.log(disciplinas);
-    res.send(disciplinas);
   }
   
   async fetchNomeAluno(req, res) {

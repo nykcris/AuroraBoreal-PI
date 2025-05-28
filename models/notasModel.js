@@ -49,8 +49,13 @@ class DB_Notas {
         let sql = "DELETE FROM tb_nota WHERE id = ?";
         let valores = [id];
         let DB = new db();
-        let a = await DB.ExecutaComandoNonQuery(sql, valores);
-        return a;
+        try {
+            const result = await DB.ExecutaComandoNonQuery(sql, valores);
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 
     async obterNotasAluno(id_aluno, id_disciplina) {

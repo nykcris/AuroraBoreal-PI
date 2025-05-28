@@ -270,6 +270,89 @@
     </div>
 </div>
 
+<!-- Modal para visualizar e corrigir respostas -->
+
+<div>
+    <div class="modal fade" id="verResposta" tabindex="-1" aria-labelledby="verRespostaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="verRespostaLabel">Resposta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="atividade-titulo" class="form-label">Atividade</label>
+                        <h3 id="atividade-titulo"></h3>
+                    </div>
+                    <div class="mb-3">
+                        <label for="resposta" class="form-label">Resposta</label>
+                        <textarea class="tinymce-editor" id="resposta" name="resposta" disabled></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="anexo-resposta" class="form-label">Anexo</label>
+                        <a id="anexo-resposta-link" href="" download class="btn btn-primary" style="display: none;">Download do Anexo</a>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nota" class="form-label">Nota</label>
+                        <input type="number" class="form-control" id="nota" name="nota" min="0" max="10" step="0.1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="comentario-professor" class="form-label">Comentário do Professor</label>
+                        <textarea class="tinymce-editor" id="comentario-professor" name="comentario-professor"></textarea>
+                    </div>
+                    <input type="hidden" name="resposta-id" id="resposta-id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para visualizar todas as respostas do aluno por atividade -->
+
+<div>
+    <div class="modal fade" id="verTodasRespostas" tabindex="-1" aria-labelledby="verTodasRespostasLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="verTodasRespostasLabel">Respostas do Aluno</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Atividade</th>
+                                <th>Data de Envio</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="respostas-body">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+
+
+
+
+</div>
+
 
 
 

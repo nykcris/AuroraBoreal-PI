@@ -91,8 +91,13 @@ class DB_Atividade {
         let sql = "DELETE FROM tb_atividade WHERE ati_id = ?";
         let valores = [id];
         let DB = new db();
-        let a = await DB.ExecutaComandoNonQuery(sql, valores);
-        return a;
+        try {
+            const result = await DB.ExecutaComandoNonQuery(sql, valores);
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
     
     async atualizar() {

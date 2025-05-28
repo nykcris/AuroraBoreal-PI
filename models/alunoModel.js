@@ -92,8 +92,13 @@ class DB_Aluno {
         const DB = new db();
         const sql = `DELETE FROM tb_aluno WHERE id = ?`;
         const valores = [id];
-
-        return await DB.ExecutaComandoNonQuery(sql, valores); // retorna true ou false
+        try {
+            const result = await DB.ExecutaComandoNonQuery(sql, valores);
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 
     async validar(email, senha, usuId) {
@@ -130,6 +135,16 @@ class DB_Aluno {
         
         let sucesso = await DB.ExecutaComandoNonQuery(sql, valores); // retorna true ou false
         return sucesso; 
+    }
+
+    async listarOnTurma(turma_id) {
+        const DB = new db();
+        const sql = `
+            SELECT * FROM tb_aluno WHERE turma_id = ?
+        `;
+        const valores = [turma_id];
+        const rows = await DB.ExecutaComando(sql, valores);
+        return rows;
     }
 
 

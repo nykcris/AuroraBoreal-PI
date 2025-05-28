@@ -51,17 +51,23 @@ class DB_Produto {
     async atualizar() {
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(
-            "UPDATE tb_produtos SET nome = ?, descricao = ?, quantidade = ?, valor = ?, tipo = ? WHERE id = ?",
+            "UPDATE tb_produtos SET nome_produto = ?, descricao = ?, quantidade = ?, valor = ?, tipo_produto = ? WHERE id = ?",
             [this.#nome, this.#descricao, this.#quantidade, this.#valor, this.#tipo, this.#id]
         );
     }
 
     async excluir(id) {
         let DB = new db();
-        return await DB.ExecutaComandoNonQuery(
-            "DELETE FROM tb_produtos WHERE id = ?",
-            [id]
-        );
+        try {
+            const result = await DB.ExecutaComandoNonQuery(
+                "DELETE FROM tb_produtos WHERE id = ?",
+                [id]
+            );
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 
     toJSON() {

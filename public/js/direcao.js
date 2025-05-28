@@ -14,62 +14,96 @@ document.addEventListener("DOMContentLoaded", function () {
     const validateTurmaSalaButton = document.getElementById('validar-turma-sala-button'); if(validateTurmaSalaButton) validateTurmaSalaButton.addEventListener('click', validateTurmaSalaForm); else console.log('validateTurmaSalaButton not found');
     const validateSalaFormButton = document.getElementById('validar-sala-button'); if(validateSalaFormButton) validateSalaFormButton.addEventListener('click', validateSalaForm); else console.log('validateSalaFormButton not found');
 
-    
+
+
     function InitializeButtons1() {
 
         const editAlunoButton = document.querySelectorAll('.button-edit-aluno');
         editAlunoButton.forEach(button => {
-            button.addEventListener('click', editAluno);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', editAluno);
+                button.dataset.initialized = '1';
+            }
         })
 
         const deleteAlunoButton = document.querySelectorAll('.button-delete-aluno');
         deleteAlunoButton.forEach(button => {
-            button.addEventListener('click', deleteAluno);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', deleteAluno);
+                button.dataset.initialized = '1';
+            }
         })
 
         const editProfessorButton = document.querySelectorAll('.button-edit-professor');
         editProfessorButton.forEach(button => {
-            button.addEventListener('click', editProfessor);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', editProfessor);
+                button.dataset.initialized = true;
+            }
         })
 
         const deleteProfessorButton = document.querySelectorAll('.button-delete-professor');
         deleteProfessorButton.forEach(button => {
-            button.addEventListener('click', deleteProfessor);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', deleteProfessor);
+                button.dataset.initialized = true;
+            }
         })
 
         const editDisciplinaButton = document.querySelectorAll('.button-edit-disciplina');
         editDisciplinaButton.forEach(button => {
-            button.addEventListener('click', editDisciplina);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', editDisciplina);
+                button.dataset.initialized = true;
+            }
         })
 
         const deleteDisciplinaButton = document.querySelectorAll('.button-delete-disciplina');
         deleteDisciplinaButton.forEach(button => {
-            button.addEventListener('click', deleteDisciplina);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', deleteDisciplina);
+                button.dataset.initialized = true;
+            }
         })
 
         const editSalaButton = document.querySelectorAll('.button-edit-sala');
         editSalaButton.forEach(button => {
-            button.addEventListener('click', editSala);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', editSala);
+                button.dataset.initialized = true;
+            }
         })
 
         const deleteSalaButton = document.querySelectorAll('.button-delete-sala');
         deleteSalaButton.forEach(button => {
-            button.addEventListener('click', deleteSala);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', deleteSala);
+                button.dataset.initialized = true;
+            }
         })
 
         const deleteTurmaSalaButton = document.querySelectorAll('.button-delete-turma-sala');
         deleteTurmaSalaButton.forEach(button => {
-            button.addEventListener('click', deleteTurmaSala);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', deleteTurmaSala);
+                button.dataset.initialized = true;
+            }
         })
 
         const editProdutoButton = document.querySelectorAll('.button-edit-produto');
         editProdutoButton.forEach(button => {
-            button.addEventListener('click', editProduto);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', editProduto);
+                button.dataset.initialized = true;
+            }
         })
 
         const deleteProdutoButton = document.querySelectorAll('.button-delete-produto');
         deleteProdutoButton.forEach(button => {
-            button.addEventListener('click', deleteProduto);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', deleteProduto);
+                button.dataset.initialized = true;
+            }
         })
 
         const maskCPFInputs = document.querySelectorAll('.mask-cpf');
@@ -103,7 +137,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const deleteProfessorTurmaDisciplinaButton = document.querySelectorAll('.button-delete-disciplina-professor');
         deleteProfessorTurmaDisciplinaButton.forEach(button => {
-            button.addEventListener('click', deleteProfessorTurmaDisciplina);
+            if(!button.dataset.initialized) {
+                button.addEventListener('click', deleteProfessorTurmaDisciplina);
+                button.dataset.initialized = '1';
+            }
         })
 
     }
@@ -118,6 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchSerie();
         fetchTurmas();
         fetchDisciplinasProfessor();
+        InitializeButtons1();
     }
 
     //-------- Validações --------
@@ -154,17 +192,33 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(this.value);
 
         if (this.value < 0) {
-            document.getElementById('valorError').style.display = 'inline';
-            this.value = 0;
+            try {
+                this.value = 0;
+                document.getElementById('valorError').style.display = 'inline';
+            } catch (error) {
+                console.log(error);
+            }
         } else {
-            document.getElementById('valorError').style.display = 'none';
+            try {
+                document.getElementById('valorError').style.display = 'none';
+            } catch (error) {
+                console.log(error);
+            }
         }
 
         if (this.value > 9999.99) {
-            document.getElementById('valorError').style.display = 'inline';
-            this.value = 9999.99;
+            try {
+                this.value = 9999.99;
+                document.getElementById('valorError').style.display = 'inline';
+            } catch (error) {
+                console.log(error);
+            }
         } else {
-            document.getElementById('valorError').style.display = 'none';
+            try {
+                document.getElementById('valorError').style.display = 'none';
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -173,17 +227,33 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(this.value);
 
         if (this.value < 0) {
-            document.getElementById('quantidadeError').style.display = 'inline';
-            this.value = 0;
+            try {
+                this.value = 0;
+                document.getElementById('quantidadeError').style.display = 'inline';
+            } catch (error) {
+                console.log(error);
+            }
         } else {
-            document.getElementById('quantidadeError').style.display = 'none';
+            try {
+                document.getElementById('quantidadeError').style.display = 'none';
+            } catch (error) {
+                console.log(error);
+            }
         }
 
         if (this.value > 999) {
-            document.getElementById('quantidadeError').style.display = 'inline';
-            this.value = 999;
+            try {
+                this.value = 999;
+                document.getElementById('quantidadeError').style.display = 'inline';
+            } catch (error) {
+                console.log(error);
+            }
         } else {
-            document.getElementById('quantidadeError').style.display = 'none';
+            try {
+                document.getElementById('quantidadeError').style.display = 'none';
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -755,14 +825,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function DisciplinaSelectOnTurmaID() {
-        let turma_id = document.querySelector('.turma-select').value;
-        fetch(`/system/direcao/FetchDisciplinaOnTurmaID/${turma_id}`,{
+        let turma_id = this.value;
+        if(!turma_id) return;
+        console.log(turma_id);
+        fetch(`/system/direcao/FetchDisciplinaOnTurmaID?turma_id=${turma_id}`,{
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
         })
             .then(res => res.json())
             .then(result => {
+                console.log(result);
                 let disciplinaSelect = document.querySelector('.disciplina-OnTurmaID-select');
                 disciplinaSelect.innerHTML = '';
                 result.forEach(disciplina => {
@@ -1014,6 +1087,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function deleteProfessorTurmaDisciplina() {
+        console.log(this.value);
         fetch(`/system/professores/deleteProfessorTurmaDisciplina`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1045,9 +1119,11 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log('Não há disciplinas cadastradas');
         }
         let newRow = document.createElement('tr');
+        newRow.setAttribute('id', "tr-"+number);
         newRow.innerHTML = ` 
     <th scope="row"> <select class="form-select turma-select-${number}" aria-label="Default select example"></select></th>
     <th scope="row"> <select class="form-select disciplina-select-${number}" aria-label="Default select example"></select></th>
+    <th scope="row"> <button type="button" class="btn btn-danger btn-sm cancelar-add-disciplina" data-number="${number}" onclick="cancelarAddDisciplina(this)">Excluir</button></th>
     `;
         table.querySelector('tbody').appendChild(newRow);
         TurmaSelectFetch(number);
@@ -1167,6 +1243,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     tableBody.appendChild(row);
                 });
             })
+            .then(() => {
+                InitializeButtons1();
+            })
             .catch(err => {
                 console.error(err);
             });
@@ -1198,6 +1277,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     tableBody.appendChild(row);
                 });
             })
+            .then(() => {
+                InitializeButtons1();
+            })
             .catch(err => {
                 console.error(err);
             });
@@ -1224,6 +1306,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     `;
                     tableBody.appendChild(row);
                 });
+            })
+            .then(() => {
+                InitializeButtons1();
             })
             .catch(err => {
                 console.error(err);
@@ -1252,6 +1337,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     `;
                     tableBody.appendChild(row);
                 });
+            })
+            .then(() => {
+                InitializeButtons1();
             })
             .catch(err => {
                 console.error(err);
@@ -1411,7 +1499,6 @@ document.addEventListener("DOMContentLoaded", function () {
     TurmaSelectFetch(numberAddMateria);
     DisciplinaSelectFetch(numberAddMateria);
     InitializeFetch();
-    InitializeButtons1();
     
 
 });
