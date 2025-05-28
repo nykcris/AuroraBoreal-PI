@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authMiddlewareDirecao = require("../middlewares/authMiddlewareDirecao");
+const authMiddlewareAluno = require("../middlewares/authMiddlewareAluno");
 const LoginController = require("../controllers/loginController");
 const SystemController = require("../controllers/systemController");
 const AlunoController = require("../controllers/alunoController");
@@ -11,6 +12,7 @@ const DisciplinaController = require('../controllers/disciplinaController');
 
 let PC = new ProfessorController();
 let AMD = new authMiddlewareDirecao();
+let AMA = new authMiddlewareAluno();
 let SC = new SystemController();
 let SRC = new SerieController();
 let TC = new TurmaController();
@@ -28,6 +30,8 @@ router.post("/professores/cadastrarProfessor", AMD.validar, PC.cadastrarProfesso
 router.post("/professores/delete", AMD.validar, PC.deleteProfessor);
 router.get("/professores/editar", AMD.validar, PC.editarProfessor);
 router.post("/professores/atualizar", AMD.validar, PC.atualizarProfessor);
+router.post("/professores/cadastrarNota", AMD.validar, PC.cadastrarNota);
+router.post("/professores/atualizarNota", AMD.validar, PC.atualizarNota);
 
 router.post("/alunos/cadastrarAluno", AMD.validar, AC.postCadastrarAluno);
 router.post("/alunos/delete", AMD.validar, AC.deleteAluno);
@@ -87,6 +91,9 @@ router.get("/fetchAlunos", AMD.validar, SC.fetchAlunos);
 router.get("/fetchProfessores", AMD.validar, SC.fetchProfessores);
 router.get("/fetchSalas", AMD.validar, SC.fetchSalas);
 router.get("/fetchRespostas", AMD.validar, PC.fetchRespostas);
+router.get("/fetchAtividades", AMD.validar, PC.fetchAtividades);
+router.get("/fetchRespostasAtividade", AMA.validar, AC.fetchRespostasAtividade);
+router.get("/fetchNotas", AMD.validar, AC.fetchNotas);
 
 
 

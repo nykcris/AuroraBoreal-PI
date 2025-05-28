@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     materiaId = new URLSearchParams(window.location.search).get('disciplina');
     let turmaId = null;
     turmaId = new URLSearchParams(window.location.search).get('turma');
+    let aluno_id = null;
     
     // ===== LISTENERS DE EVENTOS =====
     
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Botão de enviar resposta
     const btnSendResposta = document.querySelector('#verResposta .modal-footer .btn-primary');
-    if(btnSendResposta) btnSendResposta.addEventListener('click', validateSendResposta);
+    if(btnSendResposta) btnSendResposta.addEventListener('click', () => validateSendResposta(aluno_id));
 
     // Delegação de eventos para botões de atividades
     const atividadesLista = document.getElementById('atividades-lista');
@@ -266,16 +267,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 }else{
                     resposta.corrigida = 'Sim';
                 }
+                if(resposta.data_entrega < new Date()){
+                    resposta.corregir = 'disabled';
+                }else{
+                    resposta.atrasada = '';
+                }
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${resposta.titulo}</td>
                     <td>${new Date(resposta.data_envio).toLocaleDateString()}</td>
                     <td>
-                    Nota: ${resposta.nota}
-                    Corrigido: ${resposta.corrigida}
+                    <p>Nota: ${resposta.nota}</p>
+                    <p>Corrigido: ${resposta.corrigida}</p>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-info ver-resposta" data-id="${resposta.res_id}">Ver</button>
+                        <button class="btn btn-sm btn-info ver-resposta" data-id="${resposta.res_id}"  ${resposta.corregir}>Ver</button>
                     </td>
                 `;
                 tabelaRespostasBody.appendChild(row);
@@ -290,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 button.addEventListener('click', () => {
                     const modal = new bootstrap.Modal(document.getElementById('verTodasRespostas'));
                     modal.hide();
-                    verResposta(button.dataset.id);
+                    verResposta(button.dataset.id, alunoId);
                 });
             });
 
@@ -313,7 +319,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    function verResposta(id) {
+    function verResposta(id, alunoId) {
+        aluno_id = alunoId;
         fetch(`/system/fetchRespostas?id=${id}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -671,7 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function validatePeso() {
         const peso = document.getElementById('peso').value;
         try{
-            if(peso < 0 || peso > 10){
+            if(peso < 0 || peso > 100){
                 alert('Peso inválido');
                 document.getElementById('peso').value = '';
             }
@@ -704,7 +711,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function validateSendResposta() {
+    function validateSendResposta(alunoId) {
         const nota = document.getElementById('nota').value;
         const comentario = tinymce.get('comentario-professor').getContent();
         const idResposta = document.querySelector('#verResposta #resposta-id').value;
@@ -738,6 +745,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Não foi possível enviar a resposta: ' + (data.mensagem || 'Erro desconhecido'));
             }
         })
+        .then(() => {
+            updateTabelaNotas(alunoId);
+            fetchRespostas(alunoId);
+        })
         .catch(err => {
             console.error(err);
             alert('Ops! Tivemos um problema ao tentar enviar a resposta');
@@ -764,6 +775,97 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Erro ao baixar anexo:', err);
             alert('Ops! Tivemos um problema ao tentar baixar o anexo');
         });
+
+    }
+
+    //-------- Handle aluno --------
+
+    function updateTabelaNotas(alunoId){
+        let atividades;
+
+        fetch(`/system/fetchRespostasAtividade?aluno=${alunoId}&materia=${materiaId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            atividades = data;
+            let bimestre = [[],[],[],[]];
+            atividades.forEach(atividade => {
+                bimestre[atividade.bimestre - 1].push(atividade);
+            });
+            
+            bimestre.forEach((bimestre, index) => {
+                let total = 0;
+                bimestre.forEach(atividade => {
+                    console.log(atividade);
+                    total += atividade.nota * (atividade.peso / 100);
+                });
+                fetch(`/system/fetchNotas?aluno=${alunoId}&materia=${materiaId}&bimestre=${index + 1}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.length == 0){
+                        fetch(`/system/professores/cadastrarNota`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            credentials: 'include',
+                            body: JSON.stringify({
+                                aluno_id: alunoId,
+                                turma_disciplina_id: materiaId,
+                                valor_nota: total,
+                                bimestre: index + 1
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if(data.sucesso) {
+                                console.log('Nota cadastrada com sucesso!');
+                            } else {
+                                console.log('Não foi possível cadastrar a nota: ' + (data.mensagem || 'Erro desconhecido'));
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert('Ops! Tivemos um problema ao tentar cadastrar a nota');
+                        });
+                    }else{
+                        fetch(`/system/professores/atualizarNota`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            credentials: 'include',
+                            body: JSON.stringify({
+                                aluno_id: alunoId,
+                                turma_disciplina_id: materiaId,
+                                valor_nota: total,
+                                bimestre: index + 1
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if(data.sucesso) {
+                                console.log('Nota atualizada com sucesso!');
+                            } else {
+                                console.log('Não foi possível atualizar a nota: ' + (data.mensagem || 'Erro desconhecido'));
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert('Ops! Tivemos um problema ao tentar atualizar a nota');
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Ops! Tivemos um problema ao tentar atualizar a nota');
+                });
+            });
+
+        })
 
     }
 

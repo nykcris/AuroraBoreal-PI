@@ -58,6 +58,15 @@
                                                     </thead>
                                                     <tbody>
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="2">Total</td>
+                                                            <td style="text-align: center;">
+                                                                <span class="status"></span>
+                                                            </td>
+                                                            <td class="total-bimestre"></td>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         </div>
@@ -76,6 +85,15 @@
                                                     </thead>
                                                     <tbody>
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="2">Total</td>
+                                                            <td style="text-align: center;">
+                                                                <span class="status"></span>
+                                                            </td>
+                                                            <td class="total-bimestre"></td>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         </div>
@@ -94,6 +112,15 @@
                                                     </thead>
                                                     <tbody>
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="2">Total</td>
+                                                            <td style="text-align: center;">
+                                                                <span class="status"></span>
+                                                            </td>
+                                                            <td class="total-bimestre"></td>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         </div>
@@ -112,6 +139,15 @@
                                                     </thead>
                                                     <tbody>
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="2">Total</td>
+                                                            <td style="text-align: center;">
+                                                                <span class="status"></span>
+                                                            </td>
+                                                            <td class="total-bimestre"></td>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         </div>
@@ -126,6 +162,45 @@
 
 
         </div>
+
+    <!-- Model para responder atividade -->
+
+<div>
+    <div class="modal fade" id="responderAtividade" tabindex="-1" aria-labelledby="responderAtividadeLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="responderAtividadeLabel">Responder Atividade</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <h3 id="titulo-atividade"></h3>
+                        <h6 id="data-entrega"></h6>
+                        <input type="hidden" id="atividade-id">
+                    </div>
+                    <div class="mb-3">
+                        <div id="descricao-atividade"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="resposta" class="form-label">Resposta</label>
+                        <textarea class="tinymce-editor" id="resposta" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="anexo-resposta" class="form-label">Anexo (opcional)</label>
+                        <input type="file" class="form-control" id="anexo-resposta">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="salvar-resposta">Salvar Resposta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 </body>

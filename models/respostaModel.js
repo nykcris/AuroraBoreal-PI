@@ -140,6 +140,13 @@ class DB_Resposta {
         return rows;
     }
 
+    async fetchRespostasAtividade(aluno_id, materia_id) {
+        let DB = new db();
+        let rows = await DB.ExecutaComando("SELECT r.*, a.aluno_nome, at.titulo, at.tipo, at.bimestre, at.peso, tdp.status FROM tb_resposta r JOIN tb_aluno a ON r.id_aluno = a.id JOIN tb_atividade at ON r.id_atividade = at.ati_id JOIN tb_turma_disciplina_professor tdp ON at.id_turma_disciplina_professor = tdp.id WHERE r.id_aluno = ? AND at.id_turma_disciplina_professor = ?", [aluno_id, materia_id]);
+        return rows;
+    }
+
+
     toJSON() {
         return {
             res_id: this.#res_id,

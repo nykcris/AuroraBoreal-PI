@@ -44,7 +44,7 @@ class DB_ProfessorTurmaDisciplina {
             if(comp.length > 0){
                 for(let i = 0; i < comp.length; i++){
                     if(comp[i].disciplina_id == this.#id_disciplina && comp[i].professor_id == this.#id_professor && comp[i].turma_id == this.#id_turma){
-                        return { success: false, message: "Esta combinação de professor, turma e disciplina já existe" };
+                        return { success: false, message: "Esta combinação de turma e disciplina já existe" };
                     }
                 }
             }
@@ -84,7 +84,14 @@ class DB_ProfessorTurmaDisciplina {
             SELECT pd.id, pd.turma_id, pd.disciplina_id, pd.professor_id, d.nome
             FROM tb_turma_disciplina_professor pd
             JOIN tb_disciplina d ON pd.disciplina_id = d.id
-            WHERE pd.turma_id = ?
+            WHERE pd.id IN (
+                SELECT MIN(id)
+                FROM tb_turma_disciplina_professor
+                WHERE turma_id = pd.turma_id
+                GROUP BY disciplina_id
+            )
+            AND pd.turma_id = ?;
+
         `, [id_turma]);
         return rows;
     }
@@ -122,6 +129,18 @@ class DB_ProfessorTurmaDisciplina {
             JOIN tb_disciplina d ON pd.disciplina_id = d.id
             WHERE pd.turma_id = ? AND pd.professor_id = ?
         `, [id_turma, id_professor]);
+        return rows;
+    }
+
+    async listarTurmasDisciplina(id_disciplina) {
+        const DB = new db();
+        const rows = await DB.ExecutaComando(`
+            SELECT pd.id, pd.turma_id, pd.disciplina_id, pd.professor_id, t.nome, d.nome AS disciplina_nome
+            FROM tb_turma_disciplina_professor pd
+            JOIN tb_turma t ON pd.turma_id = t.id
+            JOIN tb_disciplina d ON pd.disciplina_id = d.id
+            WHERE pd.disciplina_id = ?
+        `, [id_disciplina]);
         return rows;
     }
 

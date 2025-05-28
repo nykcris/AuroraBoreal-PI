@@ -118,9 +118,11 @@ class ProfessorController {
                 update[0].data_envio,
                 req.body.nota,
                 req.body.comentario_professor,
+                update[0].nome_aluno,
                 1
             );
             let sucesso = await DBA.atualizar();
+            console.log(sucesso);
         }
         res.json({ sucesso: true, mensagem: "Resposta enviada com sucesso!" });
     }
@@ -341,6 +343,35 @@ class ProfessorController {
         }
         res.send(respostas);
     }
+
+    async cadastrarNota(req, res) {
+        let DBN = new DB_Notas();
+        let nota = new DB_Notas(0, req.body.aluno_id, req.body.turma_disciplina_id, req.body.valor_nota, req.body.bimestre);
+        let sucesso = await nota.gravar();
+        if (sucesso) {
+            console.log("Sucesso ao cadastrar nota");
+            res.json({ sucesso: true, mensagem: "Nota cadastrada com sucesso!" });
+        } else {
+            console.log("Erro ao cadastrar nota");
+            res.json({ sucesso: false, mensagem: "Erro ao cadastrar nota" });
+        }
+    }
+
+    async atualizarNota(req, res) {
+        let DBN = new DB_Notas();
+        let nota = new DB_Notas(0, req.body.aluno_id, req.body.turma_disciplina_id, req.body.valor_nota, req.body.bimestre);
+        let sucesso = await nota.atualizar();
+        if (sucesso) {
+            console.log("Sucesso ao atualizar nota");
+            res.json({ sucesso: true, mensagem: "Nota atualizada com sucesso!" });
+        } else {
+            console.log("Erro ao atualizar nota");
+            res.json({ sucesso: false, mensagem: "Erro ao atualizar nota" });
+        }
+    }
+
+
+
 
 
     //========== Fim Fetchs ==========
