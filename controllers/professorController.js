@@ -107,22 +107,24 @@ class ProfessorController {
 
     async CorrigirAtividadesPost(req, res) {
         let DBA = new DB_Resposta();
-        let filtro = [];
-        filtro.push(req.body.res_id);
-        let update = await DBA.listar(filtro);
+        let update = await DBA.obter(req.body.res_id);
         if (update.length > 0) {
             DBA = new DB_Resposta(
                 update[0].res_id,
                 update[0].id_atividade,
                 update[0].id_aluno,
                 update[0].resposta,
+                update[0].anexo_resposta,
                 update[0].data_envio,
                 req.body.nota,
-                req.body.comentario_professor
+                req.body.comentario_professor,
+                update[0].nome_aluno,
+                1
             );
             let sucesso = await DBA.atualizar();
+            console.log(sucesso);
         }
-        res.redirect("/system/professores");
+        res.json({ sucesso: true, mensagem: "Resposta enviada com sucesso!" });
     }
 
     async atividades(req, res) {
@@ -230,6 +232,41 @@ class ProfessorController {
         res.render("Professor/professor_materias",{ layout: 'layouts/layout_professor'});
     }
 
+    async deleteProfessor(req, res){
+        let DBP = new DB_Professor();
+        let sucesso = await DBP.excluir(req.body.id);
+        if (sucesso) {
+            console.log("Sucesso ao deletar professor");
+            res.json({ sucesso: true, mensagem: "Professor deletado com sucesso!" });
+        } else {
+            console.log("Erro ao deletar professor");
+            res.json({ sucesso: false, mensagem: "Erro ao deletar professor" });
+        }
+    }
+
+    async editarProfessor(req, res) {
+        let DBP = new DB_Professor();
+        let professor = await DBP.obter(req.query.id);
+        res.render("Professor/editar_professor", { layout: 'layouts/layout', professor });
+    }
+
+    async atualizarProfessor(req, res) {
+        let DBP = new DB_Professor();
+        let professor = new DB_Professor(req.body.id, req.body.prof_nome, req.body.email, req.body.prof_cpf, req.body.senha, req.body.prof_salario, req.body.telefone);
+        let sucesso = await professor.atualizar();
+        if (sucesso) {
+            console.log("Sucesso ao atualizar professor");
+            res.redirect("/system/direcao");
+        } else {
+            console.log("Erro ao atualizar professor");
+            res.send("Erro ao atualizar professor");
+        }
+    }
+
+
+
+
+
 
 
     //========== Fetchs ==========
@@ -249,9 +286,11 @@ class ProfessorController {
         let DBPD = new DB_ProfessorTurmaDisciplina();
         let disciplinas;
         if(req.query.turma){
-            disciplinas = await DBPD.listarDisciplinas(req.query.turma);
+            disciplinas = await DBPD.listarDisciplinasTurmaProfessor(req.query.turma, req.query.professor);
+            console.log(disciplinas);
         }else{
             disciplinas = await DBPD.listarDisciplinasProfessor(req.query.professor);
+            console.log(disciplinas);
         }
         res.send(disciplinas);
     }
@@ -291,6 +330,48 @@ class ProfessorController {
         let conteudos = await DBC.fetchConteudos(req.query.materia);
         res.send(conteudos);
     }
+
+    async fetchRespostas(req, res) {
+        let DBR = new DB_Resposta();
+        let respostas;
+        if(req.query.id){
+            respostas = await DBR.obter(req.query.id);
+        }else if(req.query.aluno && req.query.materia){
+            respostas = await DBR.fetchRespostas(req.query.aluno, req.query.materia);
+        }else{
+            respostas = await DBR.listar();
+        }
+        res.send(respostas);
+    }
+
+    async cadastrarNota(req, res) {
+        let DBN = new DB_Notas();
+        let nota = new DB_Notas(0, req.body.aluno_id, req.body.turma_disciplina_id, req.body.valor_nota, req.body.bimestre);
+        let sucesso = await nota.gravar();
+        if (sucesso) {
+            console.log("Sucesso ao cadastrar nota");
+            res.json({ sucesso: true, mensagem: "Nota cadastrada com sucesso!" });
+        } else {
+            console.log("Erro ao cadastrar nota");
+            res.json({ sucesso: false, mensagem: "Erro ao cadastrar nota" });
+        }
+    }
+
+    async atualizarNota(req, res) {
+        let DBN = new DB_Notas();
+        let nota = new DB_Notas(0, req.body.aluno_id, req.body.turma_disciplina_id, req.body.valor_nota, req.body.bimestre);
+        let sucesso = await nota.atualizar();
+        if (sucesso) {
+            console.log("Sucesso ao atualizar nota");
+            res.json({ sucesso: true, mensagem: "Nota atualizada com sucesso!" });
+        } else {
+            console.log("Erro ao atualizar nota");
+            res.json({ sucesso: false, mensagem: "Erro ao atualizar nota" });
+        }
+    }
+
+
+
 
 
     //========== Fim Fetchs ==========

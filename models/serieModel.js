@@ -49,10 +49,16 @@ class DB_Serie {
 
     async excluir(id) {
         let DB = new db();
-        return await DB.ExecutaComandoNonQuery(
-            "DELETE FROM tb_serie WHERE id = ?",
-            [id]
-        );
+        try {
+            const result = await DB.ExecutaComandoNonQuery(
+                "DELETE FROM tb_serie WHERE id = ?",
+                [id]
+            );
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 
     toJSON() {

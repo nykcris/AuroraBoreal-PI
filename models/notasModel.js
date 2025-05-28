@@ -1,12 +1,12 @@
 const db = require('../utils/database');
 const DB_ProfessorTurmaDisciplina = require("./professorTurmaDisciplinaModel");
-const DB_Aluno = require("./alunoModel");
 
 class DB_Notas {
     #id;
     #id_aluno;
     #id_turma_disciplina;
     #nota;
+    #bimestre;
 
     get id() { return this.#id; }
     set id(value) { this.#id = value; }
@@ -16,24 +16,27 @@ class DB_Notas {
     set id_turma_disciplina(value) { this.#id_turma_disciplina = value; }
     get nota() { return this.#nota; }
     set nota(value) { this.#nota = value; }
+    get bimestre() { return this.#bimestre; }
+    set bimestre(value) { this.#bimestre = value; }
 
-    constructor(id, id_aluno, id_turma_disciplina, nota) {
+    constructor(id, id_aluno, id_turma_disciplina, nota, bimestre) {
         this.#id = id;
         this.#id_aluno = id_aluno;
         this.#id_turma_disciplina = id_turma_disciplina;
         this.#nota = nota;
+        this.#bimestre = bimestre;
     }
 
     async gravar() {
-        let sql = "INSERT INTO tb_nota (aluno_id, turma_disciplina_id, valor_nota) VALUES (?, ?, ?)";
-        let valores = [this.#id_aluno, this.#id_turma_disciplina, this.#nota];
+        let sql = "INSERT INTO tb_nota (aluno_id, turma_disciplina_id, valor_nota, bimestre) VALUES (?, ?, ?, ?)";
+        let valores = [this.#id_aluno, this.#id_turma_disciplina, this.#nota, this.#bimestre];
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(sql, valores);
     }
 
     async atualizar() {
-        let sql = "UPDATE tb_nota SET valor_nota = ? WHERE aluno_id = ? AND turma_disciplina_id = ?";
-        let valores = [this.#nota, this.#id_aluno, this.#id_turma_disciplina];
+        let sql = "UPDATE tb_nota SET valor_nota = ?, bimestre = ? WHERE aluno_id = ? AND turma_disciplina_id = ?";
+        let valores = [this.#nota, this.#bimestre, this.#id_aluno, this.#id_turma_disciplina];
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(sql, valores);
     }
@@ -49,26 +52,21 @@ class DB_Notas {
         let sql = "DELETE FROM tb_nota WHERE id = ?";
         let valores = [id];
         let DB = new db();
-        let a = await DB.ExecutaComandoNonQuery(sql, valores);
-        return a;
+        try {
+            const result = await DB.ExecutaComandoNonQuery(sql, valores);
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 
-    async obterNotasAluno(id_aluno, id_disciplina) {
+    async obterNotasAluno(id_aluno, disciplina_id, turma_id) {
 
         let DBPTD = new DB_ProfessorTurmaDisciplina();
-        let DBA = new DB_Aluno();
-        let aluno = await DBA.obter(id_aluno);
-        console.log(id_aluno);
-        console.log(aluno);
-        let turma_disciplina = await DBPTD.listarDisciplinas(aluno[0].turma_id);
-        console.log(turma_disciplina);
-        let id_turma_disciplina = turma_disciplina[0].id;
-
-        if(turma_disciplina[0].disciplina_id == id_disciplina){
-            id_turma_disciplina = turma_disciplina[0].id;
-        }
-
-        let sql = "SELECT * FROM tb_nota WHERE aluno_id = ? AND turma_disciplina_id = ?";
+        let professor_turma_disciplina = await DBPTD.fetchDisciplinaTurmaId(turma_id, disciplina_id);
+        let id_turma_disciplina = professor_turma_disciplina[0].id;
+        let sql = "SELECT * FROM tb_nota WHERE aluno_id = ? AND turma_disciplina_id = ? ORDER BY bimestre";
         let valores = [id_aluno, id_turma_disciplina];
         let DB = new db();
         let rows = await DB.ExecutaComando(sql, valores);
@@ -76,12 +74,22 @@ class DB_Notas {
         return rows;
     }
 
+    async fetchNotas(aluno_id, turma_disciplina_id, bimestre) {
+        let sql = "SELECT * FROM tb_nota WHERE aluno_id = ? AND turma_disciplina_id = ? AND bimestre = ?";
+        let valores = [aluno_id, turma_disciplina_id, bimestre];
+        let DB = new db();
+        let rows = await DB.ExecutaComando(sql, valores);
+        return rows;
+    }
+
+
     toJSON() {
         return {
             id: this.#id,
             id_aluno: this.#id_aluno,
             id_turma_disciplina: this.#id_turma_disciplina,
-            nota: this.#nota
+            nota: this.#nota,
+            bimestre: this.#bimestre
         };
     }
 }

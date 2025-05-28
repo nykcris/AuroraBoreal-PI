@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", function() {
         "Content-Type": "application/json"
       },
       credentials: "include",
+      body: JSON.stringify({
+        aluno_id: document.cookie.split('; ').find(row => row.startsWith('usuarioLogado=')).split('=')[1]
+      })
     })
       .then(res => {
         if (res.ok) {

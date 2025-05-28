@@ -125,6 +125,12 @@ class AlunoController {
     filtro.push(req.body.id_atividade);
     filtro.push(req.cookies.usuarioLogado);
     let update = await DBA.obterResposta(req.body.id_atividade, req.cookies.usuarioLogado);
+    if(update.length > 0){
+        if(update[0].corrigida == 1){
+            res.json({ sucesso: false, mensagem: "A atividade já foi corrigida!" });
+            return;
+        }
+    }
     let file;
     let sucesso;
     if(req.file != null){
@@ -159,7 +165,7 @@ class AlunoController {
         );
         let sucesso = await DBA.gravar();
       }
-      res.redirect("/system/alunos");
+      res.json({ sucesso: true, mensagem: "Resposta enviada com sucesso!" });
     } catch (error) {
         console.error("Erro ao responder atividade:", error);
         return res.status(500).json({
@@ -190,8 +196,13 @@ class AlunoController {
         }
     }
     let data = [];
+    console.log("============================");
+    console.log(turma_disciplinas);
+    console.log("============================");
     for (let i = 0; i < disciplinas.length; i++) {
-        let notas = await DBN.obterNotasAluno(req.cookies.usuarioLogado, turma_disciplinas[i].turma_id, turma_disciplinas[i].disciplina_id);
+      console.log(i);
+      console.log(turma_disciplinas[i].disciplina_id);
+        let notas = await DBN.obterNotasAluno(req.cookies.usuarioLogado, turma_disciplinas[i].disciplina_id, turma_disciplinas[i].turma_id);
         data.push({
             "disciplina_nome":disciplinas[i][0].nome,
             "nota1":notas[0] ? notas[0].valor_nota : 0,
@@ -221,7 +232,7 @@ class AlunoController {
     let aluno = await DBA.obter(req.query.id);
     console.log(aluno);
     console.log(turmas);
-    res.render("Aluno/editar_aluno",{ layout: 'layouts/layout_aluno', aluno , turmas });
+    res.render("Direcao/editar_aluno",{ layout: 'layouts/layout', aluno , turmas });
 
   }
 
@@ -277,12 +288,12 @@ class AlunoController {
     let DBA = new DB_Aluno();
     let aluno = await DBA.obter(req.query.id);
     let DBPTD = new DB_ProfessorTurmaDisciplina();
-    if(!aluno === undefined){
-      let disciplinas = await DBPTD.listarDisciplinas(aluno[0].turma_id);
+    let disciplinas;
+    if(aluno.length > 0){
+      disciplinas = await DBPTD.listarDisciplinas(aluno[0].turma_id);
     }else{
-      res.send([]);
+      return;
     }
-    console.log(disciplinas);
     res.send(disciplinas);
   }
   
@@ -290,6 +301,18 @@ class AlunoController {
     let DBA = new DB_Aluno();
     let alunos = await DBA.obter(req.query.id);
     res.send(alunos);
+  }
+
+  async fetchRespostasAtividade(req, res) {
+    let DBR = new DB_Resposta();
+    let respostas = await DBR.fetchRespostasAtividade(req.query.aluno, req.query.materia);
+    res.send(respostas);
+  }
+
+  async fetchNotas(req, res) {
+    let DBN = new DB_Notas();
+    let notas = await DBN.fetchNotas(req.query.aluno, req.query.materia, req.query.bimestre);
+    res.send(notas);
   }
 
 }

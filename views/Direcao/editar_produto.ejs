@@ -1,0 +1,59 @@
+<body>
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Editar Produto</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">Editar Produto</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section dashboard">
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Editar Produto</h5>
+                        <form id="form-produto" method="POST" action="/system/produto/atualizar">
+                            <input type="hidden" name="id" value="<%=produto[0].id%>">
+                            <div class="mb-3">
+                                <label for="nome-produto" class="form-label">Nome do Produto</label>
+                                <input type="text" class="form-control" name="produto_nome" required value="<%=produto[0].nome_produto%>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="descricao-produto" class="form-label">Descrição</label>
+                                <textarea class="form-control" name="produto_descricao" required><%=produto[0].descricao%></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantidade-produto" class="form-label">Quantidade</label>
+                                <input type="number" class="form-control quantidade" name="produto_quantidade" required value="<%=produto[0].quantidade%>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="valor-produto" class="form-label">Valor</label>
+                                <input type="number" class="form-control valor" name="produto_valor" required value="<%=produto[0].valor%>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipo-produto" class="form-label">Tipo</label>
+                                <select class="form-select" name="produto_tipo" required>
+                                    <option value="Alimentos" <%=produto[0].tipo == 'Alimentos' ? 'selected' : ''%>>Alimentos</option>
+                                    <option value="Material para sala de aula" <%=produto[0].tipo == 'Material para sala de aula' ? 'selected' : ''%>>Material para sala de aula</option>
+                                    <option value="Material de limpeza" <%=produto[0].tipo == 'Material de limpeza' ? 'selected' : ''%>>Material de limpeza</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Atualizar Produto</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+
+
+
+
+</body>
+
+<script src="/js/direcao.js"></script>

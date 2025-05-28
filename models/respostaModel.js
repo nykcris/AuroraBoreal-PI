@@ -12,6 +12,7 @@ class DB_Resposta {
     #nota
     #comentario_professor
     #nome_aluno
+    #corrigida
 
     get res_id() { return this.#res_id; }
     set res_id(value) { this.#res_id = value; }
@@ -31,10 +32,12 @@ class DB_Resposta {
     set comentario_professor(value) { this.#comentario_professor = value; }
     get nome_aluno() { return this.#nome_aluno; }
     set nome_aluno(value) { this.#nome_aluno = value; }
+    get corrigida() { return this.#corrigida; }
+    set corrigida(value) { this.#corrigida = value; }
 
 
 
-    constructor(res_id, id_atividade, id_aluno, resposta, anexo_resposta, data_envio, nota, comentario_professor, nome_aluno) {
+    constructor(res_id, id_atividade, id_aluno, resposta, anexo_resposta, data_envio, nota, comentario_professor, nome_aluno, corrigida) {
         this.#res_id = res_id;
         this.#id_atividade = id_atividade;
         this.#id_aluno = id_aluno;
@@ -44,6 +47,7 @@ class DB_Resposta {
         this.#nota = nota;
         this.#comentario_professor = comentario_professor;
         this.#nome_aluno = nome_aluno;
+        this.#corrigida = corrigida;
     }
 
 
@@ -79,7 +83,8 @@ class DB_Resposta {
                 resp['nota'],
                 resp['comentario_professor'],
                 resp['anexo_resposta'],
-                aluno
+                aluno,
+                resp['corrigida']
             ));
         });
 
@@ -113,16 +118,34 @@ class DB_Resposta {
         let sql = "DELETE FROM tb_resposta WHERE res_id = ?";
         let valores = [id];
         let DB = new db();
-        let a = await DB.ExecutaComandoNonQuery(sql, valores);
-        return a;
+        try {
+            const result = await DB.ExecutaComandoNonQuery(sql, valores);
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
     
     async atualizar() {
-        let sql = "UPDATE tb_resposta SET id_atividade = ?, id_aluno = ?, resposta = ?, data_envio = ?, nota = ?, comentario_professor = ?, anexo_resposta = ? WHERE res_id = ?";
-        let valores = [this.#id_atividade, this.#id_aluno, this.#resposta, this.#data_envio, this.#nota, this.#comentario_professor, this.#anexo_resposta, this.#res_id];
+        let sql = "UPDATE tb_resposta SET id_atividade = ?, id_aluno = ?, resposta = ?, data_envio = ?, nota = ?, comentario_professor = ?, anexo_resposta = ?, corrigida = ? WHERE res_id = ?";
+        let valores = [this.#id_atividade, this.#id_aluno, this.#resposta, this.#data_envio, this.#nota, this.#comentario_professor, this.#anexo_resposta, this.#corrigida, this.#res_id];
         let DB = new db();
         return await DB.ExecutaComandoNonQuery(sql, valores);
     }
+
+    async fetchRespostas(aluno_id, materia_id) {
+        let DB = new db();
+        let rows = await DB.ExecutaComando("SELECT r.*, a.aluno_nome, at.titulo FROM tb_resposta r JOIN tb_aluno a ON r.id_aluno = a.id JOIN tb_atividade at ON r.id_atividade = at.ati_id WHERE r.id_aluno = ? AND at.id_turma_disciplina_professor = ?", [aluno_id, materia_id]);
+        return rows;
+    }
+
+    async fetchRespostasAtividade(aluno_id, materia_id) {
+        let DB = new db();
+        let rows = await DB.ExecutaComando("SELECT r.*, a.aluno_nome, at.titulo, at.tipo, at.bimestre, at.peso, tdp.status FROM tb_resposta r JOIN tb_aluno a ON r.id_aluno = a.id JOIN tb_atividade at ON r.id_atividade = at.ati_id JOIN tb_turma_disciplina_professor tdp ON at.id_turma_disciplina_professor = tdp.id WHERE r.id_aluno = ? AND at.id_turma_disciplina_professor = ?", [aluno_id, materia_id]);
+        return rows;
+    }
+
 
     toJSON() {
         return {
@@ -134,7 +157,8 @@ class DB_Resposta {
             nota: this.#nota,
             comentario_professor: this.#comentario_professor,
             anexo_resposta: this.#anexo_resposta,
-            nome_aluno: this.#nome_aluno
+            nome_aluno: this.#nome_aluno,
+            corrigida: this.#corrigida
         };
     }
 

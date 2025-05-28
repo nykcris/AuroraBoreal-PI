@@ -18,10 +18,10 @@ class DisciplinaController {
         let sucesso = await DBD.excluir(req.body.id);
         if (sucesso) {
             console.log("Sucesso ao deletar disciplina");
-            res.send("Sucesso ao deletar disciplina");
+            res.json({ sucesso: true, mensagem: "Disciplina deletada com sucesso!" });
         } else {
             console.log("Erro ao deletar disciplina");
-            res.send("Erro ao deletar disciplina");
+            res.json({ sucesso: false, mensagem: "Erro ao deletar disciplina" });
         }
     }
 

@@ -74,9 +74,10 @@
                 <%= atividade[0].titulo %>
               </h3>
               <div class="mb-3"></div>
-              <p>
-                <%= atividade[0].descricao %>
-              </p>
+              <div id="descricao-atividade">
+
+              </div>
+                
 
             </div>
             <input type="hidden" name="id_atividade" id="id_atividade" value="<%= atividade[0].ati_id %>">
@@ -124,6 +125,32 @@
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
+
+  <script>
+    <% if (typeof atividade != 'undefined' ) { %>
+    let atividadeDesc = "<%= atividade[0].descricao %>";
+    <% } %>;
+
+    let desc = '';    
+    if(atividadeDesc != null){    
+      desc = atividadeDesc.replace(/<br\s*\/?>/g, '\n');    
+      desc = desc.replace(/&nbsp;/g, ' ');    
+      desc = desc.replace(/&lt;/g, '<');    
+      desc = desc.replace(/&gt;/g, '>');    
+      desc = desc.replace(/&amp;/g, '&');    
+      desc = desc.replace(/&quot;/g, '"');    
+      desc = desc.replace(/&apos;/g, "'");    
+      desc = desc.replace(/&cent;/g, '¢');    
+      desc = desc.replace(/&pound;/g, '£');    
+      desc = desc.replace(/&yen;/g, '¥');    
+      desc = desc.replace(/&euro;/g, '€');    
+      desc = desc.replace(/&copy;/g, '©');    
+      desc = desc.replace(/&reg;/g, '®');
+    }
+    document.getElementById('descricao-atividade').innerHTML = desc;
+
+  </script>
+
   <script src="assets/js/main.js"></script>
 
   <script src="/js/respostaPost.js"></script>

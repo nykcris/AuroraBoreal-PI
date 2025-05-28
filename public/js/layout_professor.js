@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch(`/system/professores/fetchTurmasProfessor?professor=${usuarioLogado}`)
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             const turmas = [...new Map(data.map(item => [item.turma_id, item])).values()];
             const turmatable = document.getElementById('turmas');
             turmatable.innerHTML = '';
@@ -28,9 +29,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     </li>`;
                 turmatable.appendChild(turmaElement);
 
-                fetch(`/system/professores/fetchDisciplinasProfessor?turma=${turma.turma_id}`)
+                fetch(`/system/professores/fetchDisciplinasProfessor?turma=${turma.turma_id}&professor=${usuarioLogado}`)
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data);
                         const disciplinas = data;
                         const disciplinastable = document.getElementById(`disciplinas-${turma.turma_id}`);
                         disciplinastable.innerHTML = '';
@@ -38,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             const disciplinaElement = document.createElement('li');
                             disciplinaElement.innerHTML = `<li class="nav-item">
                                     <a class="nav-link collapsed" href="/system/professores/materias?turma=${turma.turma_id}&disciplina=${disciplina.id}">
-                                        <i class="bi bi-box-seam"></i><span>${disciplina.nome}</span>
+                                        <i class="bi bi-box-seam"></i><span>${disciplina.disciplina_nome}</span>
                                     </a>
                                 </li>`;
                             disciplinastable.appendChild(disciplinaElement);

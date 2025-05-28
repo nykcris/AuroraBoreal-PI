@@ -18,7 +18,7 @@ class DB_Turma {
 
     async listar() {
         let DB = new db();
-        let rows = await DB.ExecutaComando("SELECT * FROM tb_turma", []);
+        let rows = await DB.ExecutaComando("SELECT t.id, t.nome, s.nome AS serie_nome FROM tb_turma t JOIN tb_serie s ON t.serie_id = s.id", []);
         return rows
     }
 
@@ -49,10 +49,16 @@ class DB_Turma {
 
     async excluir(id) {
         let DB = new db();
-        return await DB.ExecutaComandoNonQuery(
-            "DELETE FROM tb_turma WHERE id = ?",
-            [id]
-        );
+        try {
+            const result = await DB.ExecutaComandoNonQuery(
+                "DELETE FROM tb_turma WHERE id = ?",
+                [id]
+            );
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 
     toJSON() {
