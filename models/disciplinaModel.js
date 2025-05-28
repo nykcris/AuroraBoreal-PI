@@ -28,6 +28,22 @@ class DB_Disciplina {
         return rows;
     }
 
+    async atualizar() {
+        let DB = new db();
+        return await DB.ExecutaComandoNonQuery(
+            "UPDATE tb_disciplina SET nome = ? WHERE id = ?",
+            [this.#nome, this.#id]
+        );
+    }
+
+    async excluir(id) {
+        let DB = new db();
+        return await DB.ExecutaComandoNonQuery(
+            "DELETE FROM tb_disciplina WHERE id = ?",
+            [id]
+        );
+    }
+
     toJSON() {
         return {
             id: this.#id,

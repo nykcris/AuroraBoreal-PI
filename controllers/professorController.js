@@ -230,6 +230,39 @@ class ProfessorController {
         res.render("Professor/professor_materias",{ layout: 'layouts/layout_professor'});
     }
 
+    async deleteProfessor(req, res){
+        let DBP = new DB_Professor();
+        let sucesso = await DBP.excluir(req.body.id);
+        if (sucesso) {
+            console.log("Sucesso ao deletar professor");
+            res.send("Sucesso ao deletar professor");
+        } else {
+            console.log("Erro ao deletar professor");
+            res.send("Erro ao deletar professor");
+        }
+    }
+
+    async editarProfessor(req, res) {
+        let DBP = new DB_Professor();
+        let professor = await DBP.obter(req.query.id);
+        res.render("Professor/editar_professor", { layout: 'layouts/layout', professor });
+    }
+
+    async atualizarProfessor(req, res) {
+        let DBP = new DB_Professor();
+        let professor = new DB_Professor(req.body.id, req.body.prof_nome, req.body.email, req.body.prof_cpf, req.body.senha, req.body.prof_salario, req.body.telefone);
+        let sucesso = await professor.atualizar();
+        if (sucesso) {
+            console.log("Sucesso ao atualizar professor");
+            res.redirect("/system/direcao");
+        } else {
+            console.log("Erro ao atualizar professor");
+            res.send("Erro ao atualizar professor");
+        }
+    }
+
+
+
 
 
     //========== Fetchs ==========

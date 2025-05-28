@@ -5,6 +5,8 @@ const DB_Disciplina = require("../models/disciplinaModel");
 const DB_Turma = require("../models/turmaModel");
 const DB_Serie = require("../models/serieModel");
 const DB_Sala = require("../models/salaModel");
+const DB_Produto = require("../models/produtoModel");
+const DB_ProfessorTurmaDisciplina = require("../models/professorTurmaDisciplinaModel");
 
 
 class SystemController {
@@ -39,13 +41,15 @@ class SystemController {
         const listaAlunos = await db_aluno.listar();
         const salas = await db_sala.listar();
         const turmas_salas = await db_sala.listarAssociacao();
+        const disciplinas = await db_disciplina.listar();
     
         res.render("Direcao/direcao_index", {
             layout: 'layouts/layout',
             alunos: listaAlunos,
             professores,
             salas,
-            turmas_salas
+            turmas_salas,
+            disciplinas
         });
     }
 
@@ -125,12 +129,66 @@ class SystemController {
         }
     }
 
+    async cadastrarProduto(req, res) {
+        let DBP = new DB_Produto();
+        console.log(req.body);
+        let produto = new DB_Produto(0, req.body.nome, req.body.descricao, req.body.quantidade, req.body.valor, req.body.tipo);
+        let sucesso = await produto.cadastrar();
+        if (sucesso) {
+            console.log("Sucesso ao cadastrar produto");
+            res.json({ sucesso: true, mensagem: "Produto cadastrado com sucesso!" });
+        } else {
+            console.log("Erro ao cadastrar produto");
+            res.json({ sucesso: false, mensagem: "Erro ao cadastrar produto" });
+        }
+    }
+
+    async deleteProduto(req, res) {
+        let DBP = new DB_Produto();
+        let sucesso = await DBP.excluir(req.body.id);
+        if (sucesso) {
+            console.log("Sucesso ao deletar produto");
+            res.json({ sucesso: true, mensagem: "Produto deletado com sucesso!" });
+        } else {
+            console.log("Erro ao deletar produto");
+            res.json({ sucesso: false, mensagem: "Erro ao deletar produto" });
+        }
+    }
+
+    async editarProduto(req, res) {
+        let DBP = new DB_Produto();
+        let produto = await DBP.obter(req.query.id);
+        res.render("Produto/editar_produto", { layout: 'layouts/layout', produto });
+    }
+
+    async atualizarProduto(req, res) {
+        let DBP = new DB_Produto();
+        let produto = new DB_Produto(req.body.id, req.body.produto_nome, req.body.produto_descricao, req.body.produto_quantidade, req.body.produto_valor, req.body.produto_tipo);
+        let sucesso = await produto.atualizar();
+        if (sucesso) {
+            console.log("Sucesso ao atualizar produto");
+            res.redirect("/system/direcao");
+        } else {
+            console.log("Erro ao atualizar produto");
+            res.send("Erro ao atualizar produto");
+        }
+    }
+
+    async deleteProfessorTurmaDisciplina(req, res) {
+        let DBP = new DB_ProfessorTurmaDisciplina();
+        let sucesso = await DBP.excluir(req.body.id);
+        if (sucesso) {
+            console.log("Sucesso ao deletar professor turma disciplina");
+            res.json({ sucesso: true, mensagem: "Associação deletada com sucesso!" });
+        } else {
+            console.log("Erro ao deletar professor turma disciplina");
+            res.json({ sucesso: false, mensagem: "Erro ao deletar associação" });
+        }
+    }
 
 
 
 
-
-    
 
     //======== Area de Fetch para Nome e Outros =========
 
@@ -179,6 +237,48 @@ class SystemController {
     async fetchNomeSala(req, res) {
         let DBS = new DB_Sala();
         let salas = await DBS.obter(req.query.id);
+        res.send(salas);
+    }
+
+    async fetchTurmaSala(req, res) {
+        let DBS = new DB_Sala();
+        let turma_sala = await DBS.listarAssociacao();
+        res.send(turma_sala);
+    }
+
+    async fetchProdutos(req, res) {
+        let DBP = new DB_Produto();
+        let produtos = await DBP.listar();
+        res.send(produtos);
+    }
+
+    async fetchDisciplinas(req, res) {
+        let DBD = new DB_Disciplina();
+        let disciplinas = await DBD.listar();
+        res.send(disciplinas);
+    }
+
+    async fetchSerie(req, res) {
+        let DBS = new DB_Serie();
+        let series = await DBS.listar();
+        res.send(series);
+    }
+
+    async fetchAlunos(req, res) {
+        let DBA = new DB_Aluno();
+        let alunos = await DBA.listar();
+        res.send(alunos);
+    }
+
+    async fetchProfessores(req, res) {
+        let DBP = new DB_Professor();
+        let professores = await DBP.listar();
+        res.send(professores);
+    }
+
+    async fetchSalas(req, res) {
+        let DBS = new DB_Sala();
+        let salas = await DBS.listar();
         res.send(salas);
     }
 

@@ -184,28 +184,31 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Registro de Compras/Gastos</h5>
-            <form class="row g-3" id="formRegistro">
+            <div class="row g-3" id="formRegistro">
               <div class="col-md-12">
-                <label for="inputName5" class="form-label">Nome do Produto:</label>
-                <input type="text" class="form-control" id="inputName5" required>
+                <label for="nome-produto" class="form-label">Nome do Produto:</label>
+                <input type="text" class="form-control" id="nome-produto" required>
                 <span id="nameError" style="color:red; display:none;">Nome do produto é obrigatório.</span>
               </div>
               <div class="col-md-6">
                 <label for="descricao" class="form-label">Descrição: </label>
-                <input type="text" class="form-control" id="descricao" required>
-                <span id="descError" style="color:red; display:none;">Descrição deve ter entre 20 e 200
+                <input type="text" class="form-control" id="descricao-produto" required>
+                <span id="descricaoError" style="color:red; display:none;">Descrição deve ter entre 20 e 200
                   caracteres.</span>
               </div>
               <div class="col-md-6">
                 <label for="quantidade" class="form-label">Quantidade: </label>
-                <input type="number" class="form-control" id="quantidade" required>
-                <span id="quantidadeError" style="color:red; display:none;">Quantidade não pode ser negativa.</span>
+                <input type="number" class="form-control quantidade" id="quantidade-produto" min="1" max="999" required>
+                <span id="quantidadeError" style="color:red; display:none;">Quantidade não pode ser negativa ou maior
+                  que 999.</span>
               </div>
 
               <div class="col-md-6">
                 <label for="valor-gasto">Valor (R$):</label>
-                <input type="number" class="form-control" id="valor-gasto" name="valor-gasto" step="0.01" required>
-                <span id="valorError" style="color:red; display:none;">Valor não pode ser negativo.</span><br><br>
+                <input type="number" class="form-control valor" id="valor-gasto-produto" name="valor-gasto" step="0.01"
+                  min="0" max="9999.99" required>
+                <span id="valorError" style="color:red; display:none;">Valor não pode ser negativo ou maior que
+                  9999,99.</span><br><br>
               </div>
 
               <div class="col-md-4">
@@ -219,15 +222,17 @@
               </div>
 
               <div class="text-center">
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" id="validar-produto-button" class="btn btn-primary">Enviar</button>
                 <button type="reset" class="btn btn-secondary">Limpar</button>
               </div>
-            </form>
+            </div>
+            <div id="produto-sucesso" style="display:none;color:green;">Produto adicionado com sucesso!</div>
+            <div id="produto-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-body">
+          <div class="card-body" id="produtos-cadastrados">
             <h5 class="card-title mt-4">Registro de Produtos</h5>
             <h6>Total gasto: R$ <span id="totalGasto">0,00</span></h6>
             <table class="table table-striped">
@@ -238,38 +243,11 @@
                   <th scope="col">Quantidade</th>
                   <th scope="col">Tipo de produto</th>
                   <th scope="col">Valor</th>
+                  <th scope="col">Data de registro</th>
                   <th scope="col">Ações</th>
                 </tr>
               </thead>
               <tbody id="tabelaProdutos">
-                <% if (typeof produtos !='undefined' ) { %>
-                  <% produtos.forEach(produto=> { %>
-                    <tr>
-                      <th scope="row">
-                        <%= produto.id %>
-                      </th>
-                      <td>
-                        <%= produto.nome %>
-                      </td>
-                      <td>
-                        <%= produto.quantidade %>
-                      </td>
-                      <td>
-                        <%= produto.tipo %>
-                      </td>
-                      <td>
-                        <%= produto.valor %>
-                      </td>
-                      <td>
-                        <button type="button" class="btn btn-warning btn-sm button-edit-produto"
-                          value="<%= produto.id %>">Editar</button>
-                        <button type="button" class="btn btn-danger btn-sm button-delete-produto"
-                          value="<%= produto.id %>">Excluir</button>
-                      </td>
-                    </tr>
-                    <% }) %>
-
-                      <% } %>
               </tbody>
             </table>
           </div>
@@ -368,432 +346,176 @@
             <div id="matricula-sucesso" style="display:none;color:green;">Matrícula efetuada com sucesso!</div>
             <div id="matricula-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
           </div>
-        </div>
-        <!-- fim cadastro alunos -->
-
-            <a href="#" data-bs-toggle="collapse" data-bs-target="#alunos-cadastrados"><h5 class="card-title mt-4">Alunos Cadastrados <i class="bi bi-arrow-down-short"></i></h5></a>
-
+          <div>
+            <a href="#" data-bs-toggle="collapse" data-bs-target="#alunos-cadastrados">
+              <h5 class="card-title mt-4">Alunos Cadastrados <i class="bi bi-arrow-down-short"></i></h5>
+            </a>
 
             <div class="collapse" id="alunos-cadastrados">
               <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+
+                    <th scope="col">Nome</th>
+                    <th scope="col">cpf aluno </th>
+                    <th scope="col">turma</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">responsavel</th>
+                    <th scope="col">telefone</th>
+                    <th scope="col">ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+        <!-- fim cadastro alunos -->
+
+
+
+
+      </div>
+      </div>
+      <!-- fim cadastro alunos -->
+
+
+      <!--  table alunos -->
+      <!--fim do formulário-->
+      <!-- fim Table alunos  -->
+      <!--Adicionar turmas-->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Adicionar Série</h5>
+          <form class="row g-3" id="formRegistro">
+            <div class="col-md-12">
+              <label for="inputName5" class="form-label">Nome da série:</label>
+              <input type="text" class="form-control" id="inputName5" required>
+              <span id="nameError" style="color:red; display:none;">Nome da série é obrigatório.</span>
+            </div>
+
+            <div class="col-md-6">
+
+              <label for="ano" class="form-label">Ano:</label>
+              <input type="number" id="ano" name="ano" min="1900" max="2099" step="1">
+              <span id="anoError" style="color:red; display:none;">Ano é obrigatório.</span>
+            </div>
+
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" id="validar-serie-button">Adicionar Série</button>
+              <button type="reset" class="btn btn-secondary">Limpar</button>
+            </div>
+            <div id="serie-sucesso" style="display:none;color:green;">Série adicionada com sucesso!</div>
+            <div id="serie-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+          </form>
+
+          <a href="#" data-bs-toggle="collapse" data-bs-target="#series-cadastradas">
+            <h5 class="card-title mt-4">Series Cadastradas <i class="bi bi-arrow-down-short"></i></h5>
+          </a>
+
+          <div class="collapse" id="series-cadastradas">
+            <table class="table table-striped">
               <thead>
                 <tr>
                   <th scope="col">#</th>
 
                   <th scope="col">Nome</th>
-                  <th scope="col">cpf aluno </th>
-                  <th scope="col">turma</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">responsavel</th>
-                  <th scope="col">telefone</th>
-                  <th scope="col">ações</th>
+                  <th scope="col">Ano</th>
+                  <th scope="col">Ações</th>
                 </tr>
               </thead>
               <tbody>
-                <% alunos.forEach((aluno, index)=> { %>
-                  <tr>
-                    <th scope="row">
-                      <%= index + 1 %>
-                    </th>
-                    <td>
-                      <%= aluno.aluno_nome %>
-                    </td>
-                    <td>
-                      <%= aluno.aluno_cpf %>
-                    </td>
-                    <td>
-                      <%= aluno.turma_nome %>
-                    </td> <!-- Aqui é o nome da turma -->
-                    <td>
-                      <%= aluno.email %>
-                    </td>
-                    <td>
-                      <%= aluno.responsavel_nome %>
-                    </td>
-                    <td>
-                      <%= aluno.responsavel_tel %>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-warning btn-sm button-edit-aluno"
-                        value="<%= aluno.id %>">Editar</button>
-                      <button type="button" class="btn btn-danger btn-sm button-delete-aluno"
-                        value="<%= aluno.id %>">Excluir</button>
+              </tbody>
 
-                  </tr>
-                  <% }) %>
+            </table>
+
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Adicionar Turma</h5>
+          <div class="row g-3" id="formRegistro">
+            <div class="col-md-12">
+              <label for="inputName5" class="form-label">Nome da turma:</label>
+              <input type="text" class="form-control" id="inputName5" required>
+              <span id="nameError" style="color:red; display:none;">Nome da turma é obrigatório.</span>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Serie" class="form-label">Serie: </label>
+              <select class="form-select serie-select" id="Serie" name="Serie">
+                <option value="">Não há serie cadastrada</option>
+              </select>
+              <span id="serieError" style="color:red; display:none;">Serie é obrigatório.</span>
+            </div>
+
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" id="validar-turma-button">Adicionar Turma</button>
+            </div>
+            <div id="turma-sucesso" style="display:none;color:green;">Turma adicionada com sucesso!</div>
+            <div id="turma-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+          </div>
+          <a href="#" data-bs-toggle="collapse" data-bs-target="#turmas-cadastradas">
+            <h5 class="card-title mt-4">Turmas Cadastradas <i class="bi bi-arrow-down-short"></i></h5>
+          </a>
+
+          <div class="collapse" id="turmas-cadastradas">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+
+                  <th scope="col">Nome</th>
+                  <th scope="col">Serie</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
 
               </tbody>
 
             </table>
 
-            </div>
-
           </div>
+
+
+
         </div>
-        <!-- fim cadastro alunos -->
+      </div>
 
-
-        <!--  table alunos -->
-        <!--fim do formulário-->
-        <!-- fim Table alunos  -->
-<!--Adicionar turmas-->
-            <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Adicionar Série</h5>
-            <form class="row g-3" id="formRegistro">
-              <div class="col-md-12">
-                <label for="inputName5" class="form-label">Nome da série:</label>
-                <input type="text" class="form-control" id="inputName5" required>
-                <span id="nameError" style="color:red; display:none;">Nome da série é obrigatório.</span>
-              </div>
-
-              <div class="col-md-6">
-
-                <label for="ano" class="form-label">Ano:</label>
-                <input type="number" id="ano" name="ano" min="1900" max="2099" step="1">
-                <span id="anoError" style="color:red; display:none;">Ano é obrigatório.</span>                
-              </div>
-
-
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary" id="validar-serie-button">Adicionar Série</button>
-                <button type="reset" class="btn btn-secondary">Limpar</button>
-              </div>
-              <div id="serie-sucesso" style="display:none;color:green;">Série adicionada com sucesso!</div>
-              <div id="serie-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-            </form>
-
-            <a href="#" data-bs-toggle="collapse" data-bs-target="#series-cadastradas"><h5 class="card-title mt-4">Series Cadastradas <i class="bi bi-arrow-down-short"></i></h5></a>
-
-            <div class="collapse" id="series-cadastradas">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-
-                    <th scope="col">Nome</th>
-                    <th scope="col">Ano</th>
-                    <th scope="col">Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (typeof series !='undefined' ) { %>
-                    <% series.forEach(serie=> { %>
-                      <tr>
-                        <th scope="row">
-                          <%= serie.id %>
-                        </th>
-                        <td>
-                          <%= serie.nome %>
-                        </td>
-                        <td>
-                          <%= serie.ano %>
-                        </td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-sm button-edit-serie"
-                            value="<%= serie.id %>">Editar</button>
-                          <button type="button" class="btn btn-danger btn-sm button-delete-serie"
-                            value="<%= serie.id %>">Excluir</button>
-
-                        </td>
-                      </tr>
-                      <% }) %>
-                        <% } %>
-
-                </tbody>
-
-              </table>
-
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Adicionar Sala</h5>
+          <div class="row g-3" id="formRegistro">
+            <div class="col-md-12">
+              <label for="nome-sala" class="form-label">Nome da sala:</label>
+              <input type="text" class="form-control" id="nome-sala" required>
+              <span id="nameError" style="color:red; display:none;">Nome da sala é obrigatório.</span>
             </div>
-
-
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Adicionar Turma</h5>
-            <div class="row g-3" id="formRegistro">
-              <div class="col-md-12">
-                <label for="inputName5" class="form-label">Nome da turma:</label>
-                <input type="text" class="form-control" id="inputName5" required>
-                <span id="nameError" style="color:red; display:none;">Nome da turma é obrigatório.</span>
-              </div>
-
-              <div class="col-md-6">
-                <label for="Serie" class="form-label">Serie: </label>
-                <select class="form-select serie-select" id="Serie" name="Serie">
-                  <option value="">Não há serie cadastrada</option>
-                </select>
-                <span id="serieError" style="color:red; display:none;">Serie é obrigatório.</span>                
-              </div>
-
-
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary" id="validar-turma-button">Adicionar Turma</button>
-              </div>
-              <div id="turma-sucesso" style="display:none;color:green;">Turma adicionada com sucesso!</div>
-              <div id="turma-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-            </div>
-            <a href="#" data-bs-toggle="collapse" data-bs-target="#turmas-cadastradas"><h5 class="card-title mt-4">Turmas Cadastradas <i class="bi bi-arrow-down-short"></i></h5></a>
-
-            <div class="collapse" id="turmas-cadastradas">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-
-                    <th scope="col">Nome</th>
-                    <th scope="col">Serie</th>
-                    <th scope="col">Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (typeof turmas !='undefined' ) { %>
-                    <% turmas.forEach(turma=> { %>
-                      <tr>
-                        <th scope="row">
-                          <%= turma.id %>
-                        </th>
-                        <td>
-                          <%= turma.nome %>
-                        </td>
-                        <td>
-                          <% if (typeof series !='undefined' ) { %>
-                            <% series.forEach(serie=> { %>
-                              <% if (serie.id == turma.serie_id) { %>
-                                <%= serie.nome %>
-                              <% } %>
-                            <% }) %>
-                          <% } %>
-                        </td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-sm button-edit-turma"
-                            value="<%= turma.id %>">Editar</button>
-                          <button type="button" class="btn btn-danger btn-sm button-delete-turma"
-                            value="<%= turma.id %>">Excluir</button>
-
-                        </td>
-                      </tr>
-                      <% }) %>
-                        <% } %>
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-
-
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Adicionar Sala</h5>
-            <div class="row g-3" id="formRegistro">
-              <div class="col-md-12">
-                <label for="nome-sala" class="form-label">Nome da sala:</label>
-                <input type="text" class="form-control" id="nome-sala" required>
-                <span id="nameError" style="color:red; display:none;">Nome da sala é obrigatório.</span>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary" id="validar-sala-button">Adicionar Sala</button>
-              </div>
-            </div>
-            <div id="sala-sucesso" style="display:none;color:green;">Sala adicionada com sucesso!</div>
-            <div id="sala-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-
-            <a href="#" data-bs-toggle="collapse" data-bs-target="#salas-cadastradas"><h5 class="card-title mt-4">Salas Cadastradas <i class="bi bi-arrow-down-short"></i></h5></a>
-
-            <div class="collapse" id="salas-cadastradas">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-
-                    <th scope="col">Nome</th>
-                    <th scope="col">Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (typeof salas !='undefined' ) { %>
-                    <% salas.forEach(sala=> { %>
-                      <tr>
-                        <th scope="row">
-                          <%= sala.id %>
-                        </th>
-                        <td>
-                          <%= sala.nome %>
-                        </td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-sm button-edit-sala"
-                            value="<%= sala.id %>">Editar</button>
-                          <button type="button" class="btn btn-danger btn-sm button-delete-sala"
-                            value="<%= sala.id %>">Excluir</button>
-
-                        </td>
-                      </tr>
-                      <% }) %>
-                        <% } %>
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-          </div>
-        </div>
-        </div>
-
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Associar turma a sala</h5>
-            <h5>escolha a turma</h5>
-            <select class="form-select turma-select" id="turma-sala-select" name="turma">
-              <% if (typeof turmas !='undefined' ) { %>
-                <% turmas.forEach(turma=> { %>
-                  <option value="<%= turma.id %>"><%= turma.nome %></option>
-                <% }) %>
-              <% } %>
-            </select>
-            <h5>escolha a sala</h5>
-            <select class="form-select " id="sala-select" name="sala">
-              <% if (typeof salas !='undefined' ) { %>
-                <% salas.forEach(sala=> { %>
-                  <option value="<%= sala.id %>"><%= sala.nome %></option>
-                <% }) %>
-              <% } %>
-            </select>
-            <div class="m-3"></div>
             <div class="text-center">
-              <button type="button" class="btn btn-primary" id="validar-turma-sala-button">Associar</button>
+              <button type="submit" class="btn btn-primary" id="validar-sala-button">Adicionar Sala</button>
             </div>
-
-            <div id="turma-sala-sucesso" style="display:none;color:green;">Associação realizada com sucesso!</div>
-            <div id="turma-sala-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-
-            <a href="#" data-bs-toggle="collapse" data-bs-target="#turmas-salas-cadastradas"> <h5 class="card-title mt-4">Turmas e Salas Cadastradas <i class="bi bi-arrow-down-short"></i></h5></a>
-
-            <div class="collapse" id="turmas-salas-cadastradas">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-
-                    <th scope="col">Turma</th>
-                    <th scope="col">Sala</th>
-                    <th scope="col">Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (typeof turmas_salas !='undefined' ) { %>
-                    <% turmas_salas.forEach(sala => { %>
-                      <tr>
-                        <th scope="row">
-                          <%= sala.id %>
-                        </th>
-                        <td>
-                          <%= sala.turma_nome %>
-                        </td>
-                        <td>
-                          <%= sala.nome %>
-                        </td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-sm button-edit-turma-sala"
-                            value="<%= sala.id %>">Editar</button>
-                          <button type="button" class="btn btn-danger btn-sm button-delete-turma-sala"
-                            value="<%= sala.id %>">Excluir</button>
-
-                        </td>
-                      </tr>
-                      <% }) %>
-                        <% } %>
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-
-
           </div>
-        </div>
+          <div id="sala-sucesso" style="display:none;color:green;">Sala adicionada com sucesso!</div>
+          <div id="sala-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
 
+          <a href="#" data-bs-toggle="collapse" data-bs-target="#salas-cadastradas">
+            <h5 class="card-title mt-4">Salas Cadastradas <i class="bi bi-arrow-down-short"></i></h5>
+          </a>
 
-
-        </div>
-
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Adicionar Disciplina</h5>
-            <form class="row g-3" id="formRegistro">
-              <div class="col-md-12">
-                <label for="inputName5" class="form-label">Nome da disciplina:</label>
-                <input type="text" class="form-control" id="inputName5" required>
-                <span id="nameError" style="color:red; display:none;">Nome da disciplina é obrigatório.</span>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary" id="validar-disciplina-button">Adicionar
-                  disciplina</button>
-              </div>
-            </div>
-            <div id="disciplina-sucesso" style="display:none;color:green;">Disciplina adicionada com sucesso!</div>
-            <div id="disciplina-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-
-            <a href="#" data-bs-toggle="collapse" data-bs-target="#disciplinas-cadastradas"><h5 class="card-title mt-4">Disciplinas Cadastradas <i class="bi bi-arrow-down-short"></i></h5></a>
-
-            <div class="collapse" id="disciplinas-cadastradas">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-
-                    <th scope="col">Nome</th>
-                    <th scope="col">Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (typeof disciplinas !='undefined' ) { %>
-                    <% disciplinas.forEach(disciplina=> { %>
-                      <tr>
-                        <th scope="row">
-                          <%= disciplina.id %>
-                        </th>
-                        <td>
-                          <%= disciplina.nome %>
-                        </td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-sm button-edit-disciplina"
-                            value="<%= disciplina.id %>">Editar</button>
-                          <button type="button" class="btn btn-danger btn-sm button-delete-disciplina"
-                            value="<%= disciplina.id %>">Excluir</button>
-
-                        </td>
-                      </tr>
-                      <% }) %>
-                        <% } %>
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-
-
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-
-
-            <h5 class="card-title mt-4">Disciplinas</h5>
-
-
+          <div class="collapse" id="salas-cadastradas">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -804,279 +526,360 @@
                 </tr>
               </thead>
               <tbody>
-                <% if (typeof disciplinas != 'undefined') { %>
-                 <% disciplinas.forEach(disciplina => { %>
-                  <tr>
-                    <th scope="row">
-                      <%= disciplina.id %>
-                    </th>
-                    <td>
-                      <%= disciplina.nome %>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-warning btn-sm button-edit-disciplina"
-                        value="<%= disciplina.id %>">Editar</button>
-                      <button type="button" class="btn btn-danger btn-sm button-delete-disciplina"
-                        value="<%= disciplina.id %>">Excluir</button>
-
-                    </td>
-                  </tr>
-                <% }) %>
-                <% } %>
 
               </tbody>
 
             </table>
 
           </div>
+
         </div>
+      </div>
+      </div>
 
-
-
-        
-     <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">
-              <label for="turma-select" class="form-label"> Selecione a Turma:</label>
-              <select class="form-select" id="Turma-select" name="Turma">
-
-                <option value="Matematica">1°A</option>
-                <option value="Portugues">1°B</option>
-                <option value="Ciencia"> 2°A</option>
-
-              </select>
-            </h5>
-            <h5 class="card-title">
-              <label for="turma-select" class="form-label"> Selecione a Disciplina:</label>
-              <select class="form-select" id="Disciplina-select" name="disciplinas">
-
-                <option value="Matematica"> Matematica</option>
-                <option value="Portugues">Portugues</option>
-                <option value="Ciencia"> Ciencias</option>
-
-              </select>
-            </h5>
-
-            <!-- horários table  -->
-            <h5 class="card-title mt-4">Horários</h5>
-            <div class="mb-3">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col" style="width: 100px;">Horário</th>
-                    <th scope="col" style="width: 100px;">Segunda-feira</th>
-                    <th scope="col" style="width: 100px;">Terça-feira</th>
-                    <th scope="col" style="width: 100px;">Quarta-feira</th>
-                    <th scope="col" style="width: 100px;">Quinta-feira</th>
-                    <th scope="col" style="width: 100px;">Sexta-feira</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">7:00 - 7:50</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">7:50 - 8:40</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">8:40 - 9:30</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">9:30 - 10:00</th>
-                    <td colspan="5" style="text-align: center;">Intervalo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">10:00 - 10:50</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">10:50 - 11:40</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">11:40 - 12:25</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Associar turma a sala</h5>
+          <h5>escolha a turma</h5>
+          <select class="form-select turma-select" id="turma-sala-select" name="turma">
+            <% if (typeof turmas !='undefined' ) { %>
+              <% turmas.forEach(turma=> { %>
+                <option value="<%= turma.id %>">
+                  <%= turma.nome %>
+                </option>
+                <% }) %>
+                  <% } %>
+          </select>
+          <h5>escolha a sala</h5>
+          <select class="form-select " id="sala-select" name="sala">
+            <% if (typeof salas !='undefined' ) { %>
+              <% salas.forEach(sala=> { %>
+                <option value="<%= sala.id %>">
+                  <%= sala.nome %>
+                </option>
+                <% }) %>
+                  <% } %>
+          </select>
+          <div class="m-3"></div>
+          <div class="text-center">
+            <button type="button" class="btn btn-primary" id="validar-turma-sala-button">Associar</button>
           </div>
 
+          <div id="turma-sala-sucesso" style="display:none;color:green;">Associação realizada com sucesso!</div>
+          <div id="turma-sala-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
 
-        </div>
+          <a href="#" data-bs-toggle="collapse" data-bs-target="#turmas-salas-cadastradas">
+            <h5 class="card-title mt-4">Turmas e Salas Cadastradas <i class="bi bi-arrow-down-short"></i></h5>
+          </a>
 
-        <!-- Cadastro Professores -->
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">CADASTRAR PROFESSOR</h5>
-            <h3>Dados do Professor</h3>
-            <div class="mb-3">
-              <input type="text" class="form-control" name="nome-prof" placeholder="Nome completo do professor"
-                id="nome-prof" required>
-
-              <small id="nome-prof-error" style="color: red; display: none;">Campo obrigatório</small>
-            </div>
-
-
-
-            <div class="mb-3">
-              <input type="text" name="cpf-prof" id="cpf-prof" class="form-control mask-cpf"
-                placeholder="CPF do Professor" maxlength="14" required oninput="maskCPF(this)">
-
-              <small id="cpf-prof-error" style="color: red; display: none;">CPF inválido</small>
-            </div>
-
-
-
-            <div class="mb-3">
-              <label for="salario">Salário</label>
-              <input type="number" class="form-control" name="salario" id="salario" required>
-              <small id="salario-error" style="color: red; display: none;">Salário inválido</small>
-            </div>
-
-
-            <h3>Dados para contato</h3>
-
-            <div class="mb-3">
-              <input type="text" name="email-prof" id="email-prof" class="form-control" placeholder="Email" required>
-
-              <small id="email-prof-error" style="color: red; display: none;">Email inválido</small>
-            </div>
-
-            <div class="mb-3">
-              <input type="text" name="prof-numero-celular" id="prof-numero-celular" class="form-control"
-                placeholder="Número de celular" maxlength="11" required>
-
-              <small id="celular-error" style="color: red; display: none;">Número inválido</small>
-            </div>
-
-            <h3>Senha para o acesso ao Sistema Acadêmico</h3>
-
-            <div class="mb-3">
-              <input type="password" name="senha-academica" id="senha-academica" class="form-control"
-                placeholder="Crie uma senha" required>
-
-              <small id="senha-error" style="color: red; display: none;">Senha inválida</small>
-            </div>
-
-            <div class="mb-3">
-              <button type="button" class="btn btn-primary" id="validar-professor-button">Efetuar Registro</button>
-            </div>
-
-            <div id="registro-sucesso" style="display:none;color:green;">Registro efetuada com sucesso!</div>
-            <div id="registro-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-
-
-            <h5 class="card-title mt-4">Professores</h5>
-
-
+          <div class="collapse" id="turmas-salas-cadastradas">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th scope="col">id</th>
+                  <th scope="col">#</th>
 
-                  <th scope="col">Nome</th>
-                  <th scope="col">cpf</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">telefone</th>
-                  <th scope="col">ações</th>
+                  <th scope="col">Turma</th>
+                  <th scope="col">Sala</th>
+                  <th scope="col">Ações</th>
                 </tr>
               </thead>
               <tbody>
-                <% professores.forEach((professor, index)=> { %>
-                  <tr>
-                    <th scope="row">
-                      <%= professor.id %>
-                    </th>
-                    <td>
-                      <%= professor.nome %>
-                    </td>
-                    <td>
-                      <%= professor.cpf %>
-                    </td>
-                    <td>
-                      <%= professor.email %>
-                    </td>
-                    <td>
-                      <%= professor.telefone %>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-warning btn-sm button-edit-professor"
-                        value="<%= professor.id %>">Editar</button>
-                      <button type="button" class="btn btn-danger btn-sm button-delete-professor"
-                        value="<%= professor.id %>">Excluir</button>
-
-                  </tr>
-                  <% }) %>
-
+                
               </tbody>
 
             </table>
 
           </div>
+
+
+
         </div>
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Associar professor a disciplina</h5>
-            <h3>escolha o professor</h3>
-            <select class="form-select " id="professor-select" name="professor">
-              <% for( let i = 0; i < professores.length; i++ ) { %>
-                <option value="<%= professores[i].id %>"><%= professores[i].nome %></option>
-              <% } %>
-            </select>
-            <!-- Disciplinas table  -->
-            <h5 class="card-title mt-4">Disciplinas</h5>
-            <a type="button" id="addDisciplina" class="btn btn-primary">Adicionar mais disciplina </a>
-            <div class="mb-3 table-div">
-              <table id="professor-table" class="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">Turma</th>
-                    <th scope="col">Disciplina</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>Não há disciplinas cadastradas</th>
-                  </tr>
-                </tbody>
-              </table>
-              <a type="button" class="btn btn-primary" id="validar-professor-turma-disciplina-button">Associar</a>
+      </div>
+
+
+
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Adicionar Disciplina</h5>
+          <div class="row g-3" id="formRegistro">
+            <div class="col-md-12">
+              <label for="inputName5" class="form-label">Nome da disciplina:</label>
+              <input type="text" class="form-control" id="disciplina-nome" required>
+              <span id="nameError" style="color:red; display:none;">Nome da disciplina é obrigatório.</span>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" id="validar-disciplina-button">Adicionar
+                disciplina</button>
             </div>
           </div>
+          <div id="disciplina-sucesso" style="display:none;color:green;">Disciplina adicionada com sucesso!</div>
+          <div id="disciplina-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+
+          <a href="#" data-bs-toggle="collapse" data-bs-target="#disciplinas-cadastradas">
+            <h5 class="card-title mt-4">Disciplinas Cadastradas <i class="bi bi-arrow-down-short"></i></h5>
+          </a>
+
+          <div class="collapse" id="disciplinas-cadastradas">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+
+                  <th scope="col">Nome</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+
+            </table>
+
+          </div>
+
+
+
         </div>
-        <!-- fim cadastro alunos -->
+      </div>
+      <div class="card">
+        <div class="card-body">
+
+
+          <h5 class="card-title mt-4">Disciplinas</h5>
+
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+
+                <th scope="col">Nome</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+
+          </table>
+
+        </div>
+      </div>
+
+
+
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            <label for="turma-select" class="form-label"> Selecione a Turma:</label>
+            <select class="form-select" class="turma-select" id="Turma-select" name="Turma">
+            </select>
+          </h5>
+          <h5 class="card-title">
+            <label for="turma-select" class="form-label"> Selecione a Disciplina:</label>
+            <select class="form-select" class="disciplina-select" id="Disciplina-select" name="disciplinas">
+
+            </select>
+          </h5>
+
+          <!-- horários table  -->
+          <h5 class="card-title mt-4">Horários</h5>
+          <div class="mb-3">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 100px;">Horário</th>
+                  <th scope="col" style="width: 100px;">Segunda-feira</th>
+                  <th scope="col" style="width: 100px;">Terça-feira</th>
+                  <th scope="col" style="width: 100px;">Quarta-feira</th>
+                  <th scope="col" style="width: 100px;">Quinta-feira</th>
+                  <th scope="col" style="width: 100px;">Sexta-feira</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">7:00 - 7:50</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">7:50 - 8:40</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">8:40 - 9:30</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">9:30 - 10:00</th>
+                  <td colspan="5" style="text-align: center;">Intervalo</td>
+                </tr>
+                <tr>
+                  <th scope="row">10:00 - 10:50</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">10:50 - 11:40</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">11:40 - 12:25</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- Cadastro Professores -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">CADASTRAR PROFESSOR</h5>
+          <h3>Dados do Professor</h3>
+          <div class="mb-3">
+            <input type="text" class="form-control" name="nome-prof" placeholder="Nome completo do professor"
+              id="nome-prof" required>
+
+            <small id="nome-prof-error" style="color: red; display: none;">Campo obrigatório</small>
+          </div>
+
+
+
+          <div class="mb-3">
+            <input type="text" name="cpf-prof" id="cpf-prof" class="form-control mask-cpf"
+              placeholder="CPF do Professor" maxlength="14" required oninput="maskCPF(this)">
+
+            <small id="cpf-prof-error" style="color: red; display: none;">CPF inválido</small>
+          </div>
+
+
+
+          <div class="mb-3">
+            <label for="salario">Salário</label>
+            <input type="number" class="form-control" name="salario" id="salario" required>
+            <small id="salario-error" style="color: red; display: none;">Salário inválido</small>
+          </div>
+
+
+          <h3>Dados para contato</h3>
+
+          <div class="mb-3">
+            <input type="text" name="email-prof" id="email-prof" class="form-control" placeholder="Email" required>
+
+            <small id="email-prof-error" style="color: red; display: none;">Email inválido</small>
+          </div>
+
+          <div class="mb-3">
+            <input type="text" name="prof-numero-celular" id="prof-numero-celular" class="form-control"
+              placeholder="Número de celular" maxlength="11" required>
+
+            <small id="celular-error" style="color: red; display: none;">Número inválido</small>
+          </div>
+
+          <h3>Senha para o acesso ao Sistema Acadêmico</h3>
+
+          <div class="mb-3">
+            <input type="password" name="senha-academica" id="senha-academica" class="form-control"
+              placeholder="Crie uma senha" required>
+
+            <small id="senha-error" style="color: red; display: none;">Senha inválida</small>
+          </div>
+
+          <div class="mb-3">
+            <button type="button" class="btn btn-primary" id="validar-professor-button">Efetuar Registro</button>
+          </div>
+
+          <div id="registro-sucesso" style="display:none;color:green;">Registro efetuada com sucesso!</div>
+          <div id="registro-erro" style="display:none;color:red;">Preencha todos os campos corretamente.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body" id="professores-cadastrados">
+
+
+          <h5 class="card-title mt-4">Professores</h5>
+
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+
+                <th scope="col">Nome</th>
+                <th scope="col">cpf</th>
+                <th scope="col">Email</th>
+                <th scope="col">telefone</th>
+                <th scope="col">ações</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+
+          </table>
+
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Associar professor a disciplina</h5>
+          <h3>escolha o professor</h3>
+          <select class="form-select " id="professor-select" name="professor">
+            <% for( let i=0; i < professores.length; i++ ) { %>
+              <option value="<%= professores[i].id %>">
+                <%= professores[i].nome %>
+              </option>
+              <% } %>
+          </select>
+          <!-- Disciplinas table  -->
+          <h5 class="card-title mt-4">Disciplinas</h5>
+          <a type="button" id="addDisciplina" class="btn btn-primary">Adicionar mais disciplina </a>
+          <div class="mb-3 table-div" id="disciplinas-professores-cadastradas">
+            <table id="professor-table" class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Turma</th>
+                  <th scope="col">Disciplina</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Não há disciplinas cadastradas</th>
+                </tr>
+              </tbody>
+            </table>
+            <a type="button" class="btn btn-primary" id="validar-professor-turma-disciplina-button">Associar</a>
+          </div>
+        </div>
+      </div>
+      <!-- fim cadastro alunos -->
 
 
       </div><!-- End Right side columns -->
@@ -1086,89 +889,6 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
-
-  <script>
-    // Função para adicionar produto à tabela
-    function adicionarProduto() {
-      const nome = document.getElementById('inputName5').value;
-      const descricao = document.getElementById('descricao').value;
-      const quantidade = parseInt(document.getElementById('quantidade').value);
-      const valor = parseFloat(document.getElementById('valor-gasto').value.replace("R$", "").replace(/\./g, "").replace(",", "."));
-      const tipo = document.getElementById('inputState').value;
-
-      // Validações
-      let valido = true;
-      if (!nome) {
-        document.getElementById('nameError').style.display = 'inline';
-        valido = false;
-      } else {
-        document.getElementById('nameError').style.display = 'none';
-      }
-
-      if (descricao.length < 20 || descricao.length > 200) {
-        document.getElementById('descError').style.display = 'inline';
-        valido = false;
-      } else {
-        document.getElementById('descError').style.display = 'none';
-      }
-
-      if (quantidade < 0) {
-        document.getElementById('quantidadeError').style.display = 'inline';
-        valido = false;
-      } else {
-        document.getElementById('quantidadeError').style.display = 'none';
-      }
-
-      if (valor < 0) {
-        document.getElementById('valorError').style.display = 'inline';
-        valido = false;
-      } else {
-        document.getElementById('valorError').style.display = 'none';
-      }
-
-      if (!tipo) {
-        document.getElementById('tipoError').style.display = 'inline';
-        valido = false;
-      } else {
-        document.getElementById('tipoError').style.display = 'none';
-      }
-
-      if (valido) {
-        const id = Math.floor(Math.random() * 10000); // Gera um id aleatório
-        const tabela = document.getElementById('tabelaProdutos');
-        const novaLinha = tabela.insertRow();
-
-        novaLinha.innerHTML = `
-                            <th scope="row">${id}</th>
-                            <td>${nome}</td>
-                            <td>${quantidade}</td>
-                            <td>${tipo}</td>
-                            <td><input type="checkbox" class="checkboxExcluir" data-id="${id}"></td>
-                        `;
-      }
-
-      return false; // Previne o envio do formulário
-    }
-
-    // Função para excluir produto
-    document.addEventListener('click', function (e) {
-      if (e.target && e.target.classList.contains('checkboxExcluir')) {
-        const id = e.target.getAttribute('data-id');
-        const tabela = document.getElementById('tabelaProdutos');
-        for (let i = 0; i < tabela.rows.length; i++) {
-          if (tabela.rows[i].cells[0].innerText == id) {
-            tabela.deleteRow(i);
-            break;
-          }
-        }
-      }
-    });
-
-    // Adiciona o evento de envio do formulário
-    document.getElementById('formRegistro').onsubmit = function () {
-      return adicionarProduto();
-    };
-  </script>
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

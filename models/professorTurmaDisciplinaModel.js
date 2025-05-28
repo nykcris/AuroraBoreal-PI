@@ -138,9 +138,9 @@ class DB_ProfessorTurmaDisciplina {
     }
 
 
-    async excluir(turma_id, disciplina_id) {
+    async excluir(id) {
         const DB = new db();
-        const sql = `DELETE FROM tb_turma_disciplina_professor WHERE turma_id = ? AND disciplina_id = ?`;
+        const sql = `DELETE FROM tb_turma_disciplina_professor WHERE id = ?`;
         const params = [id];
         const result = await DB.ExecutaComandoNonQuery(sql, params);
         return result;
