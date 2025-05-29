@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let turmaId = null;
     turmaId = new URLSearchParams(window.location.search).get('turma');
     let aluno_id = null;
+    let maxPeso = [0, 0, 0, 0];
     
     // ===== LISTENERS DE EVENTOS =====
     
@@ -18,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// Função para validar o peso da atividade
 	const pesoInput = document.getElementById('peso');
-	if(pesoInput) pesoInput.addEventListener('input', validatePeso);
+	if(pesoInput) pesoInput.addEventListener('input', () => validatePeso(bimestreSelect.value));
     
     // Botão de baixar anexo
     const downloadAnexoButton = document.getElementById('anexo-resposta-link');
@@ -26,6 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         downloadAnexo(this.href);
     });
+
+    // Função para pegar e setar o peso
+    const bimestreSelect = document.querySelector('#novoAtividade #bimestre');
+    if(bimestreSelect) bimestreSelect.addEventListener('change', () => setMaximumPeso(bimestreSelect.value));
 
     // Botão de enviar resposta
     const btnSendResposta = document.querySelector('#verResposta .modal-footer .btn-primary');
@@ -516,20 +521,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 listaAtividades.appendChild(li);
                 return;
             }
-            let bimestre = 0;
-            data.forEach(atividade => {
-                let peso = 0;
-                if(bimestre != atividade.bimestre) {
-                    bimestre = atividade.bimestre;
+            let bimestreCount = 0;
+            let peso = 0;
+            data.forEach((atividade, index) => {
+                if(bimestreCount != atividade.bimestre) {
+                    bimestreCount = atividade.bimestre;
                     const li = document.createElement('li');
                     li.className = 'list-group-item';
-                    li.textContent = `Bimestre ${bimestre} - Peso total: `;
+                    li.textContent = `Bimestre ${bimestreCount} - Peso total: `;
                     const span = document.createElement('span');
-                    span.className = 'peso-total';
-                    span.textContent = '0';
+                    span.className = `peso-total-${bimestreCount}`;
+                    span.textContent = "0";
                     li.appendChild(span);
                     listaAtividades.appendChild(li);
                     peso = 0;
+                    setMaximumPeso(1);
                 }
                 const li = document.createElement('li');
                 li.className = 'list-group-item d-flex justify-content-between align-items-center';
@@ -539,7 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <small>Entrega: ${new Date(atividade.data_entrega).toLocaleDateString()}</small>
                     </div>
                     <div>
-                        <p>peso: ${atividade.peso}</p>
+                        <p class="peso-atividade bimestre-${atividade.bimestre}" value="${atividade.peso}">peso: ${atividade.peso}</p>
                     </div>
                     <div>
                         <button class="btn btn-sm btn-info ver-atividade" data-id="${atividade.ati_id}">Ver</button>
@@ -548,6 +554,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 `;
                 peso += atividade.peso;
+                maxPeso[bimestreCount - 1] = parseInt(peso);
+                document.querySelector(`.peso-total-${bimestreCount}`).textContent = maxPeso[bimestreCount - 1].toFixed(2);
+                console.log(peso);
                 listaAtividades.appendChild(li);
             });
         })
@@ -712,8 +721,8 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            const materiaNome = document.querySelector('.materia-nome');
-            materiaNome.innerHTML = data[0].nome;
+            const materiaNome = document.querySelector('#materia-nome');
+            materiaNome.innerHTML = data[0].disciplina_nome;
         })
         .catch(err => {
             console.error('Erro ao carregar nome da matéria:', err);
@@ -735,13 +744,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function validatePeso() {
+    function validatePeso(bimestre) {
         const peso = document.getElementById('peso').value;
+        setMaximumPeso(bimestre);
         try{
-            if(peso < 0 || peso > 100){
-                alert('Peso inválido');
-                document.getElementById('peso').value = '';
+            if(peso < 0){
+                document.getElementById('peso').value = 0;
             }
+            if(peso > 100){
+                document.getElementById('peso').value = 100;
+            }
+            if(peso > 100 - maxPeso[bimestre - 1]){
+                document.getElementById('peso').value = 100 - maxPeso[bimestre - 1];
+            }
+            
         }catch(err){
             console.error(err);
         }
@@ -986,6 +1002,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 
+    //------- Outras Funções -------
+
+    function setMaximumPeso(bimestre) {
+        let pesoTotal = maxPeso[bimestre - 1];
+        document.querySelector('#novoAtividade #peso').max = 100 - pesoTotal;
+        document.querySelector('#novoAtividade .peso-maximo').textContent = `O peso total das atividades não pode exceder ${document.getElementById('peso').max}.`;
+        
+    }
 
 
 
@@ -994,5 +1018,6 @@ document.addEventListener('DOMContentLoaded', function() {
     carregarConteudos();
     fetchAlunos();
     fetchMateriaNome();
+    setMaximumPeso(1);
 
 });
