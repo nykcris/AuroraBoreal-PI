@@ -44,6 +44,16 @@ router.post("/corrigirResposta",AMP.validar, PC.CorrigirAtividadesPost);
 router.get("/materias",AMP.validar, PC.materiasView);
 router.post("/materias",AMP.validar, PC.materias);
 
+// ----- Materiais -----
+// Rota de teste temporária sem autenticação
+router.get("/testeMateriais", PC.fetchMateriaisDisponiveis);
+// Rota de teste super simples
+router.get("/testeSimples", (req, res) => {
+    res.json({ teste: "funcionando", produto: { id: 2, nome_produto: "Q-Boa 2", quantidade: 999 } });
+});
+router.get("/fetchMateriaisDisponiveis", AMP.validar, PC.fetchMateriaisDisponiveis);
+router.post("/registrarUsoMaterial", AMP.validar, PC.registrarUsoMaterial);
+
 // ----- Fetchs -----
 router.get("/fetchDisciplinasProfessor",AMP.validar, PC.fetchDisciplinasProfessor);
 router.get("/fetchTurmasProfessor",AMP.validar, PC.fetchTurmasProfessor);
