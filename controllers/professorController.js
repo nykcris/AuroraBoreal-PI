@@ -372,7 +372,11 @@ class ProfessorController {
         }
     }
 
-
+    async fetchMateriaNome(req, res) {
+        let DBPTD = new DB_ProfessorTurmaDisciplina();
+        let disciplina = await DBPTD.obter(req.query.id);
+        res.send(disciplina);
+    }
 
 
 
