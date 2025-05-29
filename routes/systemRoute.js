@@ -94,6 +94,7 @@ router.get("/fetchRespostas", AMD.validar, PC.fetchRespostas);
 router.get("/fetchAtividades", AMD.validar, PC.fetchAtividades);
 router.get("/fetchRespostasAtividade", AMA.validar, AC.fetchRespostasAtividade);
 router.get("/fetchNotas", AMD.validar, AC.fetchNotas);
+router.get("/fetchNomeMateria", AMD.validar, PC.fetchMateriaNome);
 
 
 

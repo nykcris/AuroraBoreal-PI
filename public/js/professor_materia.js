@@ -704,6 +704,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 
+    function fetchMateriaNome(){
+        fetch(`/system/fetchNomeMateria?id=${materiaId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const materiaNome = document.querySelector('.materia-nome');
+            materiaNome.innerHTML = data[0].nome;
+        })
+        .catch(err => {
+            console.error('Erro ao carregar nome da matéria:', err);
+        });
+
+    }
+
     //-------- Validacoes --------
 
     function validateNota() {
@@ -976,5 +993,6 @@ document.addEventListener('DOMContentLoaded', function() {
     carregarAtividades();
     carregarConteudos();
     fetchAlunos();
+    fetchMateriaNome();
 
 });
