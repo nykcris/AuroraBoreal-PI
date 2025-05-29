@@ -82,6 +82,13 @@ class DB_Notas {
         return rows;
     }
 
+    async calcularMediaGeral(aluno_id) {
+        let sql = "SELECT AVG(valor_nota) as media_geral FROM tb_nota WHERE aluno_id = ?";
+        let valores = [aluno_id];
+        let DB = new db();
+        let rows = await DB.ExecutaComando(sql, valores);
+        return rows.length > 0 ? rows[0].media_geral || 0 : 0;
+    }
 
     toJSON() {
         return {

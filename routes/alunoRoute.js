@@ -36,6 +36,7 @@ router.get("/", AMA.validar, AC.alunos);
 
 // ----- Gerenciar Aluno -----
 router.get("/perfil",AMA.validar, AC.perfilAluno);
+router.post("/perfil/atualizar", AMA.validar, AC.atualizarPerfilAluno);
 router.get("/editar", AMD.validar, AC.editarAluno);
 router.post("/atualizar", AMD.validar, AC.atualizarAluno);
 router.post("/delete", AMD.validar, AC.deleteAluno);

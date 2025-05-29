@@ -10,7 +10,7 @@ const DB_ProfessorTurmaDisciplina = require("../models/professorTurmaDisciplinaM
 class AlunoController {
   async alunos(req,res) {
     console.log("Entrou na página de alunos");
-    
+
     let db_aluno = new DB_Aluno();
     let alunos = await db_aluno.listar([1]);
     let rows = [];
@@ -37,13 +37,215 @@ class AlunoController {
         console.log(respostas);
         atividadesFeitas.push(respostas.length > 0 ? {feito:1,nota:respostas[0].nota} : {feito:0,nota:0});
     }
-    
-    
+
+
     res.render("Aluno/alunos_index",{ layout: 'layouts/layout_aluno', rows, atividades_cadastradas:atividades, atividadesFeitas });
   }
 
   async perfilAluno(req, res) {
-    res.render("Aluno/aluno_perfil",{ layout: 'layouts/layout_aluno'});
+    try {
+      let DBA = new DB_Aluno();
+      let DBT = new DB_Turma();
+      let DBN = new DB_Notas();
+      let DBPTD = new DB_ProfessorTurmaDisciplina();
+      let DBR = new DB_Resposta();
+
+      let aluno = await DBA.obter(req.cookies.usuarioLogado);
+
+      if (aluno && aluno.length > 0) {
+        // Buscar nome da turma
+        let turma = await DBT.obter(aluno[0].turma_id);
+        let nomeTurma = turma && turma.length > 0 ? turma[0].nome : 'Turma não encontrada';
+
+        // Buscar estatísticas
+        let estatisticas = {
+          disciplinas: 0,
+          atividades_concluidas: 0,
+          media_geral: 0
+        };
+
+        try {
+          // Contar disciplinas da turma
+          let disciplinasTurma = await DBPTD.listarDisciplinas(aluno[0].turma_id);
+          estatisticas.disciplinas = disciplinasTurma.length;
+
+          // Contar atividades concluídas pelo aluno
+          let atividadesConcluidas = await DBR.contarAtividadesConcluidas(req.cookies.usuarioLogado);
+          estatisticas.atividades_concluidas = atividadesConcluidas || 0;
+
+          // Calcular média geral das notas
+          let mediaGeral = await DBN.calcularMediaGeral(req.cookies.usuarioLogado);
+          estatisticas.media_geral = mediaGeral || 0;
+
+        } catch (statsError) {
+          console.log("Erro ao carregar estatísticas:", statsError);
+        }
+
+        res.render("Aluno/aluno_perfil", {
+          layout: 'layouts/layout_aluno',
+          aluno: aluno[0],
+          nomeTurma: nomeTurma,
+          estatisticas: estatisticas
+        });
+      } else {
+        res.render("Aluno/aluno_perfil", {
+          layout: 'layouts/layout_aluno',
+          aluno: null,
+          nomeTurma: 'Não informado',
+          estatisticas: { disciplinas: 0, atividades_concluidas: 0, media_geral: 0 }
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao carregar perfil do aluno:", error);
+      res.render("Aluno/aluno_perfil", {
+        layout: 'layouts/layout_aluno',
+        aluno: null,
+        nomeTurma: 'Erro ao carregar',
+        estatisticas: { disciplinas: 0, atividades_concluidas: 0, media_geral: 0 }
+      });
+    }
+  }
+
+  async atualizarPerfilAluno(req, res) {
+    try {
+      console.log("=== ATUALIZAR PERFIL ALUNO ===");
+      console.log("Dados recebidos:", req.body);
+      console.log("Cookie usuarioLogado:", req.cookies.usuarioLogado);
+
+      const { nome, email, cpf, data_nascimento, responsavel_nome, responsavel_telefone, nova_senha, senha_atual } = req.body;
+
+      // Verificar se a senha atual foi fornecida
+      if (!senha_atual) {
+        console.log("Erro: Senha atual não fornecida");
+        return res.json({
+          sucesso: false,
+          mensagem: "Senha atual é obrigatória para confirmar as alterações"
+        });
+      }
+
+      let DBA = new DB_Aluno();
+
+      // Verificar se a senha atual está correta
+      let alunoAtual = await DBA.obter(req.cookies.usuarioLogado);
+      console.log("Aluno encontrado:", alunoAtual);
+
+      if (!alunoAtual || alunoAtual.length === 0) {
+        console.log("Erro: Aluno não encontrado");
+        return res.json({
+          sucesso: false,
+          mensagem: "Aluno não encontrado"
+        });
+      }
+
+      console.log("Senha do banco:", alunoAtual[0].senha);
+      console.log("Senha fornecida:", senha_atual);
+
+      if (alunoAtual[0].senha !== senha_atual) {
+        console.log("Erro: Senha atual incorreta");
+        return res.json({
+          sucesso: false,
+          mensagem: "Senha atual incorreta"
+        });
+      }
+
+      // Preparar dados para atualização (apenas campos que foram enviados)
+      let dadosAtualizacao = {
+        id: req.cookies.usuarioLogado
+      };
+
+      // Adicionar apenas os campos que foram fornecidos
+      if (nome && nome.trim() !== '') {
+        dadosAtualizacao.nome = nome.trim();
+      } else {
+        dadosAtualizacao.nome = alunoAtual[0].nome;
+      }
+
+      if (email && email.trim() !== '') {
+        dadosAtualizacao.email = email.trim();
+      } else {
+        dadosAtualizacao.email = alunoAtual[0].email;
+      }
+
+      if (responsavel_nome && responsavel_nome.trim() !== '') {
+        dadosAtualizacao.responsavel_nome = responsavel_nome.trim();
+      } else {
+        dadosAtualizacao.responsavel_nome = alunoAtual[0].responsavel_nome;
+      }
+
+      if (responsavel_telefone && responsavel_telefone.trim() !== '') {
+        dadosAtualizacao.responsavel_telefone = responsavel_telefone.trim();
+      } else {
+        dadosAtualizacao.responsavel_telefone = alunoAtual[0].responsavel_tel;
+      }
+
+      // Processar CPF
+      if (cpf && cpf.trim() !== '') {
+        dadosAtualizacao.cpf = cpf.trim();
+      } else {
+        dadosAtualizacao.cpf = alunoAtual[0].aluno_cpf;
+      }
+
+      // Processar data de nascimento
+      if (data_nascimento && data_nascimento.trim() !== '') {
+        dadosAtualizacao.data_nascimento = data_nascimento.trim();
+      } else {
+        dadosAtualizacao.data_nascimento = alunoAtual[0].aluno_nasc;
+      }
+
+      // Verificar se quer alterar a senha
+      if (nova_senha && nova_senha.trim() !== '') {
+        if (nova_senha.length < 6) {
+          return res.json({
+            sucesso: false,
+            mensagem: "Nova senha deve ter pelo menos 6 caracteres"
+          });
+        }
+        dadosAtualizacao.senha = nova_senha.trim();
+      } else {
+        dadosAtualizacao.senha = alunoAtual[0].senha;
+      }
+
+      // Manter dados que não podem ser alterados pelo aluno
+      dadosAtualizacao.turma_id = alunoAtual[0].turma_id;
+      dadosAtualizacao.responsavel_cpf = alunoAtual[0].responsavel_cpf;
+
+      console.log("Dados para atualização:", dadosAtualizacao);
+
+      // Usar atualização dinâmica apenas dos campos alterados
+      let DBA_Update = new DB_Aluno();
+      let sucesso = await DBA_Update.atualizarPerfil(
+        dadosAtualizacao.id,
+        dadosAtualizacao.nome,
+        dadosAtualizacao.email,
+        dadosAtualizacao.responsavel_nome,
+        dadosAtualizacao.responsavel_telefone,
+        dadosAtualizacao.senha,
+        dadosAtualizacao.cpf,
+        dadosAtualizacao.data_nascimento
+      );
+      console.log("Resultado da atualização:", sucesso);
+
+      if (sucesso) {
+        console.log("Sucesso na atualização");
+        res.json({
+          sucesso: true,
+          mensagem: "Perfil atualizado com sucesso!"
+        });
+      } else {
+        console.log("Falha na atualização");
+        res.json({
+          sucesso: false,
+          mensagem: "Erro ao atualizar perfil"
+        });
+      }
+
+    } catch (error) {
+      console.error("Erro ao atualizar perfil:", error);
+      res.json({
+        sucesso: false,
+        mensagem: "Erro interno do servidor"
+      });
+    }
   }
 
   async postCadastrarAluno(req, res) {
@@ -296,7 +498,7 @@ class AlunoController {
     }
     res.send(disciplinas);
   }
-  
+
   async fetchNomeAluno(req, res) {
     let DBA = new DB_Aluno();
     let alunos = await DBA.obter(req.query.id);

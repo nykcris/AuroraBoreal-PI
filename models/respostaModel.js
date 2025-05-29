@@ -1,8 +1,8 @@
-const db = require('../utils/database'); 
+const db = require('../utils/database');
 const DB_Aluno = require("./alunoModel");
 
 class DB_Resposta {
-    
+
     #res_id
     #id_atividade
     #id_aluno
@@ -62,7 +62,7 @@ class DB_Resposta {
                 }else if(type == 2){
                     sql += " WHERE id_atividade = ?";
                 }
-                
+
             }else{
                 sql += " WHERE res_id = ?";
             }
@@ -126,7 +126,7 @@ class DB_Resposta {
             return false;
         }
     }
-    
+
     async atualizar() {
         let sql = "UPDATE tb_resposta SET id_atividade = ?, id_aluno = ?, resposta = ?, data_envio = ?, nota = ?, comentario_professor = ?, anexo_resposta = ?, corrigida = ? WHERE res_id = ?";
         let valores = [this.#id_atividade, this.#id_aluno, this.#resposta, this.#data_envio, this.#nota, this.#comentario_professor, this.#anexo_resposta, this.#corrigida, this.#res_id];
@@ -146,6 +146,13 @@ class DB_Resposta {
         return rows;
     }
 
+    async contarAtividadesConcluidas(aluno_id) {
+        let sql = "SELECT COUNT(*) as total FROM tb_resposta WHERE id_aluno = ?";
+        let valores = [aluno_id];
+        let DB = new db();
+        let rows = await DB.ExecutaComando(sql, valores);
+        return rows.length > 0 ? rows[0].total || 0 : 0;
+    }
 
     toJSON() {
         return {
