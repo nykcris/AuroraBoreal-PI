@@ -80,11 +80,11 @@
                 <div class="col-lg-8">
                     <div class="row">
 
-                       
 
-                    
 
-                       
+
+
+
                                <!-- Perfil Card com Link -->
 <div class="col-xxl-4 col-md-6">
   <a href="perfil.html" style="text-decoration: none; cursor: pointer;">
@@ -106,10 +106,10 @@
 </div>
 
 <!-- End Perfil Card -->
-                           
- 
 
-                      
+
+
+
 
 
                     </div>
@@ -122,38 +122,43 @@
                         <div class="card-body">
                             <h5 class="card-title">Registro de Uso De Material</h5>
 
-                            <form class="row g-3">
+                            <form id="form-material" class="row g-3">
                                 <div class="col-md-12">
-                                    <label for="inputName5" class="form-label">Nome do Material:</label>
-                                    <input type="text" class="form-control" id="inputName5">
+                                    <label for="material-select" class="form-label">Material:</label>
+                                    <select class="form-select" id="material-select" name="produto_id" required>
+                                        <option value="" selected disabled>Selecione um material</option>
+                                    </select>
                                 </div>
-                                
+
                                 <div class="col-md-6">
                                     <label for="quantidade" class="form-label">Quantidade: </label>
-                                    <input type="number" class="form-control" id="quantidade">
+                                    <input type="number" class="form-control" id="quantidade" name="quantidade_usada" min="1" required>
                                 </div>
-                        </div>
 
-                     
+                                <div class="col-md-12">
+                                    <label for="observacoes" class="form-label">Observações (opcional):</label>
+                                    <textarea class="form-control" id="observacoes" name="observacoes" rows="2"></textarea>
+                                </div>
 
-
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Enviar</button>
-                            <button type="reset" class="btn btn-secondary">Limpar</button>
-                        </div>
-                        </form>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Registrar Uso</button>
+                                    <button type="reset" class="btn btn-secondary">Limpar</button>
+                                </div>
+                            </form>
                     </div>
                 </div><!-- End Multi Columns Form -->
-               
+
+
+
                 <!-- Table with stripped rows -->
 
-                
-  
+
+
                   <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">
                             <label for="turma-select" class="form-label">Adicionar Nota bimestral</label>
-                            
+
                             <select class="form-select" id="turma-select" name="turma">
                                 <option value="" selected disabled>Selecione a turma</option>
                                 <option value="1A">1° A- Química</option>
@@ -161,16 +166,16 @@
                                 <option value="1C">1° B- Química</option>
                             </select>
                         </h5>
-                
+
                         <h5 class="card-title mt-4">Bimestre</h5>
                         <select class="form-select" id="turma-select" name="turma">
                             <option value="" selected disabled>Selecione a turma</option>
                             <option value="1B">1° Bimestre</option>
                             <option value="2B">2° Bimestre</option>
-                            <option value="3B">3° Bimestre</option>       
+                            <option value="3B">3° Bimestre</option>
                             <option value="4B">4° Bimestre</option>
                         </select>
-                
+
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -192,16 +197,16 @@
                                         <% } %>
                                     <% } %>
                                 <% } %>
-                                
+
                             </tbody>
 
                         </table>
-                        
+
                     </div>
                 </div>
                 <!--fim do formulário-->
-               
-                <!--tabela nova atividades-->            
+
+                <!--tabela nova atividades-->
                 <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">Nova Atividade</h5>
@@ -263,7 +268,7 @@
       <% } else { %>
         <p>Nenhuma atividade cadastrada ainda.</p>
       <% } %>
-      
+
     </div>
   </div>
   <!--fim de listar atividades-->
@@ -271,13 +276,13 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Respostas dos Alunos</h5>
-                        
+
                         <% if (typeof atividades_row !='undefined' ) { %>
-                            
+
                             <% atividades_row.forEach(atividade=> { %>
                                 <div class="mb-3"></div>
                                 <h6>
-                                    <span class="fw-bold">Atividade:</span> <%= atividade.titulo %> - <%= atividade.data_entrega.toLocaleString() %> 
+                                    <span class="fw-bold">Atividade:</span> <%= atividade.titulo %> - <%= atividade.data_entrega.toLocaleString() %>
                                 </h6>
                                 <ul class="list-group mb-3">
                                     <% atividade.respostas.forEach(res=> { %>
@@ -322,16 +327,16 @@
                                                 </div>
                                               </div>
                                             <% if (res.anexo_resposta) { %>
-                                                
+
                                                 <p><a href="<%= res.anexo_resposta %>" target="_blank">Ver anexo</a></p>
                                                 <% } %>
-                                                    
+
                                         </li>
                                         <% }) %>
                                 </ul>
                                 <% }) %>
                                 <% } %>
-                                
+
                     </div>
                 </div>
                 <!--fim de visualizar respostas-->
@@ -366,6 +371,100 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <!-- Script para Gerenciamento de Materiais -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarMateriaisDisponiveis();
+
+            // Event listener para o formulário
+            document.getElementById('form-material').addEventListener('submit', function(e) {
+                e.preventDefault();
+                registrarUsoMaterial();
+            });
+        });
+
+        function carregarMateriaisDisponiveis() {
+            console.log('Iniciando carregamento de materiais...');
+            fetch('/system/professores/testeMateriais', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Dados recebidos:', data);
+                const select = document.getElementById('material-select');
+                select.innerHTML = '<option value="" selected disabled>Selecione um material</option>';
+
+                // Usar data diretamente (array de materiais)
+                const materiais = data;
+
+                if (materiais && Array.isArray(materiais) && materiais.length > 0) {
+                    materiais.forEach(material => {
+                        const option = document.createElement('option');
+                        option.value = material.id;
+                        option.textContent = `${material.nome_produto} (Estoque: ${material.quantidade})`;
+                        option.setAttribute('data-estoque', material.quantidade);
+                        select.appendChild(option);
+                    });
+                    console.log('Materiais carregados com sucesso');
+                } else {
+                    select.innerHTML += '<option disabled>Nenhum material disponível</option>';
+                    console.log('Nenhum material encontrado');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao carregar materiais:', error);
+                alert('Erro ao carregar materiais disponíveis: ' + error.message);
+            });
+        }
+
+        function registrarUsoMaterial() {
+            const formData = new FormData(document.getElementById('form-material'));
+            const data = Object.fromEntries(formData);
+
+            // Validar estoque
+            const select = document.getElementById('material-select');
+            const selectedOption = select.options[select.selectedIndex];
+            const estoqueDisponivel = parseInt(selectedOption.getAttribute('data-estoque'));
+            const quantidadeSolicitada = parseInt(data.quantidade_usada);
+
+            if (quantidadeSolicitada > estoqueDisponivel) {
+                alert(`Quantidade solicitada (${quantidadeSolicitada}) é maior que o estoque disponível (${estoqueDisponivel})`);
+                return;
+            }
+
+            fetch('/system/professores/registrarUsoMaterial', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.sucesso) {
+                    alert(result.mensagem);
+                    document.getElementById('form-material').reset();
+                    carregarMateriaisDisponiveis(); // Recarregar para atualizar estoque
+                } else {
+                    alert(result.mensagem);
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao registrar uso:', error);
+                alert('Erro ao registrar uso do material');
+            });
+        }
+
+
+    </script>
 
 </body>
 

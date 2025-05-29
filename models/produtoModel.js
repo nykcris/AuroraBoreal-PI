@@ -70,6 +70,26 @@ class DB_Produto {
         }
     }
 
+    async reduzirEstoque(id, quantidade) {
+        let DB = new db();
+        try {
+            const result = await DB.ExecutaComandoNonQuery(
+                "UPDATE tb_produtos SET quantidade = quantidade - ? WHERE id = ? AND quantidade >= ?",
+                [quantidade, id, quantidade]
+            );
+            return result;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    async listarDisponiveis() {
+        let DB = new db();
+        let rows = await DB.ExecutaComando("SELECT * FROM tb_produtos WHERE quantidade > 0", []);
+        return rows;
+    }
+
     toJSON() {
         return {
             id: this.#id,

@@ -10,6 +10,7 @@ const DB_Turma = require("../models/turmaModel");
 const DB_ProfessorTurmaDisciplina = require("../models/professorTurmaDisciplinaModel");
 const DB_Notas = require("../models/notasModel");
 const DB_Conteudo = require("../models/conteudoModel");
+const DB_Produto = require("../models/produtoModel");
 
 var DB = new db();
 
@@ -25,12 +26,12 @@ class ProfessorController {
                 "usu_nome":funcs[i].nome,
                 "usu_email":funcs[i].email,
                 "usu_senha":funcs[i].senha,
-                
+
                 "per_id":funcs[i].perfilId
             })
         }
 
-        
+
         let db_atividade = new DB_Atividade();
         let atividades = await db_atividade.listar();
         let atividades_lista = [];
@@ -144,7 +145,7 @@ class ProfessorController {
           req.body.bimestre
         );
         let sucesso = await atividade.gravar(); // chama o método da própria instância
-    
+
         console.log(sucesso);
         if (sucesso) {
           console.log("Sucesso ao gravar a atividade");
@@ -168,29 +169,29 @@ class ProfessorController {
             let professor = await DBP.obter(req.body.professor);
 
             if (!turma.length || !disciplina.length || !professor.length) {
-                return res.json({ 
-                    sucesso: false, 
-                    mensagem: "Professor, turma ou disciplina não encontrados" 
+                return res.json({
+                    sucesso: false,
+                    mensagem: "Professor, turma ou disciplina não encontrados"
                 });
             }
-            
+
             let DBPD = new DB_ProfessorTurmaDisciplina(0, professor[0].id, turma[0].id, disciplina[0].id);
             let resultado = await DBPD.cadastrar();
-            
+
             if (resultado.success) {
                 res.json({ sucesso: true, mensagem: "Associação realizada com sucesso" });
             } else {
-                res.json({ 
-                    sucesso: false, 
-                    mensagem: resultado.message || "Erro ao realizar associação" 
+                res.json({
+                    sucesso: false,
+                    mensagem: resultado.message || "Erro ao realizar associação"
                 });
             }
         } catch (error) {
             console.error("Erro no controller:", error);
-            res.status(500).json({ 
-                sucesso: false, 
-                mensagem: "Erro interno do servidor", 
-                erro: error.message 
+            res.status(500).json({
+                sucesso: false,
+                mensagem: "Erro interno do servidor",
+                erro: error.message
             });
         }
     }
@@ -371,6 +372,54 @@ class ProfessorController {
     }
 
 
+
+
+
+    // ========== Métodos para Materiais ==========
+
+    async fetchMateriaisDisponiveis(req, res) {
+        try {
+            console.log("Buscando materiais disponíveis...");
+            let DBP = new DB_Produto();
+            let materiais = await DBP.listarDisponiveis();
+            console.log("Materiais disponíveis:", materiais);
+            res.json(materiais);
+        } catch (error) {
+            console.error("Erro ao buscar materiais:", error);
+            res.status(500).json({ erro: "Erro interno do servidor", detalhes: error.message });
+        }
+    }
+
+    async registrarUsoMaterial(req, res) {
+        try {
+            console.log("Registrando uso de material:", req.body);
+            let DBP = new DB_Produto();
+
+            // Verificar se há estoque suficiente
+            let produto = await DBP.obter(req.body.produto_id);
+            if (!produto || produto.length === 0) {
+                return res.json({ sucesso: false, mensagem: "Produto não encontrado" });
+            }
+
+            if (produto[0].quantidade < req.body.quantidade_usada) {
+                return res.json({ sucesso: false, mensagem: "Estoque insuficiente" });
+            }
+
+            // Reduzir estoque diretamente
+            let sucesso = await DBP.reduzirEstoque(req.body.produto_id, req.body.quantidade_usada);
+
+            if (sucesso) {
+                console.log("Sucesso ao registrar uso de material");
+                res.json({ sucesso: true, mensagem: "Uso de material registrado com sucesso!" });
+            } else {
+                console.log("Erro ao registrar uso de material");
+                res.json({ sucesso: false, mensagem: "Erro ao registrar uso de material" });
+            }
+        } catch (error) {
+            console.error("Erro ao registrar uso:", error);
+            res.status(500).json({ sucesso: false, mensagem: "Erro interno do servidor" });
+        }
+    }
 
 
 
