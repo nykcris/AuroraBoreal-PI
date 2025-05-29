@@ -38,13 +38,13 @@ class DB_Aluno {
         this.#responsavel_tel = responsavel_tel;
     }
 
-   
+
     async listar() {
         const DB = new db();
         const sql = `
-            SELECT 
-                a.*, 
-                t.nome AS turma_nome 
+            SELECT
+                a.*,
+                t.nome AS turma_nome
             FROM tb_aluno a
             JOIN tb_turma t ON a.turma_id = t.id
         `;
@@ -63,13 +63,13 @@ class DB_Aluno {
         return rows; // Retorna os dados direto, sem encapsular na classe
     }
 
-    
+
 
     async cadastrar() {
         const DB = new db();
         const sql = `
             INSERT INTO tb_aluno (
-                aluno_nome, aluno_cpf, turma_id, email, senha, aluno_nasc, 
+                aluno_nome, aluno_cpf, turma_id, email, senha, aluno_nasc,
                 responsavel_nome, responsavel_cpf, responsavel_tel
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
@@ -115,8 +115,8 @@ class DB_Aluno {
     async atualizar() {
         const DB = new db();
         const sql = `
-            UPDATE tb_aluno SET 
-                aluno_nome = ?, aluno_cpf = ?, turma_id = ?, email = ?, senha = ?, 
+            UPDATE tb_aluno SET
+                aluno_nome = ?, aluno_cpf = ?, turma_id = ?, email = ?, senha = ?,
                 aluno_nasc = ?, responsavel_nome = ?, responsavel_cpf = ?, responsavel_tel = ?
             WHERE id = ?
         `;
@@ -132,9 +132,81 @@ class DB_Aluno {
             this.#responsavel_tel,
             this.#id
         ];
-        
-        let sucesso = await DB.ExecutaComandoNonQuery(sql, valores); // retorna true ou false
-        return sucesso; 
+
+        console.log("=== MODELO ALUNO - ATUALIZAR ===");
+        console.log("SQL:", sql);
+        console.log("Valores:", valores);
+
+        try {
+            let resultado = await DB.ExecutaComandoNonQuery(sql, valores);
+            console.log("Resultado da execução:", resultado);
+            return resultado;
+        } catch (error) {
+            console.error("Erro no modelo ao atualizar aluno:", error);
+            return false;
+        }
+    }
+
+    async atualizarPerfil(id, nome, email, responsavel_nome, responsavel_telefone, senha, cpf = null, data_nascimento = null) {
+        const DB = new db();
+
+        // Primeiro vamos verificar qual é a estrutura real da tabela
+        console.log("Verificando estrutura da tabela...");
+        try {
+            const estrutura = await DB.ExecutaComando("DESCRIBE tb_aluno", []);
+            console.log("Estrutura da tabela tb_aluno:", estrutura);
+        } catch (err) {
+            console.log("Erro ao verificar estrutura:", err);
+        }
+
+        // Verificar se o ID é válido
+        if (!id || id === 'undefined' || id === 'null') {
+            console.error("ID inválido para atualização:", id);
+            return false;
+        }
+
+        // Primeiro, verificar se o registro existe
+        const verificaExistencia = await DB.ExecutaComando("SELECT id FROM tb_aluno WHERE id = ?", [id]);
+        console.log("Registro encontrado:", verificaExistencia);
+
+        if (!verificaExistencia || verificaExistencia.length === 0) {
+            console.error("Nenhum registro encontrado com ID:", id);
+            return false;
+        }
+
+        const sql = `
+            UPDATE tb_aluno SET
+                aluno_nome = ?, email = ?, responsavel_nome = ?, responsavel_tel = ?, senha = ?, aluno_cpf = ?, aluno_nasc = ?
+            WHERE id = ?
+        `;
+        const valores = [nome, email, responsavel_nome, responsavel_telefone, senha, cpf, data_nascimento, id];
+
+        console.log("=== MODELO ALUNO - ATUALIZAR PERFIL ===");
+        console.log("SQL:", sql);
+        console.log("Valores:", valores);
+
+        try {
+            let resultado = await DB.ExecutaComandoNonQuery(sql, valores);
+            console.log("Resultado da execução:", resultado);
+            console.log("Tipo do resultado:", typeof resultado);
+
+            // Verificar diferentes tipos de retorno
+            if (typeof resultado === 'object' && resultado !== null) {
+                console.log("affectedRows:", resultado.affectedRows);
+                console.log("changedRows:", resultado.changedRows);
+                // Para MySQL, verificar se pelo menos uma linha foi encontrada (matched)
+                return resultado.affectedRows >= 0; // >= 0 porque pode ser 0 se não houve mudanças mas a linha existe
+            } else if (typeof resultado === 'boolean') {
+                return resultado;
+            } else if (typeof resultado === 'number') {
+                return resultado >= 0;
+            }
+
+            return false;
+        } catch (error) {
+            console.error("Erro no modelo ao atualizar perfil do aluno:", error);
+            return false;
+        }
     }
 
     async listarOnTurma(turma_id) {

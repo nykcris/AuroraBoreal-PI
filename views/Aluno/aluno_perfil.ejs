@@ -1,147 +1,355 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dados do Aluno</title>
   <style>
-    * {
-      box-sizing: border-box;
+    .info-item {
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      border-left: 4px solid #0d6efd;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #121212;
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #00ff88;
-      margin-bottom: 40px;
-    }
-
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-
-    .box {
-      background-color: #1e1e1e;
-      border: 2px solid #00ff88;
-      border-radius: 10px;
-      padding: 20px;
-      width: 45%;
-      min-width: 300px;
-    }
-
-    .box h2 {
-      color: #00ff88;
-      margin-bottom: 10px;
-    }
-
-    .box p {
-      margin: 5px 0;
-    }
-
-    .edit-box {
-      width: 100%;
-      background-color: #252525;
-      margin-top: 20px;
-      border-radius: 10px;
-      padding: 20px;
-    }
-
-    .edit-box h2 {
-      margin-bottom: 10px;
-      color: #ffdd00;
-    }
-
-    .edit-box label {
+    .info-item strong {
+      color: #495057;
       display: block;
-      margin-top: 10px;
+      margin-bottom: 5px;
     }
 
-    .edit-box input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .edit-box button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background-color: #00ff88;
-      color: black;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-      .box {
-        width: 100%;
-      }
-
-      h1 {
-        font-size: 24px;
-      }
+    .info-item p {
+      margin: 0;
+      color: #212529;
+      font-weight: 500;
     }
   </style>
 </head>
 <body>
 
-  <h1>Informações do Aluno e Responsável</h1>
+  <main id="main" class="main">
 
-  <div class="container">
-    <div class="box">
-      <h2>Dados do Aluno</h2>
-      <p><strong>Nome:</strong> <span class="nome_aluno"></span></p>
-      <p><strong>CPF:</strong> <span class="cpf_aluno"></span></p>
-      <p><strong>Data de Nascimento:</strong> <span class="data_nascimento"></span></p>
-      <p><strong>Email:</strong> <span class="email_aluno"></span></p>
-      <p><strong>Turma ID:</strong> <span class="turma_id"></span></p>
-      <p><strong>Turma Nome:</strong> <span class="turma_nome"></span></p>
+    <div class="pagetitle">
+      <h1>Perfil do Aluno</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/system/alunos">Dashboard</a></li>
+          <li class="breadcrumb-item active">Dados do Perfil</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+
+            <!-- Dados do Aluno Card -->
+            <div class="col-12">
+              <div class="card info-card">
+                <div class="card-body">
+                  <h5 class="card-title">Dados do Aluno</h5>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <strong>Nome:</strong>
+                        <p class="nome_aluno"><%= aluno ? aluno.aluno_nome : 'Não informado' %></p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <strong>CPF:</strong>
+                        <p class="cpf_aluno">
+                          <% if (aluno && aluno.aluno_cpf) { %>
+                            <%= aluno.aluno_cpf %>
+                          <% } else { %>
+                            <span style="color: #6c757d; font-style: italic;">Não cadastrado</span>
+                          <% } %>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <strong>Data de Nascimento:</strong>
+                        <p class="data_nascimento">
+                          <% if (aluno && aluno.aluno_nasc) { %>
+                            <%= new Date(aluno.aluno_nasc).toLocaleDateString('pt-BR') %>
+                          <% } else { %>
+                            <span style="color: #6c757d; font-style: italic;">Não cadastrado</span>
+                          <% } %>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <strong>Email:</strong>
+                        <p class="email_aluno"><%= aluno ? aluno.email : 'Não informado' %></p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <strong>Turma:</strong>
+                        <p class="turma_nome"><%= nomeTurma || 'Não informado' %></p>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Dados do Aluno Card -->
+
+            <!-- Dados do Responsável Card -->
+            <div class="col-12">
+              <div class="card info-card">
+                <div class="card-body">
+                  <h5 class="card-title">Dados do Responsável</h5>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <strong>Nome:</strong>
+                        <p class="nome_responsavel"><%= aluno ? aluno.responsavel_nome : 'Não informado' %></p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <strong>CPF:</strong>
+                        <p class="cpf_responsavel"><%= aluno ? aluno.responsavel_cpf : 'Não informado' %></p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <strong>Telefone:</strong>
+                        <p class="telefone_responsavel"><%= aluno ? aluno.responsavel_tel : 'Não informado' %></p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <strong>Email:</strong>
+                        <p>maria.silva@email.com</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Dados do Responsável Card -->
+
+          </div>
+        </div><!-- End Left side columns -->
+
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+
+          <!-- Editar Dados Card -->
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Editar Dados</h5>
+
+              <form id="form-editar-perfil" class="row g-3">
+                <div class="col-12">
+                  <label for="nome" class="form-label">Nome do Aluno</label>
+                  <input type="text" class="form-control nome_aluno" id="nome" name="nome" placeholder="<%= aluno ? aluno.aluno_nome : 'Nome atual' %>">
+                  <small class="text-muted">Deixe em branco para manter: <%= aluno ? aluno.aluno_nome : 'Nome atual' %></small>
+                </div>
+
+                <div class="col-12">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control email_aluno" id="email" name="email" placeholder="<%= aluno ? aluno.email : 'Email atual' %>">
+                  <small class="text-muted">Deixe em branco para manter: <%= aluno ? aluno.email : 'Email atual' %></small>
+                </div>
+
+                <div class="col-12">
+                  <label for="cpf" class="form-label">CPF do Aluno</label>
+                  <input type="text" class="form-control" id="cpf" name="cpf" placeholder="<%= aluno && aluno.aluno_cpf ? aluno.aluno_cpf : '000.000.000-00' %>" maxlength="14">
+                  <small class="text-muted">
+                    <% if (aluno && aluno.aluno_cpf) { %>
+                      Deixe em branco para manter: <%= aluno.aluno_cpf %>
+                    <% } else { %>
+                      CPF não cadastrado - digite para adicionar (formato: 000.000.000-00)
+                    <% } %>
+                  </small>
+                </div>
+
+                <div class="col-12">
+                  <label for="data_nascimento" class="form-label">Data de Nascimento</label>
+                  <input type="date" class="form-control" id="data_nascimento" name="data_nascimento"
+                         value="<%= aluno && aluno.aluno_nasc ? new Date(aluno.aluno_nasc).toISOString().split('T')[0] : '' %>">
+                  <small class="text-muted">
+                    <% if (aluno && aluno.aluno_nasc) { %>
+                      Data atual: <%= new Date(aluno.aluno_nasc).toLocaleDateString('pt-BR') %>
+                    <% } else { %>
+                      Data de nascimento não cadastrada
+                    <% } %>
+                  </small>
+                </div>
+
+                <div class="col-12">
+                  <label for="responsavel_nome" class="form-label">Nome do Responsável</label>
+                  <input type="text" class="form-control nome_responsavel" id="responsavel_nome" name="responsavel_nome" placeholder="<%= aluno ? aluno.responsavel_nome : 'Nome atual' %>">
+                  <small class="text-muted">Deixe em branco para manter: <%= aluno ? aluno.responsavel_nome : 'Nome atual' %></small>
+                </div>
+
+                <div class="col-12">
+                  <label for="responsavel_telefone" class="form-label">Telefone do Responsável</label>
+                  <input type="tel" class="form-control telefone_responsavel" id="responsavel_telefone" name="responsavel_telefone" placeholder="<%= aluno ? aluno.responsavel_tel : 'Telefone atual' %>">
+                  <small class="text-muted">Deixe em branco para manter: <%= aluno ? aluno.responsavel_tel : 'Telefone atual' %></small>
+                </div>
+
+                <div class="col-12">
+                  <label for="nova_senha" class="form-label">Nova Senha (opcional)</label>
+                  <input type="password" class="form-control" id="nova_senha" name="nova_senha" minlength="6">
+                  <small class="text-muted">Deixe em branco para manter a senha atual. Mínimo 6 caracteres.</small>
+                </div>
+
+                <hr>
+
+                <div class="col-12">
+                  <div class="alert alert-warning">
+                    <small><i class="bi bi-exclamation-triangle"></i> <strong>Importante:</strong> Digite sua senha atual para confirmar as alterações.</small>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="senha_atual" class="form-label text-danger">Senha Atual *</label>
+                  <input type="password" class="form-control" id="senha_atual" name="senha_atual" required>
+                  <small class="text-danger">Obrigatório para confirmar as alterações</small>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                  <button type="reset" class="btn btn-secondary">Cancelar</button>
+                </div>
+              </form>
+
+            </div>
+          </div><!-- End Editar Dados Card -->
+
+          <!-- Estatísticas Rápidas -->
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Estatísticas</h5>
+
+              <div class="d-flex align-items-center mb-3">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3" style="background-color: #e3f2fd; color: #1976d2;">
+                  <i class="bi bi-book"></i>
+                </div>
+                <div>
+                  <h6 class="mb-0">Disciplinas</h6>
+                  <small class="text-muted"><%= estatisticas ? estatisticas.disciplinas : 0 %> matérias</small>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center mb-3">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3" style="background-color: #e8f5e8; color: #388e3c;">
+                  <i class="bi bi-check-circle"></i>
+                </div>
+                <div>
+                  <h6 class="mb-0">Atividades</h6>
+                  <small class="text-muted"><%= estatisticas ? estatisticas.atividades_concluidas : 0 %> concluídas</small>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3" style="background-color: #fff3e0; color: #f57c00;">
+                  <i class="bi bi-graph-up"></i>
+                </div>
+                <div>
+                  <h6 class="mb-0">Média Geral</h6>
+                  <small class="text-muted"><%= estatisticas ? parseFloat(estatisticas.media_geral).toFixed(1) : '0.0' %></small>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- End Estatísticas Card -->
+
+        </div><!-- End Right side columns -->
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>Devminds</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>Aurora Boreal</span></strong>. All Rights Reserved
     </div>
+  </footer><!-- End Footer -->
 
-    <div class="box">
-      <h2>Dados do Responsável</h2>
-      <p><strong>Nome:</strong> <span class="nome_responsavel"></span></p>
-      <p><strong>CPF:</strong> <span class="cpf_responsavel"></span></p>
-      <p><strong>Telefone:</strong> <span class="telefone_responsavel"></span></p>
-    </div>
-  </div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
-  <div class="edit-box">
-    <h2>Editar Dados</h2>
-    <form onsubmit="handleSubmit(event)">
-      <label for="nome">Nome do Aluno:</label>
-      <input type="text" class="nome_aluno" name="nome" placeholder="João da Silva"/>
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
 
-      <label for="email">Email:</label>
-      <input type="email" class="email_aluno" name="email" placeholder="joao@email.com"/>
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
 
-      <label for="responsavel">Nome do Responsável:</label>
-      <input type="text" class="nome_responsavel" name="responsavel" placeholder="Maria da Silva"/>
-
-      <button type="submit">Salvar Alterações</button>
-    </form>
-  </div>
-
+  <!-- Script para o formulário de edição -->
   <script>
-    function handleSubmit(event) {
-      event.preventDefault();
-      alert("Dados salvos com sucesso!");
-    }
-  </script>
-</body>
+    document.getElementById('form-editar-perfil').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-<script src="/js/aluno_perfil.js"></script>
+      // Verificar se a senha atual foi fornecida
+      const senhaAtual = document.getElementById('senha_atual').value;
+      if (!senhaAtual) {
+        alert('Por favor, digite sua senha atual para confirmar as alterações.');
+        return;
+      }
+
+      // Coletar dados do formulário
+      const formData = new FormData(this);
+      const dados = Object.fromEntries(formData);
+
+      // Mostrar loading
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Salvando...';
+      submitBtn.disabled = true;
+
+      // Enviar dados para o servidor
+      fetch('/system/alunos/perfil/atualizar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(dados)
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.sucesso) {
+          alert(result.mensagem);
+          // Recarregar a página para mostrar os dados atualizados
+          location.reload();
+        } else {
+          alert('Erro: ' + result.mensagem);
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao salvar alterações. Tente novamente.');
+      })
+      .finally(() => {
+        // Restaurar botão
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      });
+    });
+  </script>
+
+  <script src="/js/aluno_perfil.js"></script>
+
+</body>
 
 </html>
