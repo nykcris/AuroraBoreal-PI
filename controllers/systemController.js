@@ -199,7 +199,7 @@ class SystemController {
     async direcaoFetchTurma(req, res) {
         let DBT = new DB_Turma();
         let turmas = await DBT.listar();
-        res.send(turmas);
+        res.json(turmas);
     }
 
     async direcaoFetchDisciplina(req, res) {

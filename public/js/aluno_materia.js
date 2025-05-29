@@ -85,6 +85,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
             let bimestre = 0;
             data.forEach(atividade => {
+                if(atividade.tipo == 3) return;
                 if(bimestre != atividade.bimestre) {
                     bimestre = atividade.bimestre;
                     const li = document.createElement('li');
@@ -151,7 +152,11 @@ document.addEventListener("DOMContentLoaded", function() {
         let file = new FormData();
         file.set('resposta', resposta);
         file.set('id_atividade', atividadeId);
-        file.set('anexo_resposta', document.getElementById('anexo-resposta').files[0]);
+        try{
+            if(document.getElementById('anexo-resposta').files[0]) file.set('anexo_resposta', document.getElementById('anexo-resposta').files[0]);
+        }catch(err){
+            console.error(err);
+        }
 
         console.log(resposta);
         console.log(atividadeId);

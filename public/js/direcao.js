@@ -284,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const email = document.getElementById('email-aluno').value.trim();
         const telefone = document.getElementById('numero-celular').value.trim();
         const senha = document.getElementById('senha-academica').value.trim();
-        const serie = document.querySelector('input[name="serie"]:checked').value;
+        const serie = document.querySelector('#turma-select').value;
         const email_aca = document.querySelector('#email-academica').value.trim();
         const senha_aca = document.querySelector('#senha-academica').value.trim();
 
@@ -327,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
             responsavel_tel: telefone
         };
 
-        fetch('/system/cadastrarAluno', {
+        fetch('/system/alunos/cadastrarAluno', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -1413,6 +1413,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(res => res.json())
             .then(result => {
+                console.log(result);
                 let sel = ".turma-select";
                 if (number != null) {
                     sel += '-' + number;
