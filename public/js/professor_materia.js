@@ -147,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Atividade salva com sucesso!');
 
                 // Preenche automaticamente a resposta
+                console.log(tipo);
                 if(tipo == 4 || tipo == 3) autoFillProva(result.id_atividade);
                 
                 // Recarrega a lista de atividades
@@ -747,7 +748,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function validatePeso(bimestre) {
         const peso = document.getElementById('peso').value;
         setMaximumPeso(bimestre);
+        console.log(peso);
         try{
+            if(peso == ''){
+                document.getElementById('peso').value = '';
+            }
+            if(isNaN(peso)){
+                document.getElementById('peso').value = 0;
+            }
             if(peso < 0){
                 document.getElementById('peso').value = 0;
             }
