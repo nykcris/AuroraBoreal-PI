@@ -68,10 +68,10 @@ class ProfessorController {
 
         if (sucesso) {
             console.log("Sucesso ao deletar a atividade");
-            res.redirect("/system/professores");
+            res.json({ sucesso: true, mensagem: "Atividade deletada com sucesso!" });
         } else {
             console.log("Erro ao deletar atividade");
-            res.send("Erro ao deletar atividade");
+            res.json({ sucesso: false, mensagem: "Erro ao deletar atividade" });
         }
     }
 
@@ -147,12 +147,13 @@ class ProfessorController {
         let sucesso = await atividade.gravar(); // chama o método da própria instância
 
         console.log(sucesso);
+        let id_atividade = await atividade.ati_id;
         if (sucesso) {
           console.log("Sucesso ao gravar a atividade");
-          res.send({ sucesso: true, mensagem: "Atividade cadastrada com sucesso!" });
+          res.json({ sucesso: true, mensagem: "Atividade cadastrada com sucesso!", id_atividade: id_atividade });
         } else {
           console.log("Erro ao gravar atividade");
-          res.send("Erro ao gravar atividade");
+          res.json({ sucesso: false, mensagem: "Erro ao gravar atividade" });
         }
     }
 

@@ -18,7 +18,7 @@ class DB_Turma {
 
     async listar() {
         let DB = new db();
-        let rows = await DB.ExecutaComando("SELECT t.id, t.nome, s.nome AS serie_nome FROM tb_turma t JOIN tb_serie s ON t.serie_id = s.id", []);
+        let rows = await DB.ExecutaComando("SELECT t.id, t.nome, s.nome AS serie_nome, s.id AS serie_id FROM tb_turma t JOIN tb_serie s ON t.serie_id = s.id", []);
         return rows
     }
 

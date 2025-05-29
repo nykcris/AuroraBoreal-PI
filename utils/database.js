@@ -37,7 +37,7 @@ class Database {
                     rej(error);
                 }
                 else {
-                    res(results);
+                    res(results.insertId);
                 }
             });
         });

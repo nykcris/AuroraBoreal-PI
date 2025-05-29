@@ -61,32 +61,51 @@ document.addEventListener('DOMContentLoaded', function() {
     const notaInput = document.getElementById('nota');
     if(notaInput) notaInput.addEventListener('input', validateNota);
     
+	const tipoAtividade = document.getElementById('tipo-atividade');
+	if(tipoAtividade) tipoAtividade.addEventListener('change', provaButton);
+	provaButton();
     
-	// ===== FUNÇÕES DE INICIALIZAÇÃO =====
+	function provaButton() {
+		const tipo = document.getElementById('tipo-atividade').value;
+		if(tipo == 3){
+			document.getElementById('prova-div').style.display = 'block';
+		} else {
+			document.getElementById('prova-div').style.display = 'none';
+		}
+	}
     
     // ===== FUNÇÕES DE VALIDAÇÃO DE FORMULÁRIO =====
     
     function validateAtividadeForm() {
         const titulo = document.getElementById('titulo-atividade').value.trim();
         const descricao = tinymce.get('descricao-atividade').getContent();
-        const tipo = document.getElementById('tipo-atividade').value;
+        let tipo = document.getElementById('tipo-atividade').value;
         const dataEntrega = document.getElementById('data-entrega').value;
 		const peso = document.getElementById('peso').value;
 		const bimestre = document.getElementById('bimestre').value;
 		const anexo = document.getElementById('anexo-atividade').files[0];
+        const checkProva = document.getElementById('check-prova').checked;
         
         let isValid = true;
         
         isValid = isValid && titulo !== '';
+        isValid = isValid && descricao !== '';
+        isValid = isValid && dataEntrega !== '';
+		isValid = isValid && peso !== '';
+		isValid = isValid && bimestre !== '';
         
         if(!isValid) {
-            alert('Ops! Você precisa preencher o título da atividade');
+            alert('Ops! Você precisa preencher os campos obrigatórios');
             return;
         }
 
         if(materiaId == null){
             alert('Ops! Não foi possível carregar a matéria');
             return;
+        }
+
+        if(checkProva){
+            tipo = 4;
         }
         
         let Form = new FormData();
@@ -121,6 +140,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Mostra mensagem de sucesso
                 alert('Atividade salva com sucesso!');
+
+                // Preenche automaticamente a resposta
+                if(tipo == 4 || tipo == 3) autoFillProva(result.id_atividade);
                 
                 // Recarrega a lista de atividades
                 carregarAtividades();
@@ -141,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('peso').value = '';
             
             // Mostra mensagem de sucesso
-            alert('Atividade salva com sucesso!');
+            alert('Ops! Tivemos um problema ao tentar salvar a atividade');
             
             // Recarrega a lista de atividades
             carregarAtividades();
@@ -272,7 +294,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 }else{
                     resposta.atrasada = '';
                 }
+                
                 const row = document.createElement('tr');
+
+                console.log(resposta.tipo);
+
+                if(resposta.tipo == 4 || resposta.tipo == 3){
+                    row.style.backgroundColor = '#ff0000';
+                    row.innerHTML = `
+                            <td>${resposta.titulo}</td>
+                            <td>${new Date(resposta.data_envio).toLocaleDateString()}</td>
+                            <td>
+                            Nota: ${resposta.nota}
+                            Corrigido: ${resposta.corrigida}
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-success ver-resposta" data-id="${resposta.res_id}">Avaliar</button>
+                            </td>
+                    `;
+                    tabelaRespostasBody.appendChild(row);
+                    return;
+                }
+
                 row.innerHTML = `
                     <td>${resposta.titulo}</td>
                     <td>${new Date(resposta.data_envio).toLocaleDateString()}</td>
@@ -382,8 +425,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function excluirAtividade(id) {
         if(confirm('Tem certeza que deseja excluir esta atividade?')) {
-            fetch(`/system/professores/atividades/${id}`, {
-                method: 'DELETE',
+            fetch(`/system/professores/deletarAtividade?id=${id}`, {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include'
             })
@@ -866,6 +909,63 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
         })
+
+    }
+
+    function autoFillProva(atividade_id) {
+        console.log('Preenchendo provas automaticamente');
+        fetch(`/system/fetchAlunos?turma=${turmaId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const alunos = data;
+            alunos.forEach(aluno => {
+                const atividadeId = atividade_id;
+                const aluno_id = aluno.id;
+                const resposta = 'Resposta automática';
+                
+                if(!atividadeId) {
+                    alert('Ops! Não foi possível identificar a atividade');
+                    return;
+                }
+                
+                let file = new FormData();
+                file.set('aluno_id', aluno_id);
+                file.set('resposta', resposta);
+                file.set('id_atividade', atividadeId);
+                try{
+                    if(document.getElementById('anexo-resposta').files[0]) file.set('anexo_resposta', document.getElementById('anexo-resposta').files[0]);
+                }catch(err){
+                    console.error(err);
+                }
+
+                console.log(resposta);
+                console.log(atividadeId);
+
+                fetch('/system/alunos/resposta', {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: file
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.sucesso) {
+                        console.log('Resposta enviada com sucesso!');
+                    } else {
+                        alert('Não foi possível Gerar respostas automáticas: ' + (data.mensagem || 'Erro desconhecido'));
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Ops! Tivemos um problema ao tentar Gerar respostas automáticas');
+                });
+            });
+
+        })
+
 
     }
 
