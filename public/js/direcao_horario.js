@@ -1,16 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 
-
     function InitializeButtons() {
 
-        const turmaSelect = document.querySelector('.turma-select #horario-turma-select');
+        const turmaSelect = document.querySelector('#horario-turma-select');
         turmaSelect.addEventListener('change', fetchHorario);
 
         const saveHorarioButton = document.querySelector('#save-horario-button');
         saveHorarioButton.addEventListener('click', saveHorario);
 
-        const disciplinaSelect = document.querySelector('.disciplina-select #horario-disciplina-select');
+        const disciplinaSelect = document.querySelector('#horario-disciplina-select');
         disciplinaSelect.addEventListener('change', allowEdit);
 
     }
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function fetchHorario() {
-        const turmaSelect = document.querySelector('.turma-select #horario-turma-select');
+        const turmaSelect = document.querySelector('#horario-turma-select');
         fetch(`/system/direcaoFetchHorario?turma=${turmaSelect.value}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -29,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
             .then(res => res.json())
             .then(result => {
+                console.log(result);
                 let tableBody = document.querySelector('#horario-cadastrados table tbody');
                 let tabelaHorario = [
                     [[],[],[],[],[]],
@@ -39,31 +39,41 @@ document.addEventListener('DOMContentLoaded', function() {
                     [[],[],[],[],[]]
                 ]
 
+                console.log(tabelaHorario);
+
                 let horas = ["7:00 - 7:50","7:50 - 8:40","8:40 - 9:30","9:30 - 10:00","10:00 - 10:50","10:50 - 11:40","11:40 - 12:25"];
                 result.forEach(horario => {
-                    tabelaHorario[horario.horario][horario.dia].push(horario);
+                    tabelaHorario[horario.horario][horario.dia] = horario;
                 });
-                tabelaHorario.forEach((horario, index) => {
-                    horario.forEach((dia, index) => {
-                        let row = document.createElement('tr');
-                        if(index != 3){
-                            row.innerHTML = `
-                                <th scope="row">${horas[index]}</th>
-                                <td><select class="form-select" disabled><option value="${dia[0].disciplina_id}" selected>${dia[0].disciplina_nome}</option></select></td>
-                                <td><select class="form-select" disabled><option value="${dia[1].disciplina_id}" selected>${dia[1].disciplina_nome}</option></select></td>
-                                <td><select class="form-select" disabled><option value="${dia[2].disciplina_id}" selected>${dia[2].disciplina_nome}</option></select></td>
-                                <td><select class="form-select" disabled><option value="${dia[3].disciplina_id}" selected>${dia[3].disciplina_nome}</option></select></td>
-                                <td><select class="form-select" disabled><option value="${dia[4].disciplina_id}" selected>${dia[4].disciplina_nome}</option></select></td>
-                            `;
-                        }else{
-                            row.innerHTML = `
-                                <th scope="row">${horas[index]}</th>
-                                <td colspan="5" style="text-align: center;">Intervalo</td>
-                            `;
+                tabelaHorario.forEach((dia, index) => {
+                    console.log(index);
+                    let row = document.createElement('tr');
+                    if(index == 3){
+                        let rowIntervalo = document.createElement('tr');
+                        rowIntervalo.innerHTML = `
+                            <th scope="row">${horas[index]}</th>
+                            <td colspan="5" style="text-align: center;">Intervalo</td>
+                        `;
+                        console.log(rowIntervalo);
+                        tableBody.appendChild(rowIntervalo);
+                        
+                    }
+
+                    dia.forEach((d, index) => {
+                        if(!d.disciplina_nome){
+                            d.disciplina_nome = '';
                         }
-                        tableBody.appendChild(row);
                     });
-            })
+                    row.innerHTML = `
+                        <th scope="row">${horas[index]}</th>
+                        <td><select class="form-select horario-options" disabled><option value="${dia[0].disciplina_id}" selected>${dia[0].disciplina_nome}</option></select></td>
+                        <td><select class="form-select horario-options" disabled><option value="${dia[1].disciplina_id}" selected>${dia[1].disciplina_nome}</option></select></td>
+                        <td><select class="form-select horario-options" disabled><option value="${dia[2].disciplina_id}" selected>${dia[2].disciplina_nome}</option></select></td>
+                        <td><select class="form-select horario-options" disabled><option value="${dia[3].disciplina_id}" selected>${dia[3].disciplina_nome}</option></select></td>
+                        <td><select class="form-select horario-options" disabled><option value="${dia[4].disciplina_id}" selected>${dia[4].disciplina_nome}</option></select></td>
+                    `;
+                    tableBody.appendChild(row);
+                })
             .then(() => {
                 allowEdit();
             })
@@ -77,10 +87,11 @@ document.addEventListener('DOMContentLoaded', function() {
         let rows = tableBody.querySelectorAll('tr');
         rows.forEach(row => {
             let cells = row.querySelectorAll('td');
+            console.log(cells);
             cells.forEach(cell => {
                 let select = cell.querySelector('select');
-                if(select && select.value == this.value){
-                    select.disabled = false;
+                if(select && (select.value == this.value || select.value == '')){
+                    select.disabled = true;
                 }
             });
         });
@@ -89,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function saveHorario() {
 
         let horario = [];
-        let turma = document.querySelector('.turma-select #horario-turma-select').value;
+        let turma = document.querySelector('#horario-turma-select').value;
 
         let tableBody = document.querySelector('#horario-cadastrados table tbody');
         let rows = tableBody.querySelectorAll('tr');
@@ -152,6 +163,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error(err);
             });
     }
+
+    fetchHorario();
 
 
 });
