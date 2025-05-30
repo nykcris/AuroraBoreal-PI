@@ -121,7 +121,6 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Registro de Uso De Material</h5>
-
                             <form id="form-material" class="row g-3">
                                 <div class="col-md-12">
                                     <label for="material-select" class="form-label">Material:</label>
@@ -129,23 +128,41 @@
                                         <option value="" selected disabled>Selecione um material</option>
                                     </select>
                                 </div>
-
                                 <div class="col-md-6">
                                     <label for="quantidade" class="form-label">Quantidade: </label>
                                     <input type="number" class="form-control" id="quantidade" name="quantidade_usada" min="1" required>
                                 </div>
-
                                 <div class="col-md-12">
                                     <label for="observacoes" class="form-label">Observações (opcional):</label>
                                     <textarea class="form-control" id="observacoes" name="observacoes" rows="2"></textarea>
                                 </div>
-
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary">Registrar Uso</button>
                                     <button type="reset" class="btn btn-secondary">Limpar</button>
                                 </div>
                             </form>
+                        </div>
                     </div>
+                    <style>
+                        /* Remove espaço vazio do meio da página */
+                        .col-lg-8 > .row {
+                            min-height: 0 !important;
+                            height: auto !important;
+                        }
+                        @media (min-width: 992px) {
+                            .col-lg-8 {
+                                flex: 0 0 0%;
+                                max-width: 0%;
+                                padding: 0;
+                                margin: 0;
+                                display: none;
+                            }
+                            .col-lg-4 {
+                                flex: 0 0 100%;
+                                max-width: 100%;
+                            }
+                        }
+                    </style>
                 </div><!-- End Multi Columns Form -->
 
 
@@ -154,191 +171,8 @@
 
 
 
-                  <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <label for="turma-select" class="form-label">Adicionar Nota bimestral</label>
-
-                            <select class="form-select" id="turma-select" name="turma">
-                                <option value="" selected disabled>Selecione a turma</option>
-                                <option value="1A">1° A- Química</option>
-                                <option value="1B">1° B-Física</option>
-                                <option value="1C">1° B- Química</option>
-                            </select>
-                        </h5>
-
-                        <h5 class="card-title mt-4">Bimestre</h5>
-                        <select class="form-select" id="turma-select" name="turma">
-                            <option value="" selected disabled>Selecione a turma</option>
-                            <option value="1B">1° Bimestre</option>
-                            <option value="2B">2° Bimestre</option>
-                            <option value="3B">3° Bimestre</option>
-                            <option value="4B">4° Bimestre</option>
-                        </select>
-
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">Nota</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% if (typeof rows != 'undefined') { %>
-                                    <% for (let index = 0; index < rows.length; index++) { %>
-                                        <% if (rows[index].per_id == 1) { %>
-                                            <tr>
-                                                <th scope="row">#<%= rows[index].usu_id %></th>
-                                                <td><%= rows[index].usu_nome %></td>
-                                                <td><input type="number" class="form-control" id="nota" name="nota"></td>
-                                                <td><a type="button" id="enviarNota" class="btn btn-primary">Enviar nota</a></td>
-                                            </tr>
-                                        <% } %>
-                                    <% } %>
-                                <% } %>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-                </div>
-                <!--fim do formulário-->
-
-                <!--tabela nova atividades-->
-                <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Nova Atividade</h5>
-                      <form id="form-atividade" method="POST" action="/system/professores/atividades">
-                        <div class="mb-3">
-                          <label for="titulo" class="form-label">Título da Atividade</label>
-                          <input type="text" class="form-control" name="titulo" required>
-                        </div>
-                        <div class="mb-3">
-                          <label for="descricao" class="form-label">Descrição</label>
-                          <textarea class="form-control" name="descricao" rows="4" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                          <label for="data_entrega" class="form-label">Data de Entrega</label>
-                          <input type="datetime-local" class="form-control" name="data_entrega" required>
-                        </div>
-                    <!--    <div class="mb-3">
-                          <label for="anexo_atividade" class="form-label">Anexo (opcional)</label>
-                          <input type="file" class="form-control" name="anexo_atividade">
-                        </div> -->
-
-                        <button class="btn btn-primary">Cadastrar Atividade</button>
-                      </form>
-                    </div>
-                  </div>
-                  <!--fim de novas atividades-->
-                  <!-- Listagem de Atividades Cadastradas -->
-<div class="card mt-4">
-    <div class="card-body">
-      <h5 class="card-title">Atividades Cadastradas</h5>
-      <% if (typeof atividades_cadastradas  != 'undefined') { %>
-      <% if (atividades_cadastradas && atividades_cadastradas.length > 0) { %>
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Título</th>
-              <th>Descrição</th>
-              <th>Data de Entrega</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% atividades_cadastradas.forEach(atividade => { %>
-              <tr>
-                <td><%= atividade.titulo %></td>
-                <td><%= atividade.descricao %></td>
-                <td><%= new Date(atividade.data_entrega).toLocaleString() %></td>
-                <td>
-                  <a href="/system/professores/editarAtividade?id=<%= atividade.ati_id %>" class="btn btn-warning btn-sm">Editar</a>
-                  <form action="/system/professores/deletarAtividade?id=<%= atividade.ati_id %>" method="POST" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm" onsubmit="return confirm('Tem certeza que deseja excluir esta atividade?');">Excluir</button>
-                  </form>
-                </td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
-        <% } %>
-      <% } else { %>
-        <p>Nenhuma atividade cadastrada ainda.</p>
-      <% } %>
-
-    </div>
-  </div>
-  <!--fim de listar atividades-->
-                  <!--visualizar respostas-->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Respostas dos Alunos</h5>
-
-                        <% if (typeof atividades_row !='undefined' ) { %>
-
-                            <% atividades_row.forEach(atividade=> { %>
-                                <div class="mb-3"></div>
-                                <h6>
-                                    <span class="fw-bold">Atividade:</span> <%= atividade.titulo %> - <%= atividade.data_entrega.toLocaleString() %>
-                                </h6>
-                                <ul class="list-group mb-3">
-                                    <% atividade.respostas.forEach(res=> { %>
-                                        <% if (!res) { %>
-                                            <div class="mb-2 alert-black">Nenhuma resposta enviada ainda</div>
-                                        <% } %>
-                                        <li class="list-group-item">
-                                            <p><strong>Aluno:</strong>
-                                                <%= res.aluno %> - <%= res.data_envio.toLocaleString() %>
-                                            </p>
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal<%= res.res_id %>">Resposta</button>
-                                            <div class="modal fade" id="exampleModal<%= res.res_id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p><strong>Resposta:</strong>
-                                                            <%= res.resposta %>
-                                                        </p>
-                                                        <% if (typeof res.anexo_resposta != 'undefined') { %>
-                                                            <p><a href="<%= res.anexo_resposta %>" target="_blank" download>Ver anexo</a></p>
-                                                        <% } %>
-                                                        <form method="POST" action="/system/professores/corrigirResposta">
-                                                            <input type="hidden" name="res_id" value="<%= res.res_id %>">
-                                                            <div class="mb-2">
-                                                                <label>Nota:</label>
-                                                                <input type="number" name="nota" class="form-control" step="0.1" min="0"
-                                                                    max="10" value="<%= res.nota || '' %>">
-                                                            </div>
-                                                            <div class="mb-2">
-                                                                <label>Comentário:</label>
-                                                                <textarea name="comentario_professor"
-                                                                    class="form-control"><%= res.comentario_professor || '' %></textarea>
-                                                            </div>
-                                                            <button type="submit" class="btn btn-success">Salvar Correção</button>
-                                                        </form>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            <% if (res.anexo_resposta) { %>
-
-                                                <p><a href="<%= res.anexo_resposta %>" target="_blank">Ver anexo</a></p>
-                                                <% } %>
-
-                                        </li>
-                                        <% }) %>
-                                </ul>
-                                <% }) %>
-                                <% } %>
-
-                    </div>
-                </div>
+                
+                
                 <!--fim de visualizar respostas-->
             </div><!-- End Right side columns -->
             </div>
