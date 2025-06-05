@@ -23,6 +23,49 @@
       font-weight: 500;
     }
   </style>
+  <style media="print">
+          .col-lg-8 {
+            width: 100% !important;
+          }
+          .card {
+            border: none !important;
+            box-shadow: none !important;
+          }
+          .info-item {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: none !important;
+          }
+          .row {
+            display: table !important;
+            width: 100% !important;
+          }
+          .col-md-6 {
+            display: table-cell !important;
+            width: 50% !important;
+            padding: 5px !important;
+          }
+          .card-title {
+            font-size: 18px !important;
+            margin-bottom: 15px !important;
+            border-bottom: 2px solid #000 !important;
+          }
+          .info-item strong {
+            display: inline-block !important;
+            width: 100px !important;
+            font-weight: bold !important;
+          }
+          .info-item p {
+            display: inline-block !important;
+          }
+          #editar-dados-card {
+            display: none !important;
+          }
+          #imprimir-btn {
+            display: none !important;
+          }
+        </style>
 </head>
 <body>
 
@@ -41,16 +84,19 @@
     <section class="section dashboard">
       <div class="row">
 
+        
+        
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
-
-            <!-- Dados do Aluno Card -->
+            <!-- Dados do Professor Card -->
             <div class="col-12">
               <div class="card info-card">
                 <div class="card-body">
-                  <h5 class="card-title">Dados do Professor</h5>
-
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title">Dados do Professor</h5>
+                    <button class="btn btn-primary" id="imprimir-btn" onclick="window.print()">Imprimir</button>
+                  </div>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="info-item">
@@ -70,7 +116,6 @@
                         </p>
                       </div>
                     </div>
-
                     <div class="col-md-6">
                       <div class="info-item">
                         <strong>Email:</strong>
@@ -89,11 +134,10 @@
                         </p>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
-            </div><!-- End Dados do Aluno Card -->
+            </div>
 
             <!-- Dados de Contato Card -->
             <div class="col-12">
@@ -122,8 +166,7 @@
                   </div>
                 </div>
               </div>
-            </div><!-- End Dados de Contato Card -->
-
+            </div>
           </div>
         </div><!-- End Left side columns -->
 
@@ -131,7 +174,7 @@
         <div class="col-lg-4">
 
           <!-- Editar Dados Card -->
-          <div class="card">
+          <div class="card" id="editar-dados-card">
             <div class="card-body">
               <h5 class="card-title">Editar Dados</h5>
 
