@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       })
       .then(data => {
-        console.log(data);
+        document.getElementById('aluno-nome').innerHTML = data[0].aluno_nome;
+        document.getElementById('id-aluno').innerHTML = "ID: " + data[0].aluno_id;
         let html = "";
         data.forEach(disciplina => {
           html += `

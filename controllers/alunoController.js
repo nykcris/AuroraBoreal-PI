@@ -17,7 +17,7 @@ class AlunoController {
     let rows = [];
     for (let i = 0; i < alunos.length; i++) {
         rows.push({
-            "usu_id":alunos[i].aluno_id,
+            "usu_id":alunos[i].id,
             "usu_nome":alunos[i].aluno_nome,
             "email_user":alunos[i].email,
             "usu_senha":alunos[i].senha
@@ -398,14 +398,11 @@ class AlunoController {
         }
     }
     let data = [];
-    console.log("============================");
-    console.log(turma_disciplinas);
-    console.log("============================");
     for (let i = 0; i < disciplinas.length; i++) {
-      console.log(i);
-      console.log(turma_disciplinas[i].disciplina_id);
         let notas = await DBN.obterNotasAluno(req.cookies.usuarioLogado, turma_disciplinas[i].disciplina_id, turma_disciplinas[i].turma_id);
         data.push({
+            "aluno_nome":notas[0] ? notas[0].aluno_nome : aluno[0].aluno_nome,
+            "aluno_id":notas[0] ? notas[0].aluno_id : aluno[0].id,
             "disciplina_nome":disciplinas[i][0].nome,
             "nota1":notas[0] ? notas[0].valor_nota : 0,
             "nota2":notas[1] ? notas[1].valor_nota : 0,

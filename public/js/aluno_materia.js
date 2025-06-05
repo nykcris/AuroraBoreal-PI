@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                 <td>${resposta.titulo}</td>
                                 <td>${resposta.nota}</td>
                                 <td>${resposta.peso}</td>
-                                <td>${resposta.nota * (resposta.peso / 100)}</td>
+                                <td>${(resposta.nota * (resposta.peso / 100)).toFixed(2)}</td>
                             </tr>
                         `;
                     }else if(resposta.bimestre == 2){
@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                 <td>${resposta.titulo}</td>
                                 <td>${resposta.nota}</td>
                                 <td>${resposta.peso}</td>
-                                <td>${resposta.nota * (resposta.peso / 100)}</td>
+                                <td>${(resposta.nota * (resposta.peso / 100)).toFixed(2)}</td>
                             </tr>
                         `;
                     }else if(resposta.bimestre == 3){
@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                 <td>${resposta.titulo}</td>
                                 <td>${resposta.nota}</td>
                                 <td>${resposta.peso}</td>
-                                <td>${resposta.nota * (resposta.peso / 100)}</td>
+                                <td>${(resposta.nota * (resposta.peso / 100)).toFixed(2)}</td>
                             </tr>
                         `;
                     }else if(resposta.bimestre == 4){
@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                 <td>${resposta.titulo}</td>
                                 <td>${resposta.nota}</td>
                                 <td>${resposta.peso}</td>
-                                <td>${resposta.nota * (resposta.peso / 100)}</td>
+                                <td>${(resposta.nota * (resposta.peso / 100)).toFixed(2)}</td>
                             </tr>
                         `;
                     }
@@ -306,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
             });
             let totalBimestre = document.querySelector(`#tabela-bimestre${index} tfoot tr .total-bimestre`);
-            totalBimestre.innerHTML = total;
+            totalBimestre.innerHTML = total.toFixed(2);
             let status = document.querySelector(`#tabela-bimestre${index} tfoot tr .status`);
             if(!statusMateria == "ativo"){
                 if(total >= 6){

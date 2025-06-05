@@ -1,3 +1,37 @@
+  <style media="print">
+    #imprimir-btn {
+      display: none !important;
+    }
+    .pagetitle {
+      display: none !important;
+    }
+    .card {
+      border: none !important;
+      box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+      -moz-box-shadow: none !important;
+    }
+    .card-title {
+      font-size: 18px !important;
+      margin-bottom: 15px !important;
+      border-bottom: 2px solid #000 !important;
+    }
+    .table {
+      width: 100% !important;
+      border: 1px solid #000 !important;
+      border-collapse: collapse !important;
+    }
+    .table th,
+    .table td {
+      border: 1px solid #000 !important;
+      padding: 5px !important;
+    }
+    .table th {
+      background-color: #f2f2f2 !important;
+    }
+  </style>  
+
+
 <body>
     
     <main id="main" class="main">
@@ -18,7 +52,10 @@
       
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Quadro de Notas</h5>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title">Quadro de Notas <h5 id="aluno-nome"></h5> <span id="id-aluno"></span></h5>
+                    <button class="btn btn-primary" id="imprimir-btn" onclick="window.print()">Imprimir</button>
+                  </div>
       
                   <table class="table table-hover table-striped" id="tabelaNotas">
                     <thead>
