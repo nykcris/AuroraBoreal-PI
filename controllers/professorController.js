@@ -16,19 +16,21 @@ var DB = new db();
 
 class ProfessorController {
     async professores(req,res) {
-        let db_func = new DB_Usuarios();
-        let funcs = await db_func.listar([2]);
+        // Buscar dados do professor logado
+        let DBP = new DB_Professor();
+        let professor = await DBP.obter(req.cookies.usuarioLogado);
+
         let rows = [];
-
-        for (let i = 0; i < funcs.length; i++) {
+        if (professor && professor.length > 0) {
             rows.push({
-                "usu_id":funcs[i].id,
-                "usu_nome":funcs[i].nome,
-                "usu_email":funcs[i].email,
-                "usu_senha":funcs[i].senha,
-
-                "per_id":funcs[i].perfilId
-            })
+                "professor": {
+                    "id": professor[0].id,
+                    "nome": professor[0].nome,
+                    "email": professor[0].email,
+                    "telefone": professor[0].telefone,
+                    "salario": professor[0].salario
+                }
+            });
         }
 
 
@@ -262,6 +264,164 @@ class ProfessorController {
         } else {
             console.log("Erro ao atualizar professor");
             res.send("Erro ao atualizar professor");
+        }
+    }
+
+    async perfilProfessor(req, res) {
+        try {
+            console.log("=== CARREGAR PERFIL PROFESSOR ===");
+            console.log("Todos os cookies:", req.cookies);
+            console.log("Cookie usuarioLogado:", req.cookies.usuarioLogado);
+            console.log("Cookie usuarioLogadoEmail:", req.cookies.usuarioLogadoEmail);
+            console.log("Cookie usuarioLogadoSenha:", req.cookies.usuarioLogadoSenha);
+
+            let DBP = new DB_Professor();
+            let DBPTD = new DB_ProfessorTurmaDisciplina();
+            let DBA = new DB_Atividade();
+
+            let professor = await DBP.obter(req.cookies.usuarioLogado);
+            console.log("Professor encontrado:", professor);
+
+            if (professor && professor.length > 0) {
+                console.log("Dados do professor:", professor[0]);
+
+                // Buscar estatísticas do professor
+                let estatisticas = {
+                    disciplinas: 0,
+                    turmas: 0,
+                    atividades_criadas: 0
+                };
+
+                try {
+                    // Contar disciplinas que o professor leciona
+                    let disciplinasProfessor = await DBPTD.listarDisciplinasProfessor(req.cookies.usuarioLogado);
+                    estatisticas.disciplinas = disciplinasProfessor.length;
+
+                    // Contar turmas únicas que o professor leciona
+                    let turmasProfessor = await DBPTD.listarTurmasProfessor(req.cookies.usuarioLogado);
+                    let turmasUnicas = [...new Set(turmasProfessor.map(t => t.turma_id))];
+                    estatisticas.turmas = turmasUnicas.length;
+
+                    // Contar atividades criadas pelo professor
+                    let atividadesProfessor = await DBA.listarPorProfessor(req.cookies.usuarioLogado);
+                    estatisticas.atividades_criadas = atividadesProfessor ? atividadesProfessor.length : 0;
+
+                } catch (statsError) {
+                    console.log("Erro ao carregar estatísticas:", statsError);
+                }
+
+                console.log("Estatísticas calculadas:", estatisticas);
+
+                res.render("Professor/professores_perfil", {
+                    layout: 'layouts/layout_professor',
+                    professor: professor[0],
+                    estatisticas: estatisticas
+                });
+            } else {
+                console.log("Nenhum professor encontrado");
+                res.render("Professor/professores_perfil", {
+                    layout: 'layouts/layout_professor',
+                    professor: null,
+                    estatisticas: { disciplinas: 0, turmas: 0, atividades_criadas: 0 }
+                });
+            }
+        } catch (error) {
+            console.error("Erro ao carregar perfil do professor:", error);
+            res.render("Professor/professores_perfil", {
+                layout: 'layouts/layout_professor',
+                professor: null,
+                estatisticas: { disciplinas: 0, turmas: 0, atividades_criadas: 0 }
+            });
+        }
+    }
+
+    async atualizarPerfilProfessor(req, res) {
+        try {
+            console.log("=== ATUALIZAR PERFIL PROFESSOR ===");
+            console.log("Dados recebidos:", req.body);
+            console.log("Cookie usuarioLogado:", req.cookies.usuarioLogado);
+
+            const { nome, email, telefone, cpf, salario, nova_senha, senha_atual } = req.body;
+
+            // Verificar se a senha atual foi fornecida
+            if (!senha_atual) {
+                console.log("Erro: Senha atual não fornecida");
+                return res.json({
+                    sucesso: false,
+                    mensagem: "Senha atual é obrigatória para confirmar as alterações"
+                });
+            }
+
+            let DBP = new DB_Professor();
+
+            // Verificar se a senha atual está correta
+            let professorAtual = await DBP.obter(req.cookies.usuarioLogado);
+            console.log("Professor encontrado:", professorAtual);
+
+            if (!professorAtual || professorAtual.length === 0) {
+                console.log("Erro: Professor não encontrado");
+                return res.json({
+                    sucesso: false,
+                    mensagem: "Professor não encontrado"
+                });
+            }
+
+            console.log("Senha do banco:", professorAtual[0].senha);
+            console.log("Senha fornecida:", senha_atual);
+
+            if (professorAtual[0].senha !== senha_atual) {
+                console.log("Erro: Senha atual incorreta");
+                return res.json({
+                    sucesso: false,
+                    mensagem: "Senha atual incorreta"
+                });
+            }
+
+            // Preparar senha para atualização (usar nova senha se fornecida, senão manter atual)
+            let senhaParaAtualizar = nova_senha && nova_senha.trim() !== '' ? nova_senha : null;
+
+            console.log("Dados para atualização:", {
+                id: req.cookies.usuarioLogado,
+                nome, email, telefone, cpf, salario, senha: senhaParaAtualizar ? "***" : "não alterada"
+            });
+
+            // Usar atualização dinâmica apenas dos campos alterados
+            console.log("Chamando DBP.atualizarPerfil com parâmetros:", {
+                id: req.cookies.usuarioLogado,
+                nome, email, telefone, cpf, salario,
+                senha: senhaParaAtualizar ? "***" : "não alterada"
+            });
+
+            let resultado = await DBP.atualizarPerfil(
+                req.cookies.usuarioLogado,
+                nome,
+                email,
+                telefone,
+                senhaParaAtualizar,
+                cpf,
+                salario
+            );
+
+            console.log("Resultado da atualização:", resultado);
+
+            if (resultado.success) {
+                res.json({
+                    sucesso: true,
+                    mensagem: resultado.message
+                });
+            } else {
+                res.json({
+                    sucesso: false,
+                    mensagem: resultado.message
+                });
+            }
+
+        } catch (error) {
+            console.error("Erro ao atualizar perfil do professor:", error);
+            res.json({
+                sucesso: false,
+                mensagem: "Erro interno do servidor"
+            });
         }
     }
 

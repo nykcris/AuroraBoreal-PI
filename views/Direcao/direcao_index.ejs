@@ -82,104 +82,218 @@
         <div class="col-lg-12">
           <div class="row">
 
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-
-
-
+            <!-- Total Entradas Card -->
+            <div class="col-xxl-3 col-md-6">
+              <div class="card info-card revenue-card">
                 <div class="card-body">
-                  <h5 class="card-title">Gastos em Compras <span>| Hoje</span></h5>
+                  <h5 class="card-title">Total de Entradas <span>| Geral</span></h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-dollar" style="color: green;"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6 id="total-entradas">
+                        <% if (resumoFinanceiro && resumoFinanceiro.total_entradas) { %>
+                          R$ <%= parseFloat(resumoFinanceiro.total_entradas).toLocaleString('pt-BR', {minimumFractionDigits: 2}) %>
+                        <% } else { %>
+                          R$ 0,00
+                        <% } %>
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Total Entradas Card -->
 
+            <!-- Total Despesas Card -->
+            <div class="col-xxl-3 col-md-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">Total de Despesas <span>| Geral</span></h5>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-cart" style="color: red;"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>R$145,00</h6>
-
-
+                      <h6 id="total-despesas">
+                        <% if (resumoFinanceiro && resumoFinanceiro.total_despesas) { %>
+                          R$ <%= parseFloat(resumoFinanceiro.total_despesas).toLocaleString('pt-BR', {minimumFractionDigits: 2}) %>
+                        <% } else { %>
+                          R$ 0,00
+                        <% } %>
+                      </h6>
                     </div>
                   </div>
                 </div>
-
               </div>
-            </div><!-- End Sales Card -->
+            </div><!-- End Total Despesas Card -->
 
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
-
-
-                <div class="card-body">
-                  <h5 class="card-title">Mensalidades pagas <span>| Hoje </span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>R$3.264,00</h6>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Revenue Card -->
-
-            <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
-
+            <!-- Lucro Total Card -->
+            <div class="col-xxl-3 col-md-6">
               <div class="card info-card customers-card">
-
-
                 <div class="card-body">
-                  <h5 class="card-title">Novas Matrículas <span>| Hoje</span></h5>
-
+                  <h5 class="card-title">Lucro Atual <span>| Geral</span></h5>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
+                      <%
+                        let lucro = resumoFinanceiro ? resumoFinanceiro.lucro_total : 0;
+                        let corLucro = lucro >= 0 ? 'green' : 'red';
+                        let iconeLucro = lucro >= 0 ? 'bi-graph-up' : 'bi-graph-down';
+                      %>
+                      <i class="bi <%= iconeLucro %>" style="color: <%= corLucro %>;"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>R$144,00</h6>
-
-
+                      <h6 id="lucro-total" style="color: <%= corLucro %>;">
+                        <% if (resumoFinanceiro && resumoFinanceiro.lucro_total !== null) { %>
+                          R$ <%= parseFloat(resumoFinanceiro.lucro_total).toLocaleString('pt-BR', {minimumFractionDigits: 2}) %>
+                        <% } else { %>
+                          R$ 0,00
+                        <% } %>
+                      </h6>
                     </div>
                   </div>
-
                 </div>
               </div>
+            </div><!-- End Lucro Total Card -->
 
-            </div><!-- End Customers Card -->
-            <!-- Pagamentos Card -->
-            <div class="col-xxl-4 col-xl-12">
-
-              <div class="card info-card customers-card">
-
-
+            <!-- Movimentações Card -->
+            <div class="col-xxl-3 col-md-6">
+              <div class="card info-card">
                 <div class="card-body">
-                  <h5 class="card-title">Salários de funcionários <span>| Hoje</span></h5>
-
+                  <h5 class="card-title">Movimentações <span>| Recentes</span></h5>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cash" style="color: red;"></i>
+                      <i class="bi bi-list-ul" style="color: #0d6efd;"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>R$ 2.800,00</h6>
-
-
+                      <h6 id="total-movimentacoes">
+                        <%= movimentacaoRecente ? movimentacaoRecente.length : 0 %> registros
+                      </h6>
                     </div>
                   </div>
-
                 </div>
               </div>
-
-            </div><!-- End Customers Card -->
+            </div><!-- End Movimentações Card -->
 
 
           </div>
         </div><!-- End Left side columns -->
+
+        <!-- Controle Financeiro -->
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Controle Financeiro</h5>
+
+            <!-- Formulário para Entradas e Despesas -->
+            <div class="row g-3" id="formFinanceiro">
+              <div class="col-md-6">
+                <label for="nome-financeiro" class="form-label">Descrição:</label>
+                <input type="text" class="form-control" id="nome-financeiro" placeholder="Ex: Mensalidade, Salário, Material..." required>
+                <span id="nomeFinanceiroError" style="color:red; display:none;">Descrição é obrigatória.</span>
+              </div>
+
+              <div class="col-md-3">
+                <label for="tipo-financeiro" class="form-label">Tipo:</label>
+                <select class="form-select" id="tipo-financeiro" required>
+                  <option value="">Selecione o tipo</option>
+                  <option value="entrada">Entrada (Receita)</option>
+                  <option value="despesa">Despesa (Gasto)</option>
+                </select>
+                <span id="tipoFinanceiroError" style="color:red; display:none;">Tipo é obrigatório.</span>
+              </div>
+
+              <div class="col-md-3">
+                <label for="valor-financeiro" class="form-label">Valor (R$):</label>
+                <input type="number" class="form-control" id="valor-financeiro" step="0.01" min="0" max="999999.99" placeholder="0,00" required>
+                <span id="valorFinanceiroError" style="color:red; display:none;">Valor deve ser maior que zero.</span>
+              </div>
+
+              <div class="col-12 text-center">
+                <button type="button" id="cadastrar-financeiro-button" class="btn btn-primary">
+                  <i class="bi bi-plus-circle"></i> Registrar
+                </button>
+                <button type="button" id="limpar-financeiro-button" class="btn btn-secondary">
+                  <i class="bi bi-arrow-clockwise"></i> Limpar
+                </button>
+              </div>
+            </div>
+
+            <div id="financeiro-sucesso" style="display:none;color:green;">
+              <i class="bi bi-check-circle"></i> Registro financeiro adicionado com sucesso!
+            </div>
+            <div id="financeiro-erro" style="display:none;color:red;">
+              <i class="bi bi-exclamation-triangle"></i> Erro ao registrar. Verifique os dados.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de Movimentações Financeiras -->
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Movimentações Financeiras</h5>
+
+            <!-- Filtros -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <select class="form-select" id="filtro-tipo">
+                  <option value="">Todos os tipos</option>
+                  <option value="entrada">Apenas Entradas</option>
+                  <option value="despesa">Apenas Despesas</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-outline-primary" id="atualizar-financeiro">
+                  <i class="bi bi-arrow-clockwise"></i> Atualizar
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Impacto no Lucro</th>
+                    <th scope="col">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-financeiro">
+                  <!-- Dados serão carregados via JavaScript -->
+                  <% if (movimentacaoRecente && movimentacaoRecente.length > 0) { %>
+                    <% movimentacaoRecente.forEach((mov, index) => { %>
+                      <tr>
+                        <td><%= mov.id %></td>
+                        <td><%= mov.nome %></td>
+                        <td>
+                          <span class="badge bg-<%= mov.tipo === 'entrada' ? 'success' : 'danger' %>">
+                            <%= mov.tipo === 'entrada' ? 'Entrada' : 'Despesa' %>
+                          </span>
+                        </td>
+                        <td>R$ <%= parseFloat(mov.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2}) %></td>
+                        <td style="color: <%= mov.valor_lucro >= 0 ? 'green' : 'red' %>;">
+                          R$ <%= parseFloat(mov.valor_lucro).toLocaleString('pt-BR', {minimumFractionDigits: 2}) %>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-danger" onclick="excluirMovimentacao(<%= mov.id %>)">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="6" class="text-center text-muted">Nenhuma movimentação registrada</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
         <!-- Table with stripped rows -->
         <div class="card">
           <div class="card-body">
@@ -861,6 +975,198 @@
       let tr = button.parentNode.parentNode;
       tr.remove();    // remove the row from the table
     }
+
+    // ========== FUNCIONALIDADES FINANCEIRAS ==========
+
+    // Cadastrar nova entrada/despesa
+    document.getElementById('cadastrar-financeiro-button').addEventListener('click', function() {
+      const nome = document.getElementById('nome-financeiro').value.trim();
+      const tipo = document.getElementById('tipo-financeiro').value;
+      const valor = parseFloat(document.getElementById('valor-financeiro').value);
+
+      // Limpar mensagens anteriores
+      document.getElementById('financeiro-sucesso').style.display = 'none';
+      document.getElementById('financeiro-erro').style.display = 'none';
+
+      // Validações
+      let hasError = false;
+
+      if (!nome) {
+        document.getElementById('nomeFinanceiroError').style.display = 'block';
+        hasError = true;
+      } else {
+        document.getElementById('nomeFinanceiroError').style.display = 'none';
+      }
+
+      if (!tipo) {
+        document.getElementById('tipoFinanceiroError').style.display = 'block';
+        hasError = true;
+      } else {
+        document.getElementById('tipoFinanceiroError').style.display = 'none';
+      }
+
+      if (!valor || valor <= 0) {
+        document.getElementById('valorFinanceiroError').style.display = 'block';
+        hasError = true;
+      } else {
+        document.getElementById('valorFinanceiroError').style.display = 'none';
+      }
+
+      if (hasError) {
+        document.getElementById('financeiro-erro').style.display = 'block';
+        return;
+      }
+
+      // Enviar dados para o servidor
+      fetch('/system/financeiro/cadastrar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          nome: nome,
+          tipo: tipo,
+          valor: valor
+        })
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.sucesso) {
+          document.getElementById('financeiro-sucesso').style.display = 'block';
+          // Limpar formulário
+          document.getElementById('nome-financeiro').value = '';
+          document.getElementById('tipo-financeiro').value = '';
+          document.getElementById('valor-financeiro').value = '';
+          // Atualizar tabela e cards
+          atualizarDadosFinanceiros();
+        } else {
+          document.getElementById('financeiro-erro').style.display = 'block';
+          document.getElementById('financeiro-erro').innerHTML =
+            '<i class="bi bi-exclamation-triangle"></i> ' + result.mensagem;
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        document.getElementById('financeiro-erro').style.display = 'block';
+      });
+    });
+
+    // Limpar formulário
+    document.getElementById('limpar-financeiro-button').addEventListener('click', function() {
+      document.getElementById('nome-financeiro').value = '';
+      document.getElementById('tipo-financeiro').value = '';
+      document.getElementById('valor-financeiro').value = '';
+      document.getElementById('financeiro-sucesso').style.display = 'none';
+      document.getElementById('financeiro-erro').style.display = 'none';
+      // Limpar erros
+      document.getElementById('nomeFinanceiroError').style.display = 'none';
+      document.getElementById('tipoFinanceiroError').style.display = 'none';
+      document.getElementById('valorFinanceiroError').style.display = 'none';
+    });
+
+    // Atualizar dados financeiros
+    document.getElementById('atualizar-financeiro').addEventListener('click', function() {
+      atualizarDadosFinanceiros();
+    });
+
+    // Função para atualizar dados financeiros
+    function atualizarDadosFinanceiros() {
+      fetch('/system/financeiro/resumo', {
+        method: 'GET',
+        credentials: 'include'
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.sucesso) {
+          // Atualizar cards
+          const resumo = result.resumo;
+          document.getElementById('total-entradas').textContent =
+            'R$ ' + (resumo.total_entradas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+          document.getElementById('total-despesas').textContent =
+            'R$ ' + (resumo.total_despesas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+
+          const lucro = resumo.lucro_total || 0;
+          const lucroElement = document.getElementById('lucro-total');
+          lucroElement.textContent = 'R$ ' + lucro.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+          lucroElement.style.color = lucro >= 0 ? 'green' : 'red';
+
+          document.getElementById('total-movimentacoes').textContent =
+            (result.movimentacao ? result.movimentacao.length : 0) + ' registros';
+
+          // Atualizar tabela
+          atualizarTabelaFinanceira(result.movimentacao);
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao atualizar dados financeiros:', error);
+      });
+    }
+
+    // Função para atualizar tabela
+    function atualizarTabelaFinanceira(movimentacoes) {
+      const tbody = document.getElementById('tabela-financeiro');
+      tbody.innerHTML = '';
+
+      if (movimentacoes && movimentacoes.length > 0) {
+        movimentacoes.forEach(mov => {
+          const row = tbody.insertRow();
+          row.innerHTML = `
+            <td>${mov.id}</td>
+            <td>${mov.nome}</td>
+            <td>
+              <span class="badge bg-${mov.tipo === 'entrada' ? 'success' : 'danger'}">
+                ${mov.tipo === 'entrada' ? 'Entrada' : 'Despesa'}
+              </span>
+            </td>
+            <td>R$ ${parseFloat(mov.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+            <td style="color: ${mov.valor_lucro >= 0 ? 'green' : 'red'};">
+              R$ ${parseFloat(mov.valor_lucro).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline-danger" onclick="excluirMovimentacao(${mov.id})">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          `;
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">Nenhuma movimentação registrada</td></tr>';
+      }
+    }
+
+    // Função para excluir movimentação
+    function excluirMovimentacao(id) {
+      if (confirm('Tem certeza que deseja excluir esta movimentação?')) {
+        fetch('/system/financeiro/excluir', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({ id: id })
+        })
+        .then(response => response.json())
+        .then(result => {
+          if (result.sucesso) {
+            atualizarDadosFinanceiros();
+          } else {
+            alert('Erro ao excluir: ' + result.mensagem);
+          }
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+          alert('Erro ao excluir movimentação');
+        });
+      }
+    }
+
+    // Carregar dados ao inicializar a página
+    document.addEventListener('DOMContentLoaded', function() {
+      // Dados já carregados pelo servidor, mas podemos atualizar se necessário
+    });
+
+    // ========== FIM DAS FUNCIONALIDADES FINANCEIRAS ==========
   </script>
 
 </body>

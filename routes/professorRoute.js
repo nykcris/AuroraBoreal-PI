@@ -34,6 +34,10 @@ router.get("/atividades", AMP.validar, PC.atividades);
 // router.get("/notas", AMP.validar, PC.notas);
 // router.get("/informacoes", AMP.validar, PC.informacoes);
 
+// ----- Gerenciar Professor -----
+router.get("/perfil", AMP.validar, PC.perfilProfessor);
+router.post("/perfil/atualizar", AMP.validar, PC.atualizarPerfilProfessor);
+
 // ----- Atividades -----
 router.post("/atividades", AMP.validar, upload.single('anexo_atividade'), PC.atividades); // upload.single('anexo_atividade') para upload de arquivos
 router.post("/deletarAtividade", AMP.validar, PC.deletarAtividades);

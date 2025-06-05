@@ -115,6 +115,18 @@ class DB_Atividade {
         return rows;
     }
 
+    async listarPorProfessor(id_professor) {
+        let DB = new db();
+        let sql = `
+            SELECT a.* FROM tb_atividade a
+            JOIN tb_turma_disciplina_professor tdp ON a.id_turma_disciplina_professor = tdp.id
+            WHERE tdp.professor_id = ?
+            ORDER BY a.data_entrega DESC
+        `;
+        let rows = await DB.ExecutaComando(sql, [id_professor]);
+        return rows;
+    }
+
     toJSON() {
         return {
             ati_id: this.#ati_id,

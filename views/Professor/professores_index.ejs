@@ -85,9 +85,9 @@
 
 
 
-                               <!-- Perfil Card com Link -->
-<div class="col-xxl-4 col-md-6">
-  <a href="perfil.html" style="text-decoration: none; cursor: pointer;">
+                                   <!-- Perfil Card com Link -->
+<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-3">
+  <a href="/system/professores/perfil" style="text-decoration: none; cursor: pointer;">
     <div class="card info-card revenue-card">
       <div class="card-body">
         <h5 class="card-title">Perfil <span></span></h5>
@@ -97,7 +97,13 @@
             <i class="bi bi-person-circle"></i>
           </div>
           <div class="ps-3">
-            <h6>nome</h6>
+            <h6>
+              <% if (rows && rows.length > 0 && rows[0].professor && rows[0].professor.nome) { %>
+                <%= rows[0].professor.nome %>
+              <% } else { %>
+                Professor
+              <% } %>
+            </h6>
           </div>
         </div>
       </div>
@@ -106,7 +112,6 @@
 </div>
 
 <!-- End Perfil Card -->
-
 
 
 
@@ -144,22 +149,26 @@
                         </div>
                     </div>
                     <style>
-                        /* Remove espaço vazio do meio da página */
+                        /* Ajustar layout para mostrar perfil e formulário */
                         .col-lg-8 > .row {
                             min-height: 0 !important;
                             height: auto !important;
                         }
+
+                        /* Garantir que o card de perfil seja visível */
+                        .col-lg-8 {
+                            display: block !important;
+                        }
+
                         @media (min-width: 992px) {
                             .col-lg-8 {
-                                flex: 0 0 0%;
-                                max-width: 0%;
-                                padding: 0;
-                                margin: 0;
-                                display: none;
+                                flex: 0 0 66.666667%;
+                                max-width: 66.666667%;
+                                display: block !important;
                             }
                             .col-lg-4 {
-                                flex: 0 0 100%;
-                                max-width: 100%;
+                                flex: 0 0 33.333333%;
+                                max-width: 33.333333%;
                             }
                         }
                     </style>

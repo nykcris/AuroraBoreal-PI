@@ -107,4 +107,10 @@ router.get("/teste", (req, res) => {
     res.send("Funcionando");
 });
 
+// ----- Rotas Financeiras -----
+router.post("/financeiro/cadastrar", AMD.validar, SC.cadastrarEntradaDespesa);
+router.get("/financeiro/listar", AMD.validar, SC.listarEntradasDespesas);
+router.get("/financeiro/resumo", AMD.validar, SC.obterResumoFinanceiro);
+router.post("/financeiro/excluir", AMD.validar, SC.excluirEntradaDespesa);
+
 module.exports = router;
