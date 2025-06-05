@@ -66,11 +66,10 @@ class DB_Notas {
         let DBPTD = new DB_ProfessorTurmaDisciplina();
         let professor_turma_disciplina = await DBPTD.fetchDisciplinaTurmaId(turma_id, disciplina_id);
         let id_turma_disciplina = professor_turma_disciplina[0].id;
-        let sql = "SELECT * FROM tb_nota WHERE aluno_id = ? AND turma_disciplina_id = ? ORDER BY bimestre";
+        let sql = "SELECT tn.*, a.aluno_nome, a.id AS aluno_id FROM tb_nota tn JOIN tb_aluno a ON tn.aluno_id = a.id WHERE aluno_id = ? AND turma_disciplina_id = ? ORDER BY bimestre";
         let valores = [id_aluno, id_turma_disciplina];
         let DB = new db();
         let rows = await DB.ExecutaComando(sql, valores);
-        console.log(rows);
         return rows;
     }
 
