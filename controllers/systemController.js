@@ -8,6 +8,7 @@ const DB_Sala = require("../models/salaModel");
 const DB_Produto = require("../models/produtoModel");
 const DB_ProfessorTurmaDisciplina = require("../models/professorTurmaDisciplinaModel");
 const DB_Horario = require("../models/horarioModel");
+const DB_EntradaDespesa = require("../models/entradaDespesaModel");
 
 
 class SystemController {
@@ -31,29 +32,37 @@ class SystemController {
 
 
     async direcao(req, res) {
-    
+
         const db_serie = new DB_Serie();
         const db_turma = new DB_Turma();
         const db_aluno = new DB_Aluno();
         const db_disciplina = new DB_Disciplina();
         const db_prof = new DB_Professor();
         const db_sala = new DB_Sala();
+        const db_financeiro = new DB_EntradaDespesa();
 
 
-        
         const professores = await db_prof.listar();
         const listaAlunos = await db_aluno.listar();
         const salas = await db_sala.listar();
         const turmas_salas = await db_sala.listarAssociacao();
         const disciplinas = await db_disciplina.listar();
-    
+
+        // Buscar dados financeiros
+        const resumoFinanceiro = await db_financeiro.calcularLucroTotal();
+        const movimentacaoRecente = await db_financeiro.obterMovimentacaoRecente(5);
+        const resumoPorTipo = await db_financeiro.obterResumoFinanceiro();
+
         res.render("Direcao/direcao_index", {
             layout: 'layouts/layout',
             alunos: listaAlunos,
             professores,
             salas,
             turmas_salas,
-            disciplinas
+            disciplinas,
+            resumoFinanceiro,
+            movimentacaoRecente,
+            resumoPorTipo
         });
     }
 
@@ -310,6 +319,138 @@ class SystemController {
     }
 
     //======== Fim da Area de Fetch para Nome e Outros =========
+
+    // ======== Métodos Financeiros =========
+    async cadastrarEntradaDespesa(req, res) {
+        try {
+            console.log("=== CADASTRAR ENTRADA/DESPESA ===");
+            console.log("Dados recebidos:", req.body);
+
+            const { nome, tipo, valor } = req.body;
+
+            // Validar dados obrigatórios
+            if (!nome || !tipo || !valor) {
+                return res.json({
+                    sucesso: false,
+                    mensagem: "Nome, tipo e valor são obrigatórios"
+                });
+            }
+
+            // Validar tipo
+            if (tipo !== 'entrada' && tipo !== 'despesa') {
+                return res.json({
+                    sucesso: false,
+                    mensagem: "Tipo deve ser 'entrada' ou 'despesa'"
+                });
+            }
+
+            // Calcular valor_lucro baseado no tipo
+            let valor_lucro = parseFloat(valor);
+            if (tipo === 'despesa') {
+                valor_lucro = -valor_lucro; // Despesas são valores negativos
+            }
+
+            let DB_ED = new DB_EntradaDespesa();
+            let entradaDespesa = new DB_EntradaDespesa(0, nome, tipo, parseFloat(valor), valor_lucro);
+            let sucesso = await entradaDespesa.cadastrar();
+
+            if (sucesso) {
+                console.log("Sucesso ao cadastrar entrada/despesa");
+                res.json({
+                    sucesso: true,
+                    mensagem: `${tipo === 'entrada' ? 'Entrada' : 'Despesa'} cadastrada com sucesso!`,
+                    id: entradaDespesa.id
+                });
+            } else {
+                console.log("Erro ao cadastrar entrada/despesa");
+                res.json({
+                    sucesso: false,
+                    mensagem: "Erro ao cadastrar entrada/despesa"
+                });
+            }
+
+        } catch (error) {
+            console.error("Erro ao cadastrar entrada/despesa:", error);
+            res.json({
+                sucesso: false,
+                mensagem: "Erro interno do servidor"
+            });
+        }
+    }
+
+    async listarEntradasDespesas(req, res) {
+        try {
+            let DB_ED = new DB_EntradaDespesa();
+            let lista = await DB_ED.listar();
+            res.json({
+                sucesso: true,
+                dados: lista
+            });
+        } catch (error) {
+            console.error("Erro ao listar entradas/despesas:", error);
+            res.json({
+                sucesso: false,
+                mensagem: "Erro ao carregar dados financeiros"
+            });
+        }
+    }
+
+    async obterResumoFinanceiro(req, res) {
+        try {
+            let DB_ED = new DB_EntradaDespesa();
+            let resumo = await DB_ED.calcularLucroTotal();
+            let movimentacao = await DB_ED.obterMovimentacaoRecente(10);
+
+            res.json({
+                sucesso: true,
+                resumo: resumo,
+                movimentacao: movimentacao
+            });
+        } catch (error) {
+            console.error("Erro ao obter resumo financeiro:", error);
+            res.json({
+                sucesso: false,
+                mensagem: "Erro ao carregar resumo financeiro"
+            });
+        }
+    }
+
+    async excluirEntradaDespesa(req, res) {
+        try {
+            const { id } = req.body;
+
+            if (!id) {
+                return res.json({
+                    sucesso: false,
+                    mensagem: "ID é obrigatório"
+                });
+            }
+
+            let DB_ED = new DB_EntradaDespesa();
+            let sucesso = await DB_ED.excluir(id);
+
+            if (sucesso) {
+                res.json({
+                    sucesso: true,
+                    mensagem: "Registro excluído com sucesso!"
+                });
+            } else {
+                res.json({
+                    sucesso: false,
+                    mensagem: "Erro ao excluir registro"
+                });
+            }
+
+        } catch (error) {
+            console.error("Erro ao excluir entrada/despesa:", error);
+            res.json({
+                sucesso: false,
+                mensagem: "Erro interno do servidor"
+            });
+        }
+    }
+
+    // ======== Fim dos Métodos Financeiros =========
 }
 
 

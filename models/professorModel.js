@@ -87,6 +87,98 @@ class DB_Professor {
         }
     }
 
+    async atualizarPerfil(id, nome, email, telefone, senha, cpf, salario) {
+        try {
+            const DB = new db();
+
+            console.log("=== MODELO PROFESSOR - ATUALIZAR PERFIL ===");
+            console.log("ID recebido:", id);
+            console.log("Parâmetros recebidos:", { nome, email, telefone, senha: senha ? "***" : null, cpf, salario });
+
+            // Verificar se o ID é válido
+            if (!id || id === 'undefined' || id === 'null') {
+                console.error("ID inválido para atualização:", id);
+                return { success: false, message: "ID inválido para atualização" };
+            }
+
+            // Primeiro, verificar se o registro existe
+            const verificaExistencia = await DB.ExecutaComando("SELECT id FROM tb_professor WHERE id = ?", [id]);
+            console.log("Registro encontrado:", verificaExistencia);
+
+            if (!verificaExistencia || verificaExistencia.length === 0) {
+                console.error("Nenhum registro encontrado com ID:", id);
+                return { success: false, message: "Professor não encontrado" };
+            }
+
+            // Construir SQL dinamicamente apenas para campos que foram fornecidos
+            let campos = [];
+            let valores = [];
+
+            if (nome && nome.trim() !== '') {
+                campos.push('nome = ?');
+                valores.push(nome.trim());
+                console.log("Adicionando nome:", nome.trim());
+            }
+
+            if (email && email.trim() !== '') {
+                campos.push('email = ?');
+                valores.push(email.trim());
+                console.log("Adicionando email:", email.trim());
+            }
+
+            if (telefone && telefone.trim() !== '') {
+                campos.push('telefone = ?');
+                valores.push(telefone.trim());
+                console.log("Adicionando telefone:", telefone.trim());
+            }
+
+            if (senha && senha.trim() !== '') {
+                campos.push('senha = ?');
+                valores.push(senha.trim());
+                console.log("Adicionando senha: ***");
+            }
+
+            if (cpf && cpf.trim() !== '') {
+                campos.push('cpf = ?');
+                valores.push(cpf.trim());
+                console.log("Adicionando cpf:", cpf.trim());
+            }
+
+            if (salario && salario.toString().trim() !== '') {
+                campos.push('salario = ?');
+                valores.push(parseFloat(salario));
+                console.log("Adicionando salario:", parseFloat(salario));
+            }
+
+            if (campos.length === 0) {
+                console.log("Nenhum campo para atualizar");
+                return { success: false, message: "Nenhum campo para atualizar" };
+            }
+
+            valores.push(parseInt(id)); // Garantir que o ID seja um número
+
+            const sql = `UPDATE tb_professor SET ${campos.join(', ')} WHERE id = ?`;
+
+            console.log("SQL de atualização:", sql);
+            console.log("Valores finais:", valores);
+
+            const result = await DB.ExecutaComandoNonQuery(sql, valores);
+            console.log("Resultado da atualização:", result);
+
+            if (result.affectedRows > 0) {
+                console.log("Atualização bem-sucedida");
+                return { success: true, message: "Perfil atualizado com sucesso!" };
+            } else {
+                console.log("Nenhuma linha foi afetada");
+                return { success: false, message: "Nenhum registro foi atualizado" };
+            }
+
+        } catch (error) {
+            console.error("Erro no modelo ao atualizar perfil do professor:", error);
+            return { success: false, message: "Erro interno do servidor: " + error.message };
+        }
+    }
+
 
     toJSON() {
         return {
