@@ -12,15 +12,15 @@ class AlunoController {
     console.log("Entrou na página de alunos");
 
     let db_aluno = new DB_Aluno();
-    let alunos = await db_aluno.listar([1]);
+    let alunos = await db_aluno.obter(req.cookies.usuarioLogado);
+    console.log(alunos);
     let rows = [];
     for (let i = 0; i < alunos.length; i++) {
         rows.push({
-            "usu_id":alunos[i].id,
-            "usu_nome":alunos[i].nome,
+            "usu_id":alunos[i].aluno_id,
+            "usu_nome":alunos[i].aluno_nome,
             "email_user":alunos[i].email,
-            "usu_senha":alunos[i].senha,
-            "per_id":alunos[i].perfilId
+            "usu_senha":alunos[i].senha
         })
     }
     console.log("Numeros de Alunos:" + rows.length);
@@ -37,7 +37,7 @@ class AlunoController {
         console.log(respostas);
         atividadesFeitas.push(respostas.length > 0 ? {feito:1,nota:respostas[0].nota} : {feito:0,nota:0});
     }
-
+    console.log(rows);
 
     res.render("Aluno/alunos_index",{ layout: 'layouts/layout_aluno', rows, atividades_cadastradas:atividades, atividadesFeitas });
   }
