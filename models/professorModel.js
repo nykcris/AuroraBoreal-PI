@@ -164,6 +164,9 @@ class DB_Professor {
 
             const result = await DB.ExecutaComandoNonQuery(sql, valores);
             console.log("Resultado da atualização:", result);
+            console.log("Tipo do resultado:", typeof result);
+            console.log("affectedRows:", result.affectedRows);
+            console.log("changedRows:", result.changedRows);
 
             if (result.affectedRows > 0) {
                 console.log("Atualização bem-sucedida");
