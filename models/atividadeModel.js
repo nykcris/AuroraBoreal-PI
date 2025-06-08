@@ -84,7 +84,8 @@ class DB_Atividade {
         let sql = "INSERT INTO tb_atividade (titulo, descricao, data_criacao, data_entrega, anexo_atividade, id_turma_disciplina_professor, tipo, peso, bimestre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         let valores = [ this.#titulo, this.#descricao, this.#data_criacao, this.#data_entrega, this.#anexo_atividade, this.#id_turma_disciplina_professor, this.#tipo, this.#peso, this.#bimestre ];
         let DB = new db();
-        this.#ati_id = await DB.ExecutaComandoNonQuery(sql, valores);
+        const result = await DB.ExecutaComandoNonQuery(sql, valores);
+        this.#ati_id = result.insertId;
         return this.#ati_id;
     }
 

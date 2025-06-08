@@ -37,7 +37,8 @@ class Database {
                     rej(error);
                 }
                 else {
-                    res(results.insertId);
+                    // Return the full results object which contains insertId, affectedRows, etc.
+                    res(results);
                 }
             });
         });
