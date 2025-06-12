@@ -298,6 +298,9 @@ document.addEventListener("DOMContentLoaded", function () {
         isValid = isValid && isValidCPF(cpfAluno);
         isValid = isValid && isValidCPF(cpfResponsavel);
         isValid = isValid && validateDateOfBirth();
+        isValid = isValid && senha_aca !== '' && senha_aca.length > 7;
+        isValid = isValid && validateEmail(email);
+        isValid = isValid && validateEmail(email_aca);
         isValid = isValid && email !== '';
         isValid = isValid && telefone !== '';
 
@@ -326,6 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
             responsavel_cpf: cpfResponsavel,
             responsavel_tel: telefone
         };
+
 
         fetch('/system/alunos/cadastrarAluno', {
             method: 'POST',
@@ -362,6 +366,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function deleteAluno(){
         console.log(this.value);
+        if(!confirm("Deseja deletar o Aluno?")) return;
         fetch(`/system/alunos/delete`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
